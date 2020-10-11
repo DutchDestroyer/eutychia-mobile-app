@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'ui/screens/loginscreen.dart';
+
 void main() {
-  runApp(Center(
-      child: Text(
-    "First commit of this repo on World Mental Health Day, 10-10-2020",
-    textDirection: TextDirection.ltr,
-  )));
+  runApp(new MaterialApp(
+    title: "Eutychia",
+    home: new LoginScreen(),
+  ));
 }

@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "eutychia_mobile_app",
+            "name": "Eutychia",
             "request": "launch",
             "type": "dart"
         }
