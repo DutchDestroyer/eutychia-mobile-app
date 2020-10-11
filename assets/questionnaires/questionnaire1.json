@@ -1,0 +1,33 @@
+{
+    "title": "Questionnaire 1",
+    "numberOfQuestions": 3,
+    "questions": [
+      {
+        "question": "Question 1?",
+        "type": "multipleChoice",
+        "answers": [
+          "yes",
+          "no",
+          "maybe"
+        ]
+      },
+      {
+        "question": "Question 2?",
+        "type": "multipleChoice",
+        "answers": [
+          "London",
+          "Paris",
+          "Amsterdam",
+          "Berlin"
+        ]
+      },
+      {
+        "question": "Question 3?",
+        "type": "multipleChoice",
+        "answers": [
+          "UK",
+          "Netherlands"
+        ]
+      }
+    ]
+  }
