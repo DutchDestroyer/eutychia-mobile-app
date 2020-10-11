@@ -57,7 +57,7 @@ class _LoginFormState extends State<LoginForm> {
               if (_formKey.currentState.validate()) {
                 Scaffold.of(context)
                     .showSnackBar(SnackBar(content: Text('Processing Data')));
-                Navigator.push(
+                Navigator.pushReplacement(
                     context,
                     new MaterialPageRoute(
                         builder: (context) => TestOverview()));
