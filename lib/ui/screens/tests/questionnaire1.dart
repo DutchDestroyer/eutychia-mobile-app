@@ -14,7 +14,6 @@ class Questionnaire1 extends StatefulWidget {
 class _QuestionnaireScaffoldState extends State<Questionnaire1> {
   String _appBarTitle = 'Waiting';
   int _questionIndex = 0;
-  Question _questionToShow;
   List<String> _answers = List<String>();
 
   @override
@@ -28,8 +27,8 @@ class _QuestionnaireScaffoldState extends State<Questionnaire1> {
               WidgetsBinding.instance.addPostFrameCallback(
                   (_) => updateBarTitle(snapshot.data.title));
               if (_questionIndex < snapshot.data.numberOfQuestions) {
-                _questionToShow = snapshot.data.questions[_questionIndex];
-                return QuestionnaireWidget(_questionToShow, this);
+                return QuestionnaireWidget(
+                    snapshot.data.questions[_questionIndex], this);
               } else {
                 return EndOfQuestionnaireWidget(_answers);
               }
@@ -60,7 +59,7 @@ class _QuestionnaireScaffoldState extends State<Questionnaire1> {
 }
 
 class EndOfQuestionnaireWidget extends StatelessWidget {
-  List<String> _answers;
+  final List<String> _answers;
   EndOfQuestionnaireWidget(this._answers);
   @override
   Widget build(BuildContext context) {
