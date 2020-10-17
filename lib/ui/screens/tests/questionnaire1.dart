@@ -2,9 +2,12 @@ import 'dart:convert';
 
 import 'package:Eutychia/models/Question.dart';
 import 'package:Eutychia/models/Questionnaire.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'package:carousel_slider/carousel_slider.dart';
 
 class Questionnaire1 extends StatefulWidget {
   @override
@@ -13,8 +16,8 @@ class Questionnaire1 extends StatefulWidget {
 
 class _QuestionnaireScaffoldState extends State<Questionnaire1> {
   String _appBarTitle = 'Waiting';
-  int _questionIndex = 0;
   List<String> _answers = List<String>();
+  CarouselController buttonCarouselController = CarouselController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +29,18 @@ class _QuestionnaireScaffoldState extends State<Questionnaire1> {
             if (snapshot.hasData) {
               WidgetsBinding.instance.addPostFrameCallback(
                   (_) => updateBarTitle(snapshot.data.title));
-              if (_questionIndex < snapshot.data.numberOfQuestions) {
-                return QuestionnaireWidget(
-                    snapshot.data.questions[_questionIndex], this);
-              } else {
-                return EndOfQuestionnaireWidget(_answers);
-              }
+              return CarouselSlider.builder(
+                  itemCount: snapshot.data.numberOfQuestions + 1,
+                  carouselController: buttonCarouselController,
+                  itemBuilder: (BuildContext context, int itemIndex) =>
+                      Container(
+                        child: questionToDisplay(
+                            itemIndex, snapshot.data.questions, _answers, this),
+                      ),
+                  options: CarouselOptions(
+                      initialPage: 0,
+                      enableInfiniteScroll: false,
+                      autoPlay: false));
             } else {
               return Text('waiting');
             }
@@ -45,16 +54,19 @@ class _QuestionnaireScaffoldState extends State<Questionnaire1> {
     });
   }
 
-  void updateQuestionToShow() {
-    setState(() {
-      _questionIndex += 1;
-    });
-  }
-
   void updateAnswers(String answer) {
     setState(() {
       _answers.add(answer);
     });
+  }
+}
+
+StatelessWidget questionToDisplay(int carousselIndex, List<Question> question,
+    List<String> answers, _QuestionnaireScaffoldState scaffold) {
+  if (carousselIndex < question.length) {
+    return QuestionnaireWidget(question[carousselIndex], scaffold);
+  } else {
+    return EndOfQuestionnaireWidget(answers);
   }
 }
 
@@ -97,7 +109,9 @@ class QuestionnaireWidget extends StatelessWidget {
                 onPressed: () {
                   _questionnaireScaffoldState
                       .updateAnswers((index + 1).toString());
-                  _questionnaireScaffoldState.updateQuestionToShow();
+                  _questionnaireScaffoldState.buttonCarouselController.nextPage(
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.linear);
                 },
                 child: Text(_question.answers[index]),
               );
