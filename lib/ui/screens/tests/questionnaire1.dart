@@ -106,7 +106,7 @@ class QuestionnaireWidget extends StatelessWidget {
             shrinkWrap: true,
             itemCount: _question.answers.length,
             itemBuilder: (BuildContext context, int index) {
-              return RaisedButton(
+              return ElevatedButton(
                 onPressed: () {
                   _questionnaireScaffoldState
                       .updateAnswers((index + 1).toString());

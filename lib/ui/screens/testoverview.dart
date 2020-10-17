@@ -9,7 +9,7 @@ class TestOverview extends StatelessWidget {
           title: const Text('Choose test to perform'),
         ),
         body: Column(children: [
-          RaisedButton(
+          ElevatedButton(
             onPressed: () {
               Navigator.push(
                   context,
@@ -18,14 +18,14 @@ class TestOverview extends StatelessWidget {
             },
             child: Text('Test 1'),
           ),
-          RaisedButton(
+          ElevatedButton(
             onPressed: () {
               Navigator.push(context,
                   new MaterialPageRoute(builder: (context) => TestOverview()));
             },
             child: Text('Test 2'),
           ),
-          RaisedButton(
+          ElevatedButton(
             onPressed: () {
               Navigator.push(context,
                   new MaterialPageRoute(builder: (context) => TestOverview()));
