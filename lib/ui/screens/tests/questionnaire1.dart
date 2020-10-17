@@ -40,7 +40,8 @@ class _QuestionnaireScaffoldState extends State<Questionnaire1> {
                   options: CarouselOptions(
                       initialPage: 0,
                       enableInfiniteScroll: false,
-                      autoPlay: false));
+                      autoPlay: false,
+                      viewportFraction: 1.0));
             } else {
               return Text('waiting');
             }
