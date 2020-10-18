@@ -1,23 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'Question.dart';
+part of 'questionnaires-list.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Question _$QuestionFromJson(Map<String, dynamic> json) {
-  return Question(
-    json['question'] as String,
-    _$enumDecodeNullable(_$QuestionTypeEnumMap, json['questionType']),
-    (json['answers'] as List)?.map((e) => e as String)?.toList(),
+QuestionnairesList _$QuestionnairesListFromJson(Map<String, dynamic> json) {
+  return QuestionnairesList(
+    (json['questionnaireTitles'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$QuestionnaireTypeEnumMap, e))
+        ?.toList(),
   );
 }
 
-Map<String, dynamic> _$QuestionToJson(Question instance) => <String, dynamic>{
-      'question': instance.question,
-      'questionType': _$QuestionTypeEnumMap[instance.questionType],
-      'answers': instance.answers,
+Map<String, dynamic> _$QuestionnairesListToJson(QuestionnairesList instance) =>
+    <String, dynamic>{
+      'questionnaireTitles': instance.questionnaireTitles
+          ?.map((e) => _$QuestionnaireTypeEnumMap[e])
+          ?.toList(),
     };
 
 T _$enumDecode<T>(
@@ -52,8 +53,7 @@ T _$enumDecodeNullable<T>(
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
-const _$QuestionTypeEnumMap = {
-  QuestionType.openQuestion: 'openQuestion',
-  QuestionType.multipleChoice: 'multipleChoice',
-  QuestionType.slider: 'slider',
+const _$QuestionnaireTypeEnumMap = {
+  QuestionnaireType.questionnaire1: 'questionnaire1',
+  QuestionnaireType.stroopTest: 'stroopTest',
 };

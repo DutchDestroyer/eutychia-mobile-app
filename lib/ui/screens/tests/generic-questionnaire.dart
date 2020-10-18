@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:Eutychia/models/Question.dart';
-import 'package:Eutychia/models/Questionnaire.dart';
-import 'package:Eutychia/models/questiontype.dart';
+import 'package:Eutychia/models/generic-question.dart';
+import 'package:Eutychia/models/generic-questionnaire.dart';
+import 'package:Eutychia/models/equestion-type.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +11,12 @@ import 'package:flutter/foundation.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
 
-class GenericQuestionnaire extends StatefulWidget {
+class GenericQuestionnaireWidget extends StatefulWidget {
   @override
   _QuestionnaireScaffoldState createState() => _QuestionnaireScaffoldState();
 }
 
-class _QuestionnaireScaffoldState extends State<GenericQuestionnaire> {
+class _QuestionnaireScaffoldState extends State<GenericQuestionnaireWidget> {
   String _appBarTitle = 'Waiting';
   List<String> _answers = List<String>();
   CarouselController buttonCarouselController = CarouselController();
@@ -25,9 +25,9 @@ class _QuestionnaireScaffoldState extends State<GenericQuestionnaire> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(_appBarTitle)),
-      body: FutureBuilder<Questionnaire>(
+      body: FutureBuilder<GenericQuestionnaire>(
           future: parseJson(),
-          builder: (context, AsyncSnapshot<Questionnaire> snapshot) {
+          builder: (context, AsyncSnapshot<GenericQuestionnaire> snapshot) {
             if (snapshot.hasData) {
               WidgetsBinding.instance.addPostFrameCallback(
                   (_) => updateBarTitle(snapshot.data.title));
@@ -52,11 +52,11 @@ class _QuestionnaireScaffoldState extends State<GenericQuestionnaire> {
     );
   }
 
-  Future<Questionnaire> parseJson() async {
+  Future<GenericQuestionnaire> parseJson() async {
     String jsonString = await rootBundle
         .loadString('assets/questionnaires/questionnaire1.json');
     final jsonResponse = jsonDecode(jsonString);
-    return Questionnaire.fromJson(jsonResponse);
+    return GenericQuestionnaire.fromJson(jsonResponse);
   }
 
   void updateBarTitle(String title) {
@@ -73,7 +73,7 @@ class _QuestionnaireScaffoldState extends State<GenericQuestionnaire> {
         duration: Duration(milliseconds: 300), curve: Curves.linear);
   }
 
-  Widget questionToDisplay(List<Question> question, List<String> answers,
+  Widget questionToDisplay(List<GenericQuestion> question, List<String> answers,
       _QuestionnaireScaffoldState scaffold) {
     debugPrint('carousselIndex: ${answers.length}');
     if (answers.length < question.length) {
@@ -84,7 +84,7 @@ class _QuestionnaireScaffoldState extends State<GenericQuestionnaire> {
   }
 
   Widget questionnaireSelected(
-      Question question, _QuestionnaireScaffoldState scaffold) {
+      GenericQuestion question, _QuestionnaireScaffoldState scaffold) {
     switch (question.questionType) {
       case QuestionType.multipleChoice:
         return MultipleChoiceWidget(question, scaffold);
@@ -122,7 +122,7 @@ class EndOfQuestionnaireWidget extends StatelessWidget {
 }
 
 class MultipleChoiceWidget extends StatelessWidget {
-  final Question _question;
+  final GenericQuestion _question;
   final _QuestionnaireScaffoldState _questionnaireScaffoldState;
   MultipleChoiceWidget(this._question, this._questionnaireScaffoldState);
   @override
@@ -152,7 +152,7 @@ class MultipleChoiceWidget extends StatelessWidget {
 }
 
 class OpenQuestionWidget extends StatefulWidget {
-  final Question _question;
+  final GenericQuestion _question;
   final _QuestionnaireScaffoldState _questionnaireScaffoldState;
   OpenQuestionWidget(this._question, this._questionnaireScaffoldState);
   @override
@@ -170,7 +170,7 @@ class _OpenQuestionWidgetState extends State<OpenQuestionWidget> {
   }
 
   final _formKey = GlobalKey<FormState>();
-  final Question _question;
+  final GenericQuestion _question;
   final _QuestionnaireScaffoldState _questionnaireScaffoldState;
   _OpenQuestionWidgetState(this._question, this._questionnaireScaffoldState);
   @override
@@ -202,7 +202,7 @@ class _OpenQuestionWidgetState extends State<OpenQuestionWidget> {
 }
 
 class SliderQuestionWidget extends StatefulWidget {
-  final Question _question;
+  final GenericQuestion _question;
   final _QuestionnaireScaffoldState _questionnaireScaffoldState;
   SliderQuestionWidget(this._question, this._questionnaireScaffoldState);
   @override
@@ -212,7 +212,7 @@ class SliderQuestionWidget extends StatefulWidget {
 
 class _SliderQuestionWidgetState extends State<SliderQuestionWidget> {
   int _currentSliderValue = 0;
-  final Question _question;
+  final GenericQuestion _question;
   final _QuestionnaireScaffoldState _questionnaireScaffoldState;
   _SliderQuestionWidgetState(this._question, this._questionnaireScaffoldState);
 
