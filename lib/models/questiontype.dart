@@ -1,1 +1,1 @@
-enum QuestionType { openQuestion, multipleChoice }
+enum QuestionType { openQuestion, multipleChoice, slider }

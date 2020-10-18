@@ -32,7 +32,7 @@ class _QuestionnaireScaffoldState extends State<GenericQuestionnaire> {
               WidgetsBinding.instance.addPostFrameCallback(
                   (_) => updateBarTitle(snapshot.data.title));
               return CarouselSlider.builder(
-                  itemCount: snapshot.data.numberOfQuestions + 1,
+                  itemCount: snapshot.data.questions.length + 1,
                   carouselController: buttonCarouselController,
                   itemBuilder: (BuildContext context, int itemIndex) =>
                       Container(

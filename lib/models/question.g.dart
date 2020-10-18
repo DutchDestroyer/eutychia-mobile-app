@@ -55,4 +55,5 @@ T _$enumDecodeNullable<T>(
 const _$QuestionTypeEnumMap = {
   QuestionType.openQuestion: 'openQuestion',
   QuestionType.multipleChoice: 'multipleChoice',
+  QuestionType.slider: 'slider',
 };
