@@ -38,6 +38,7 @@ class _QuestionnaireScaffoldState extends State<Questionnaire1> {
                             itemIndex, snapshot.data.questions, _answers, this),
                       ),
                   options: CarouselOptions(
+                      height: MediaQuery.of(context).size.height,
                       initialPage: 0,
                       enableInfiniteScroll: false,
                       autoPlay: false,
@@ -103,25 +104,26 @@ class QuestionnaireWidget extends StatelessWidget {
     return Column(
       children: [
         Text(_question.question),
-        ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: _question.answers.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      _questionnaireScaffoldState
-                          .updateAnswers((index + 1).toString());
-                      _questionnaireScaffoldState.buttonCarouselController
-                          .nextPage(
-                              duration: Duration(milliseconds: 300),
-                              curve: Curves.linear);
-                    },
-                    child: Text(_question.answers[index]),
-                  ));
-            }),
+        Expanded(
+            child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: _question.answers.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _questionnaireScaffoldState
+                              .updateAnswers((index + 1).toString());
+                          _questionnaireScaffoldState.buttonCarouselController
+                              .nextPage(
+                                  duration: Duration(milliseconds: 300),
+                                  curve: Curves.linear);
+                        },
+                        child: Text(_question.answers[index]),
+                      ));
+                })),
       ],
     );
   }
