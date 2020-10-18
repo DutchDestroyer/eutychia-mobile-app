@@ -1,4 +1,5 @@
 import 'package:Eutychia/ui/screens/tests/generic-questionnaire.dart';
+import 'package:Eutychia/ui/screens/tests/stroop-test.dart';
 import 'package:flutter/material.dart';
 
 class TestOverview extends StatelessWidget {
@@ -20,8 +21,10 @@ class TestOverview extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(context,
-                  new MaterialPageRoute(builder: (context) => TestOverview()));
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => StroopTestWidget()));
             },
             child: Text('Test 2'),
           ),

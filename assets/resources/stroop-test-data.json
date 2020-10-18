@@ -1,0 +1,16 @@
+{
+    "colors": [
+        "FF0000",
+        "0000FF",
+        "00FF00",
+        "FF00CC",
+        "FFBB00"
+    ],
+    "words":[
+        "Red",
+        "Blue",
+        "Green",
+        "Purple",
+        "Orange"
+    ]
+}

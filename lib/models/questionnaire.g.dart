@@ -19,5 +19,5 @@ Questionnaire _$QuestionnaireFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$QuestionnaireToJson(Questionnaire instance) =>
     <String, dynamic>{
       'title': instance.title,
-      'questions': instance.questions,
+      'questions': instance.questions?.map((e) => e?.toJson())?.toList(),
     };
