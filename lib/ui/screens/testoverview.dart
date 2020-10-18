@@ -1,4 +1,4 @@
-import 'package:Eutychia/ui/screens/tests/questionnaire1.dart';
+import 'package:Eutychia/ui/screens/tests/genericquestionnaire.dart';
 import 'package:flutter/material.dart';
 
 class TestOverview extends StatelessWidget {
@@ -14,7 +14,7 @@ class TestOverview extends StatelessWidget {
               Navigator.push(
                   context,
                   new MaterialPageRoute(
-                      builder: (context) => Questionnaire1()));
+                      builder: (context) => GenericQuestionnaire()));
             },
             child: Text('Test 1'),
           ),

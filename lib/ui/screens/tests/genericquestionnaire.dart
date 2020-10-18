@@ -11,12 +11,12 @@ import 'package:flutter/foundation.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
 
-class Questionnaire1 extends StatefulWidget {
+class GenericQuestionnaire extends StatefulWidget {
   @override
   _QuestionnaireScaffoldState createState() => _QuestionnaireScaffoldState();
 }
 
-class _QuestionnaireScaffoldState extends State<Questionnaire1> {
+class _QuestionnaireScaffoldState extends State<GenericQuestionnaire> {
   String _appBarTitle = 'Waiting';
   List<String> _answers = List<String>();
   CarouselController buttonCarouselController = CarouselController();
