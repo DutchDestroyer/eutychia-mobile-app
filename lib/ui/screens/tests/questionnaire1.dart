@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:Eutychia/models/Question.dart';
 import 'package:Eutychia/models/Questionnaire.dart';
+import 'package:Eutychia/models/questiontype.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -35,7 +37,7 @@ class _QuestionnaireScaffoldState extends State<Questionnaire1> {
                   itemBuilder: (BuildContext context, int itemIndex) =>
                       Container(
                         child: questionToDisplay(
-                            itemIndex, snapshot.data.questions, _answers, this),
+                            snapshot.data.questions, _answers, this),
                       ),
                   options: CarouselOptions(
                       height: MediaQuery.of(context).size.height,
@@ -50,25 +52,48 @@ class _QuestionnaireScaffoldState extends State<Questionnaire1> {
     );
   }
 
+  Future<Questionnaire> parseJson() async {
+    String jsonString = await rootBundle
+        .loadString('assets/questionnaires/questionnaire1.json');
+    final jsonResponse = jsonDecode(jsonString);
+    return Questionnaire.fromJson(jsonResponse);
+  }
+
   void updateBarTitle(String title) {
     setState(() {
       _appBarTitle = title;
     });
   }
 
-  void updateAnswers(String answer) {
+  void processAnswer(String answer) {
     setState(() {
       _answers.add(answer);
     });
+    buttonCarouselController.nextPage(
+        duration: Duration(milliseconds: 300), curve: Curves.linear);
   }
-}
 
-StatelessWidget questionToDisplay(int carousselIndex, List<Question> question,
-    List<String> answers, _QuestionnaireScaffoldState scaffold) {
-  if (carousselIndex < question.length) {
-    return QuestionnaireWidget(question[carousselIndex], scaffold);
-  } else {
-    return EndOfQuestionnaireWidget(answers);
+  Widget questionToDisplay(List<Question> question, List<String> answers,
+      _QuestionnaireScaffoldState scaffold) {
+    debugPrint('carousselIndex: ${answers.length}');
+    if (answers.length < question.length) {
+      return questionnaireSelected(question[answers.length], scaffold);
+    } else {
+      return EndOfQuestionnaireWidget(answers);
+    }
+  }
+
+  Widget questionnaireSelected(
+      Question question, _QuestionnaireScaffoldState scaffold) {
+    switch (question.questionType) {
+      case QuestionType.multipleChoice:
+        return MultipleChoiceWidget(question, scaffold);
+      case QuestionType.openQuestion:
+        return OpenQuestionWidget(question, scaffold);
+      default:
+        // TODO create some widget here
+        return null;
+    }
   }
 }
 
@@ -94,11 +119,10 @@ class EndOfQuestionnaireWidget extends StatelessWidget {
   }
 }
 
-class QuestionnaireWidget extends StatelessWidget {
+class MultipleChoiceWidget extends StatelessWidget {
   final Question _question;
   final _QuestionnaireScaffoldState _questionnaireScaffoldState;
-  QuestionnaireWidget(this._question, this._questionnaireScaffoldState);
-
+  MultipleChoiceWidget(this._question, this._questionnaireScaffoldState);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -115,11 +139,7 @@ class QuestionnaireWidget extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {
                           _questionnaireScaffoldState
-                              .updateAnswers((index + 1).toString());
-                          _questionnaireScaffoldState.buttonCarouselController
-                              .nextPage(
-                                  duration: Duration(milliseconds: 300),
-                                  curve: Curves.linear);
+                              .processAnswer(index.toString());
                         },
                         child: Text(_question.answers[index]),
                       ));
@@ -129,9 +149,52 @@ class QuestionnaireWidget extends StatelessWidget {
   }
 }
 
-Future<Questionnaire> parseJson() async {
-  String jsonString =
-      await rootBundle.loadString('assets/questionnaires/questionnaire1.json');
-  final jsonResponse = jsonDecode(jsonString);
-  return Questionnaire.fromJson(jsonResponse);
+class OpenQuestionWidget extends StatefulWidget {
+  final Question _question;
+  final _QuestionnaireScaffoldState _questionnaireScaffoldState;
+  OpenQuestionWidget(this._question, this._questionnaireScaffoldState);
+  @override
+  _OpenQuestionWidgetState createState() =>
+      _OpenQuestionWidgetState(_question, _questionnaireScaffoldState);
+}
+
+class _OpenQuestionWidgetState extends State<OpenQuestionWidget> {
+  final textController = TextEditingController();
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    textController.dispose();
+    super.dispose();
+  }
+
+  final _formKey = GlobalKey<FormState>();
+  final Question _question;
+  final _QuestionnaireScaffoldState _questionnaireScaffoldState;
+  _OpenQuestionWidgetState(this._question, this._questionnaireScaffoldState);
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+        key: _formKey,
+        child: Column(children: [
+          Text(_question.question),
+          TextFormField(
+            controller: textController,
+            decoration: InputDecoration(labelText: 'Answer:'),
+            validator: (value) {
+              if (value.trim().isEmpty) {
+                return 'Please insert your answer';
+              }
+              return null;
+            },
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (_formKey.currentState.validate()) {
+                _questionnaireScaffoldState.processAnswer(textController.text);
+              }
+            },
+            child: Text('Login'),
+          )
+        ]));
+  }
 }
