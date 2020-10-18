@@ -90,6 +90,8 @@ class _QuestionnaireScaffoldState extends State<GenericQuestionnaire> {
         return MultipleChoiceWidget(question, scaffold);
       case QuestionType.openQuestion:
         return OpenQuestionWidget(question, scaffold);
+      case QuestionType.slider:
+        return SliderQuestionWidget(question, scaffold);
       default:
         // TODO create some widget here
         return null;
@@ -193,8 +195,55 @@ class _OpenQuestionWidgetState extends State<OpenQuestionWidget> {
                 _questionnaireScaffoldState.processAnswer(textController.text);
               }
             },
-            child: Text('Login'),
+            child: Text('Next'),
           )
         ]));
+  }
+}
+
+class SliderQuestionWidget extends StatefulWidget {
+  final Question _question;
+  final _QuestionnaireScaffoldState _questionnaireScaffoldState;
+  SliderQuestionWidget(this._question, this._questionnaireScaffoldState);
+  @override
+  _SliderQuestionWidgetState createState() =>
+      _SliderQuestionWidgetState(_question, _questionnaireScaffoldState);
+}
+
+class _SliderQuestionWidgetState extends State<SliderQuestionWidget> {
+  int _currentSliderValue = 0;
+  final Question _question;
+  final _QuestionnaireScaffoldState _questionnaireScaffoldState;
+  _SliderQuestionWidgetState(this._question, this._questionnaireScaffoldState);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      Text(_question.question),
+      Row(
+        children: [
+          Text(_question.answers[0]),
+          Expanded(
+              child: Slider(
+                  value: _currentSliderValue.toDouble(),
+                  min: 0,
+                  max: (_question.answers.length - 1).toDouble(),
+                  divisions: _question.answers.length,
+                  label: _question.answers[_currentSliderValue],
+                  onChanged: (double value) {
+                    setState(() {
+                      _currentSliderValue = value.toInt();
+                    });
+                  })),
+          Text(_question.answers[_question.answers.length - 1]),
+        ],
+      ),
+      ElevatedButton(
+          onPressed: () {
+            _questionnaireScaffoldState
+                .processAnswer(_question.answers[_currentSliderValue]);
+          },
+          child: Text('Next'))
+    ]);
   }
 }

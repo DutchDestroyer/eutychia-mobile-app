@@ -36,8 +36,21 @@
         ]
       },
       {
-        "question": "Question 3?",
+        "question": "Question 4?",
         "questionType": "openQuestion"
+      },
+      {
+        "question": "Question 5?",
+        "questionType": "slider",
+        "answers": [
+          "Never",
+          "Sometimes",
+          "Less than average",
+          "Average",
+          "More than average",
+          "Frequently",
+          "Always"
+        ]
       }
     ]
   }
