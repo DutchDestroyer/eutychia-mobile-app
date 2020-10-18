@@ -14,7 +14,7 @@ class StroopTestWidget extends StatefulWidget {
 }
 
 class StroopTestWidgetState extends State<StroopTestWidget> {
-  final int _wordsToShow = 24;
+  final int _wordsToShow = 21;
   final _random = new Random();
 
   StroopTestWidgetState();
@@ -28,10 +28,15 @@ class StroopTestWidgetState extends State<StroopTestWidget> {
               if (snapshot.hasData) {
                 return GridView.count(
                     physics: NeverScrollableScrollPhysics(),
+                    childAspectRatio: 2,
                     scrollDirection: Axis.vertical,
                     crossAxisCount: 3,
                     children: List.generate(_wordsToShow, (index) {
                       return ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.resolveWith(
+                                (states) => Colors.white),
+                          ),
                           onPressed: () {},
                           child: Text(
                             createRandomWords(snapshot.data.words),
