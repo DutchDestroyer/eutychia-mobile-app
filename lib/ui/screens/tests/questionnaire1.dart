@@ -84,7 +84,9 @@ class EndOfQuestionnaireWidget extends StatelessWidget {
             shrinkWrap: true,
             itemCount: _answers.length,
             itemBuilder: (BuildContext context, int index) {
-              return Text(_answers[index]);
+              return Text(
+                _answers[index],
+              );
             })
       ],
     );
@@ -106,17 +108,20 @@ class QuestionnaireWidget extends StatelessWidget {
             shrinkWrap: true,
             itemCount: _question.answers.length,
             itemBuilder: (BuildContext context, int index) {
-              return ElevatedButton(
-                onPressed: () {
-                  _questionnaireScaffoldState
-                      .updateAnswers((index + 1).toString());
-                  _questionnaireScaffoldState.buttonCarouselController.nextPage(
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.linear);
-                },
-                child: Text(_question.answers[index]),
-              );
-            })
+              return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _questionnaireScaffoldState
+                          .updateAnswers((index + 1).toString());
+                      _questionnaireScaffoldState.buttonCarouselController
+                          .nextPage(
+                              duration: Duration(milliseconds: 300),
+                              curve: Curves.linear);
+                    },
+                    child: Text(_question.answers[index]),
+                  ));
+            }),
       ],
     );
   }
