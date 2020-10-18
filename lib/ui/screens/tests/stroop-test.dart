@@ -26,25 +26,36 @@ class StroopTestWidgetState extends State<StroopTestWidget> {
             future: parseJson(),
             builder: (context, AsyncSnapshot<StroopTest> snapshot) {
               if (snapshot.hasData) {
-                return GridView.count(
-                    physics: NeverScrollableScrollPhysics(),
-                    childAspectRatio: 2,
-                    scrollDirection: Axis.vertical,
-                    crossAxisCount: 3,
-                    children: List.generate(_wordsToShow, (index) {
-                      return ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.resolveWith(
-                                (states) => Colors.white),
-                          ),
-                          onPressed: () {},
-                          child: Text(
-                            createRandomWords(snapshot.data.words),
-                            style: TextStyle(
-                                color: createRandomColor(snapshot.data.colors),
-                                fontSize: 24),
-                          ));
-                    }));
+                return Column(
+                  children: [
+                    Expanded(
+                        child: GridView.count(
+                            physics: NeverScrollableScrollPhysics(),
+                            childAspectRatio: 2,
+                            scrollDirection: Axis.vertical,
+                            crossAxisCount: 3,
+                            children: List.generate(_wordsToShow, (index) {
+                              return ElevatedButton(
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.resolveWith(
+                                            (states) => Colors.white),
+                                  ),
+                                  onPressed: () {},
+                                  child: Text(
+                                    createRandomWords(snapshot.data.words),
+                                    style: TextStyle(
+                                        color: createRandomColor(
+                                            snapshot.data.colors),
+                                        fontSize: 24),
+                                  ));
+                            }))),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Text('Finish'),
+                    )
+                  ],
+                );
               } else {
                 return Text('waiting');
               }
