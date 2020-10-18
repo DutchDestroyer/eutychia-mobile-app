@@ -27,6 +27,7 @@ class StroopTestWidgetState extends State<StroopTestWidget> {
             builder: (context, AsyncSnapshot<StroopTest> snapshot) {
               if (snapshot.hasData) {
                 return GridView.count(
+                    physics: NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     crossAxisCount: 3,
                     children: List.generate(_wordsToShow, (index) {
