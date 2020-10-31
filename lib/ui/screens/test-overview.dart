@@ -38,7 +38,7 @@ class TestOverview extends StatelessWidget {
 
 Widget classSelector(QuestionnaireType questionnaireTitle) {
   switch (questionnaireTitle) {
-    case QuestionnaireType.questionnaire1:
+    case QuestionnaireType.phq9:
       return GenericQuestionnaireWidget();
     case QuestionnaireType.stroopTestColor:
       return StroopTestColorWidget();

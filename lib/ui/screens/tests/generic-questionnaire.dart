@@ -53,8 +53,8 @@ class _QuestionnaireScaffoldState extends State<GenericQuestionnaireWidget> {
   }
 
   Future<GenericQuestionnaire> parseJson() async {
-    String jsonString = await rootBundle
-        .loadString('assets/questionnaires/questionnaire1.json');
+    String jsonString =
+        await rootBundle.loadString('assets/questionnaires/PHQ-9.json');
     final jsonResponse = jsonDecode(jsonString);
     return GenericQuestionnaire.fromJson(jsonResponse);
   }

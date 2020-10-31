@@ -54,7 +54,7 @@ T _$enumDecodeNullable<T>(
 }
 
 const _$QuestionnaireTypeEnumMap = {
-  QuestionnaireType.questionnaire1: 'questionnaire1',
+  QuestionnaireType.phq9: 'phq9',
   QuestionnaireType.stroopTestColor: 'stroopTestColor',
   QuestionnaireType.stroopTestDirection: 'stroopTestDirection',
 };
