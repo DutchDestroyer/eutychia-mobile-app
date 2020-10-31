@@ -10,12 +10,14 @@ import 'package:flutter/services.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
 
+import '../common-questionnaire-views.dart';
+
 class GenericQuestionnaireWidget extends StatefulWidget {
   @override
-  _QuestionnaireScaffoldState createState() => _QuestionnaireScaffoldState();
+  QuestionnaireScaffoldState createState() => QuestionnaireScaffoldState();
 }
 
-class _QuestionnaireScaffoldState extends State<GenericQuestionnaireWidget> {
+class QuestionnaireScaffoldState extends State<GenericQuestionnaireWidget> {
   String _appBarTitle = 'Waiting';
   List<String> _answers = List<String>();
   CarouselController buttonCarouselController = CarouselController();
@@ -31,12 +33,12 @@ class _QuestionnaireScaffoldState extends State<GenericQuestionnaireWidget> {
               WidgetsBinding.instance.addPostFrameCallback(
                   (_) => updateBarTitle(snapshot.data.title));
               return CarouselSlider.builder(
-                  itemCount: snapshot.data.questions.length + 1,
+                  itemCount: snapshot.data.questions.length + 2,
                   carouselController: buttonCarouselController,
                   itemBuilder: (BuildContext context, int itemIndex) =>
                       Container(
                         child: questionToDisplay(
-                            snapshot.data.questions, _answers, this),
+                            snapshot.data.questions, itemIndex),
                       ),
                   options: CarouselOptions(
                       height: MediaQuery.of(context).size.height,
@@ -64,7 +66,7 @@ class _QuestionnaireScaffoldState extends State<GenericQuestionnaireWidget> {
     });
   }
 
-  void nextQuestionClicked(String answer) {
+  void nextQuestionClicked([String answer = ""]) {
     buttonCarouselController.nextPage(
         duration: Duration(milliseconds: 300), curve: Curves.linear);
     setState(() {
@@ -72,32 +74,31 @@ class _QuestionnaireScaffoldState extends State<GenericQuestionnaireWidget> {
     });
   }
 
-  Widget questionToDisplay(List<GenericQuestion> question, List<String> answers,
-      _QuestionnaireScaffoldState scaffold) {
-    if (answers.length < question.length) {
-      return questionnaireSelected(question[answers.length], scaffold);
+  Widget questionToDisplay(List<GenericQuestion> question, int index) {
+    if (index == 0) {
+      return QuestionDescription(nextQuestionClicked);
+    } else if (_answers.length < question.length) {
+      return questionnaireSelected(question[_answers.length]);
     } else {
-      return EndOfQuestionnaireWidget(answers);
+      return EndOfQuestionnaireNoAnswers();
     }
   }
 
-  Widget questionnaireSelected(
-      GenericQuestion question, _QuestionnaireScaffoldState scaffold) {
+  Widget questionnaireSelected(GenericQuestion question) {
     switch (question.questionType) {
       case QuestionType.multipleChoice:
-        return MultipleChoiceWidget(question, scaffold);
+        return MultipleChoiceWidget(question, nextQuestionClicked);
       case QuestionType.openQuestion:
-        return OpenQuestionWidget(question, scaffold);
+        return OpenQuestionWidget(question, nextQuestionClicked);
       case QuestionType.slider:
-        return SliderQuestionWidget(question, scaffold);
+        return SliderQuestionWidget(question, nextQuestionClicked);
       default:
-        // TODO create some widget here
-        return null;
+        throw Error();
     }
   }
 }
 
-class EndOfQuestionnaireWidget extends StatelessWidget {
+/*class EndOfQuestionnaireWidget extends StatelessWidget {
   final List<String> _answers;
   EndOfQuestionnaireWidget(this._answers);
   @override
@@ -117,12 +118,12 @@ class EndOfQuestionnaireWidget extends StatelessWidget {
       ],
     );
   }
-}
+}*/
 
 class MultipleChoiceWidget extends StatelessWidget {
   final GenericQuestion _question;
-  final _QuestionnaireScaffoldState _questionnaireScaffoldState;
-  MultipleChoiceWidget(this._question, this._questionnaireScaffoldState);
+  final ValueSetter<String> _nextQuestionClicked;
+  MultipleChoiceWidget(this._question, this._nextQuestionClicked);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -137,10 +138,7 @@ class MultipleChoiceWidget extends StatelessWidget {
                   return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
-                        onPressed: () {
-                          _questionnaireScaffoldState
-                              .nextQuestionClicked(index.toString());
-                        },
+                        onPressed: () => _nextQuestionClicked(index.toString()),
                         child: Text(_question.answers[index]),
                       ));
                 })),
@@ -151,14 +149,15 @@ class MultipleChoiceWidget extends StatelessWidget {
 
 class OpenQuestionWidget extends StatefulWidget {
   final GenericQuestion _question;
-  final _QuestionnaireScaffoldState _questionnaireScaffoldState;
-  OpenQuestionWidget(this._question, this._questionnaireScaffoldState);
+  final ValueSetter<String> _nextQuestionClicked;
+
+  OpenQuestionWidget(this._question, this._nextQuestionClicked);
   @override
-  _OpenQuestionWidgetState createState() =>
-      _OpenQuestionWidgetState(_question, _questionnaireScaffoldState);
+  OpenQuestionWidgetState createState() =>
+      OpenQuestionWidgetState(_question, _nextQuestionClicked);
 }
 
-class _OpenQuestionWidgetState extends State<OpenQuestionWidget> {
+class OpenQuestionWidgetState extends State<OpenQuestionWidget> {
   final textController = TextEditingController();
   @override
   void dispose() {
@@ -169,8 +168,9 @@ class _OpenQuestionWidgetState extends State<OpenQuestionWidget> {
 
   final _formKey = GlobalKey<FormState>();
   final GenericQuestion _question;
-  final _QuestionnaireScaffoldState _questionnaireScaffoldState;
-  _OpenQuestionWidgetState(this._question, this._questionnaireScaffoldState);
+  final ValueSetter<String> _nextQuestionClicked;
+
+  OpenQuestionWidgetState(this._question, this._nextQuestionClicked);
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -190,8 +190,7 @@ class _OpenQuestionWidgetState extends State<OpenQuestionWidget> {
           ElevatedButton(
             onPressed: () {
               if (_formKey.currentState.validate()) {
-                _questionnaireScaffoldState
-                    .nextQuestionClicked(textController.text);
+                _nextQuestionClicked(textController.text);
               }
             },
             child: Text('Next'),
@@ -202,18 +201,20 @@ class _OpenQuestionWidgetState extends State<OpenQuestionWidget> {
 
 class SliderQuestionWidget extends StatefulWidget {
   final GenericQuestion _question;
-  final _QuestionnaireScaffoldState _questionnaireScaffoldState;
-  SliderQuestionWidget(this._question, this._questionnaireScaffoldState);
+  final ValueSetter<String> _nextQuestionClicked;
+
+  SliderQuestionWidget(this._question, this._nextQuestionClicked);
   @override
-  _SliderQuestionWidgetState createState() =>
-      _SliderQuestionWidgetState(_question, _questionnaireScaffoldState);
+  SliderQuestionWidgetState createState() =>
+      SliderQuestionWidgetState(_question, _nextQuestionClicked);
 }
 
-class _SliderQuestionWidgetState extends State<SliderQuestionWidget> {
+class SliderQuestionWidgetState extends State<SliderQuestionWidget> {
   int _currentSliderValue = 0;
   final GenericQuestion _question;
-  final _QuestionnaireScaffoldState _questionnaireScaffoldState;
-  _SliderQuestionWidgetState(this._question, this._questionnaireScaffoldState);
+  final ValueSetter<String> _nextQuestionClicked;
+
+  SliderQuestionWidgetState(this._question, this._nextQuestionClicked);
 
   @override
   Widget build(BuildContext context) {
@@ -238,10 +239,8 @@ class _SliderQuestionWidgetState extends State<SliderQuestionWidget> {
         ],
       ),
       ElevatedButton(
-          onPressed: () {
-            _questionnaireScaffoldState
-                .nextQuestionClicked(_question.answers[_currentSliderValue]);
-          },
+          onPressed: () =>
+              _nextQuestionClicked(_question.answers[_currentSliderValue]),
           child: Text('Next'))
     ]);
   }

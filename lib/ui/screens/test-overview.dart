@@ -44,7 +44,6 @@ Widget classSelector(QuestionnaireType questionnaireTitle) {
     case QuestionnaireType.stroopTestDirection:
       return StroopTestDirectionWidget();
     default:
-      //TODO add a default here
-      return null;
+      throw Error();
   }
 }

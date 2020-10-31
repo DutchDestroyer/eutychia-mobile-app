@@ -34,8 +34,8 @@ class StroopTestDirectionWidgetState extends State<StroopTestDirectionWidget> {
                         carouselController: buttonCarouselController,
                         itemBuilder: (BuildContext context, int itemIndex) =>
                             Container(
-                              child: partOfQuestionnaireToDisplay(itemIndex,
-                                  snapshot.data.tasks.length, _answers.length),
+                              child: partOfQuestionnaireToDisplay(
+                                  itemIndex, snapshot.data.tasks.length),
                             ),
                         options: CarouselOptions(
                             initialPage: 0,
@@ -50,7 +50,7 @@ class StroopTestDirectionWidgetState extends State<StroopTestDirectionWidget> {
             }));
   }
 
-  void goToNextQuestion([String answer = ""]) {
+  void nextQuestionClicked([String answer = ""]) {
     setState(() {
       buttonCarouselController.nextPage(
           duration: Duration(milliseconds: 300), curve: Curves.linear);
@@ -65,14 +65,13 @@ class StroopTestDirectionWidgetState extends State<StroopTestDirectionWidget> {
     return StroopTestDirection.fromJson(jsonResponse);
   }
 
-  Widget partOfQuestionnaireToDisplay(
-      int index, int lengthOfQuestionnaire, answerCount) {
+  Widget partOfQuestionnaireToDisplay(int index, int lengthOfQuestionnaire) {
     if (index == 0) {
-      return QuestionDescription(goToNextQuestion);
-    } else if (answerCount == lengthOfQuestionnaire) {
-      return EndOfQuestionnaireNoAnswers();
+      return QuestionDescription(nextQuestionClicked);
+    } else if (_answers.length < lengthOfQuestionnaire) {
+      return StroopTestDirectionTaskWidget(nextQuestionClicked);
     } else {
-      return StroopTestDirectionTaskWidget(goToNextQuestion);
+      return EndOfQuestionnaireNoAnswers();
     }
   }
 }
