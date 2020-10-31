@@ -10,6 +10,7 @@ class StroopTestDirectionWidgetState extends State<StroopTestDirectionWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Stroop test")), body: Text("ABC"));
+        appBar: AppBar(title: Text("Stroop test direction")),
+        body: Text("ABC"));
   }
 }

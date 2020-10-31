@@ -21,7 +21,7 @@ class StroopTestColorWidgetState extends State<StroopTestColorWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Stroop test")),
+        appBar: AppBar(title: Text("Stroop test color")),
         body: FutureBuilder<StroopTest>(
             future: parseJson(),
             builder: (context, AsyncSnapshot<StroopTest> snapshot) {

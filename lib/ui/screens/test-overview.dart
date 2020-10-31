@@ -1,6 +1,6 @@
 import 'package:Eutychia/models/equestionnaire-type.dart';
 import 'package:Eutychia/ui/screens/tests/stroop-test-directions.dart';
-import 'package:Eutychia/ui/screens/tests/stroop-test.dart';
+import 'package:Eutychia/ui/screens/tests/stroop-test-color.dart';
 import 'package:flutter/material.dart';
 
 import 'package:Eutychia/ui/screens/tests/generic-questionnaire.dart';
