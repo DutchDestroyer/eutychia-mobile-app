@@ -7,7 +7,6 @@ import 'package:Eutychia/models/equestion-type.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/foundation.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -65,7 +64,7 @@ class _QuestionnaireScaffoldState extends State<GenericQuestionnaireWidget> {
     });
   }
 
-  void processAnswer(String answer) {
+  void nextQuestionClicked(String answer) {
     buttonCarouselController.nextPage(
         duration: Duration(milliseconds: 300), curve: Curves.linear);
     setState(() {
@@ -75,7 +74,6 @@ class _QuestionnaireScaffoldState extends State<GenericQuestionnaireWidget> {
 
   Widget questionToDisplay(List<GenericQuestion> question, List<String> answers,
       _QuestionnaireScaffoldState scaffold) {
-    debugPrint('carousselIndex: ${answers.length}');
     if (answers.length < question.length) {
       return questionnaireSelected(question[answers.length], scaffold);
     } else {
@@ -141,7 +139,7 @@ class MultipleChoiceWidget extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {
                           _questionnaireScaffoldState
-                              .processAnswer(index.toString());
+                              .nextQuestionClicked(index.toString());
                         },
                         child: Text(_question.answers[index]),
                       ));
@@ -192,7 +190,8 @@ class _OpenQuestionWidgetState extends State<OpenQuestionWidget> {
           ElevatedButton(
             onPressed: () {
               if (_formKey.currentState.validate()) {
-                _questionnaireScaffoldState.processAnswer(textController.text);
+                _questionnaireScaffoldState
+                    .nextQuestionClicked(textController.text);
               }
             },
             child: Text('Next'),
@@ -241,7 +240,7 @@ class _SliderQuestionWidgetState extends State<SliderQuestionWidget> {
       ElevatedButton(
           onPressed: () {
             _questionnaireScaffoldState
-                .processAnswer(_question.answers[_currentSliderValue]);
+                .nextQuestionClicked(_question.answers[_currentSliderValue]);
           },
           child: Text('Next'))
     ]);

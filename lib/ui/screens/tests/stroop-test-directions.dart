@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:Eutychia/models/estroop-direction-type.dart';
 import 'package:Eutychia/models/stroop-test-direction.dart';
+import 'package:Eutychia/ui/screens/common-questionnaire-views.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
@@ -15,7 +17,7 @@ class StroopTestDirectionWidget extends StatefulWidget {
 
 class StroopTestDirectionWidgetState extends State<StroopTestDirectionWidget> {
   CarouselController buttonCarouselController = CarouselController();
-
+  List<String> _answers = List<String>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,55 +29,19 @@ class StroopTestDirectionWidgetState extends State<StroopTestDirectionWidget> {
                 return Column(
                   children: [
                     CarouselSlider.builder(
-                        itemCount: snapshot.data.tasks.length,
+                        itemCount: snapshot.data.tasks.length +
+                            2, // + description + end
                         carouselController: buttonCarouselController,
                         itemBuilder: (BuildContext context, int itemIndex) =>
                             Container(
-                              child: Text('bla'),
+                              child: partOfQuestionnaireToDisplay(itemIndex,
+                                  snapshot.data.tasks.length, _answers.length),
                             ),
                         options: CarouselOptions(
-                            height: MediaQuery.of(context).size.height,
                             initialPage: 0,
                             enableInfiniteScroll: false,
                             autoPlay: false,
                             viewportFraction: 1.0)),
-                    Ink(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.blue)),
-                        child: IconButton(
-                          icon: Icon(Icons.arrow_upward),
-                          onPressed: () {},
-                        )),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Ink(
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.blue)),
-                            child: Transform.rotate(
-                                angle: 270 * math.pi / 180,
-                                child: IconButton(
-                                  icon: Icon(Icons.arrow_upward),
-                                  onPressed: () {},
-                                ))),
-                        Ink(
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.blue)),
-                            child: Transform.rotate(
-                                angle: 90 * math.pi / 180,
-                                child: IconButton(
-                                  icon: Icon(Icons.arrow_upward),
-                                  onPressed: () {},
-                                ))),
-                      ],
-                    ),
-                    Ink(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.blue)),
-                        child: IconButton(
-                          icon: Icon(Icons.arrow_downward),
-                          onPressed: () {},
-                        ))
                   ],
                 );
               } else {
@@ -84,10 +50,103 @@ class StroopTestDirectionWidgetState extends State<StroopTestDirectionWidget> {
             }));
   }
 
+  void goToNextQuestion([String answer = ""]) {
+    setState(() {
+      buttonCarouselController.nextPage(
+          duration: Duration(milliseconds: 300), curve: Curves.linear);
+      if (answer.isNotEmpty) _answers.add(answer);
+    });
+  }
+
   Future<StroopTestDirection> parseJson() async {
     String jsonString = await rootBundle
         .loadString('assets/resources/stroop-test-direction-data.json');
     final jsonResponse = jsonDecode(jsonString);
     return StroopTestDirection.fromJson(jsonResponse);
+  }
+
+  Widget partOfQuestionnaireToDisplay(
+      int index, int lengthOfQuestionnaire, answerCount) {
+    if (index == 0) {
+      return QuestionDescription(goToNextQuestion);
+    } else if (answerCount == lengthOfQuestionnaire) {
+      return EndOfQuestionnaireNoAnswers();
+    } else {
+      return StroopTestDirectionTaskWidget(goToNextQuestion);
+    }
+  }
+}
+
+class StroopTestDirectionTaskWidget extends StatelessWidget {
+  final ValueSetter<String> nextQuestionClicked;
+
+  StroopTestDirectionTaskWidget(this.nextQuestionClicked);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Ink(
+            decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
+            child: ArrowButton(StroopDirectionType.top, nextQuestionClicked)),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Ink(
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.blue)),
+                child: Transform.rotate(
+                    angle: 270 * math.pi / 180,
+                    child: ArrowButton(
+                        StroopDirectionType.left, nextQuestionClicked))),
+            Ink(
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.blue)),
+                child: Transform.rotate(
+                    angle: 90 * math.pi / 180,
+                    child: ArrowButton(
+                        StroopDirectionType.right, nextQuestionClicked))),
+          ],
+        ),
+        Ink(
+            decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
+            child: ArrowButton(StroopDirectionType.bottom, nextQuestionClicked))
+      ],
+    );
+  }
+}
+
+class ArrowButton extends StatelessWidget {
+  final StroopDirectionType directionType;
+  final ValueSetter<String> nextQuestionClicked;
+
+  ArrowButton(this.directionType, this.nextQuestionClicked);
+
+  @override
+  Widget build(BuildContext context) {
+    switch (directionType) {
+      case (StroopDirectionType.top):
+        return IconButton(
+          icon: Icon(Icons.arrow_upward),
+          onPressed: () => nextQuestionClicked(directionType.toString()),
+        );
+      case (StroopDirectionType.left):
+        return IconButton(
+          icon: Icon(Icons.arrow_upward),
+          onPressed: () => nextQuestionClicked(directionType.toString()),
+        );
+      case (StroopDirectionType.right):
+        return IconButton(
+          icon: Icon(Icons.arrow_upward),
+          onPressed: () => nextQuestionClicked(directionType.toString()),
+        );
+      case (StroopDirectionType.bottom):
+        return IconButton(
+          icon: Icon(Icons.arrow_downward),
+          onPressed: () => nextQuestionClicked(directionType.toString()),
+        );
+      default:
+        throw Error();
+    }
   }
 }

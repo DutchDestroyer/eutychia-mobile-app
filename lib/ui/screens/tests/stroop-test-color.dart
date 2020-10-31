@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:Eutychia/models/estroop-color-type.dart';
 import 'package:Eutychia/models/stroop-test-color.dart';
@@ -75,6 +74,8 @@ class StroopTestColorWidgetState extends State<StroopTestColorWidget> {
         return HexColor("FF00CC");
       case StroopColorType.Orange:
         return HexColor("FFBB00");
+      default:
+        throw Error();
     }
   }
 
