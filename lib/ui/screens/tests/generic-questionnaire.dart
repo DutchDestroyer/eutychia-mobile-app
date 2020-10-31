@@ -66,11 +66,11 @@ class _QuestionnaireScaffoldState extends State<GenericQuestionnaireWidget> {
   }
 
   void processAnswer(String answer) {
+    buttonCarouselController.nextPage(
+        duration: Duration(milliseconds: 300), curve: Curves.linear);
     setState(() {
       _answers.add(answer);
     });
-    buttonCarouselController.nextPage(
-        duration: Duration(milliseconds: 300), curve: Curves.linear);
   }
 
   Widget questionToDisplay(List<GenericQuestion> question, List<String> answers,
