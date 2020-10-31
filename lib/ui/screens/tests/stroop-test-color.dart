@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:Eutychia/models/stroop-test.dart';
+import 'package:Eutychia/models/estroop-color-type.dart';
+import 'package:Eutychia/models/stroop-test-color.dart';
 import 'package:Eutychia/utils/hexcolor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,17 +15,13 @@ class StroopTestColorWidget extends StatefulWidget {
 }
 
 class StroopTestColorWidgetState extends State<StroopTestColorWidget> {
-  final int _wordsToShow = 21;
-  final _random = new Random();
-
-  StroopTestColorWidgetState();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text("Stroop test color")),
-        body: FutureBuilder<StroopTest>(
+        body: FutureBuilder<StroopTestColor>(
             future: parseJson(),
-            builder: (context, AsyncSnapshot<StroopTest> snapshot) {
+            builder: (context, AsyncSnapshot<StroopTestColor> snapshot) {
               if (snapshot.hasData) {
                 return Column(
                   children: [
@@ -34,7 +31,8 @@ class StroopTestColorWidgetState extends State<StroopTestColorWidget> {
                             childAspectRatio: 2,
                             scrollDirection: Axis.vertical,
                             crossAxisCount: 3,
-                            children: List.generate(_wordsToShow, (index) {
+                            children: List.generate(snapshot.data.tasks.length,
+                                (index) {
                               return ElevatedButton(
                                   style: ButtonStyle(
                                     backgroundColor:
@@ -43,10 +41,13 @@ class StroopTestColorWidgetState extends State<StroopTestColorWidget> {
                                   ),
                                   onPressed: () {},
                                   child: Text(
-                                    createRandomWords(snapshot.data.words),
+                                    snapshot.data.tasks[index].text
+                                        .toString()
+                                        .split('.')
+                                        .elementAt(1),
                                     style: TextStyle(
                                         color: createRandomColor(
-                                            snapshot.data.colors),
+                                            snapshot.data.tasks[index].color),
                                         fontSize: 24),
                                   ));
                             }))),
@@ -62,18 +63,25 @@ class StroopTestColorWidgetState extends State<StroopTestColorWidget> {
             }));
   }
 
-  String createRandomWords(List<String> words) {
-    return words[_random.nextInt(words.length)];
+  Color createRandomColor(StroopColorType colorType) {
+    switch (colorType) {
+      case StroopColorType.Blue:
+        return HexColor("0000FF");
+      case StroopColorType.Red:
+        return HexColor("FF0000");
+      case StroopColorType.Green:
+        return HexColor("00FF00");
+      case StroopColorType.Purple:
+        return HexColor("FF00CC");
+      case StroopColorType.Orange:
+        return HexColor("FFBB00");
+    }
   }
 
-  Color createRandomColor(List<String> colors) {
-    return HexColor(colors[_random.nextInt(colors.length)]);
-  }
-
-  Future<StroopTest> parseJson() async {
-    String jsonString =
-        await rootBundle.loadString('assets/resources/stroop-test-data.json');
+  Future<StroopTestColor> parseJson() async {
+    String jsonString = await rootBundle
+        .loadString('assets/resources/stroop-test-color-data.json');
     final jsonResponse = jsonDecode(jsonString);
-    return StroopTest.fromJson(jsonResponse);
+    return StroopTestColor.fromJson(jsonResponse);
   }
 }

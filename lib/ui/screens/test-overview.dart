@@ -29,8 +29,7 @@ class TestOverview extends StatelessWidget {
                 child: Text(QuestionnaireType.values[index]
                     .toString()
                     .split('.')
-                    .elementAt(1)
-                    .toString()),
+                    .elementAt(1)),
               );
             })));
   }
