@@ -8,16 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
-class StroopTestWidget extends StatefulWidget {
+class StroopTestColorWidget extends StatefulWidget {
   @override
-  StroopTestWidgetState createState() => StroopTestWidgetState();
+  StroopTestColorWidgetState createState() => StroopTestColorWidgetState();
 }
 
-class StroopTestWidgetState extends State<StroopTestWidget> {
+class StroopTestColorWidgetState extends State<StroopTestColorWidget> {
   final int _wordsToShow = 21;
   final _random = new Random();
 
-  StroopTestWidgetState();
+  StroopTestColorWidgetState();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

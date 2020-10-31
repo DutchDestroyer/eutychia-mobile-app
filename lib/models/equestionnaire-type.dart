@@ -1,1 +1,1 @@
-enum QuestionnaireType { questionnaire1, stroopTest }
+enum QuestionnaireType { questionnaire1, stroopTestColor, stroopTestDirection }
