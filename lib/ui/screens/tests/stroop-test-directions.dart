@@ -37,7 +37,8 @@ class StroopTestDirectionWidgetState extends State<StroopTestDirectionWidget> {
                         initialPage: 0,
                         enableInfiniteScroll: false,
                         autoPlay: false,
-                        viewportFraction: 1.0));
+                        viewportFraction: 1.0,
+                        height: MediaQuery.of(context).size.height));
               } else {
                 return Text('Waiting');
               }
@@ -66,50 +67,81 @@ class StroopTestDirectionWidgetState extends State<StroopTestDirectionWidget> {
     } else if (index == tasks.length + 1) {
       return EndOfQuestionnaireNoAnswers();
     } else {
-      return StroopTestDirectionTaskWidget(nextQuestionClicked, index - 1);
+      return StroopTestDirectionTaskWidget(
+          nextQuestionClicked, tasks[index - 1]);
     }
   }
 }
 
 class StroopTestDirectionTaskWidget extends StatelessWidget {
   final ValueSetter<String> _nextQuestionClicked;
-  final int _index;
+  final StroopTestDirectionObject _task;
 
-  StroopTestDirectionTaskWidget(this._nextQuestionClicked, this._index);
+  StroopTestDirectionTaskWidget(this._nextQuestionClicked, this._task);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text("task $_index"),
-        Ink(
-            decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
-            child: ArrowButton(StroopDirectionType.top, _nextQuestionClicked)),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Ink(
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.blue)),
-                child: Transform.rotate(
-                    angle: 270 * math.pi / 180,
-                    child: ArrowButton(
-                        StroopDirectionType.left, _nextQuestionClicked))),
-            Ink(
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.blue)),
-                child: Transform.rotate(
-                    angle: 90 * math.pi / 180,
-                    child: ArrowButton(
-                        StroopDirectionType.right, _nextQuestionClicked))),
-          ],
-        ),
-        Ink(
-            decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
-            child:
-                ArrowButton(StroopDirectionType.bottom, _nextQuestionClicked))
-      ],
-    );
+    return Column(children: [
+      Ink(
+          decoration: BoxDecoration(border: Border.all(color: Colors.red)),
+          height: (MediaQuery.of(context).size.height / 2),
+          width: (MediaQuery.of(context).size.height / 2),
+          child: SquareTask(_task)),
+      Ink(
+          decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
+          child: ArrowButton(StroopDirectionType.top, _nextQuestionClicked)),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Ink(
+              decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
+              child: Transform.rotate(
+                  angle: 270 * math.pi / 180,
+                  child: ArrowButton(
+                      StroopDirectionType.left, _nextQuestionClicked))),
+          Ink(
+              decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
+              child: Transform.rotate(
+                  angle: 90 * math.pi / 180,
+                  child: ArrowButton(
+                      StroopDirectionType.right, _nextQuestionClicked))),
+        ],
+      ),
+      Ink(
+          decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
+          child: ArrowButton(StroopDirectionType.bottom, _nextQuestionClicked))
+    ]);
+  }
+}
+
+class SquareTask extends StatelessWidget {
+  final StroopTestDirectionObject _task;
+  SquareTask(this._task);
+  @override
+  Widget build(BuildContext context) {
+    switch (_task.direction) {
+      case (StroopDirectionType.top):
+        return Align(alignment: Alignment.topCenter, child: SquareText(_task));
+      case (StroopDirectionType.left):
+        return Align(alignment: Alignment.centerLeft, child: SquareText(_task));
+      case (StroopDirectionType.right):
+        return Align(
+            alignment: Alignment.centerRight, child: SquareText(_task));
+      case (StroopDirectionType.bottom):
+        return Align(
+            alignment: Alignment.bottomCenter, child: SquareText(_task));
+      default:
+        throw Error();
+    }
+  }
+}
+
+class SquareText extends StatelessWidget {
+  final StroopTestDirectionObject _task;
+  SquareText(this._task);
+  @override
+  Widget build(BuildContext context) {
+    return Text(_task.text.toString().split('.').elementAt(1));
   }
 }
 
