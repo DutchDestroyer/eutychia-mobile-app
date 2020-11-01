@@ -32,14 +32,12 @@ class QuestionnaireScaffoldState extends State<GenericQuestionnaireWidget> {
             if (snapshot.hasData) {
               WidgetsBinding.instance.addPostFrameCallback(
                   (_) => updateBarTitle(snapshot.data.title));
-              return CarouselSlider.builder(
-                  itemCount: snapshot.data.questions.length + 2,
+              return CarouselSlider(
+                  items: List.generate(
+                      snapshot.data.questions.length + 2,
+                      (index) =>
+                          questionToDisplay(snapshot.data.questions, index)),
                   carouselController: buttonCarouselController,
-                  itemBuilder: (BuildContext context, int itemIndex) =>
-                      Container(
-                        child: questionToDisplay(
-                            snapshot.data.questions, itemIndex),
-                      ),
                   options: CarouselOptions(
                       height: MediaQuery.of(context).size.height,
                       initialPage: 0,
@@ -67,20 +65,22 @@ class QuestionnaireScaffoldState extends State<GenericQuestionnaireWidget> {
   }
 
   void nextQuestionClicked([String answer = ""]) {
+    setState(() {
+      if (answer.isNotEmpty) {
+        _answers.add(answer);
+      }
+    });
     buttonCarouselController.nextPage(
         duration: Duration(milliseconds: 300), curve: Curves.linear);
-    setState(() {
-      _answers.add(answer);
-    });
   }
 
-  Widget questionToDisplay(List<GenericQuestion> question, int index) {
+  Widget questionToDisplay(List<GenericQuestion> questions, int index) {
     if (index == 0) {
       return QuestionDescription(nextQuestionClicked);
-    } else if (_answers.length < question.length) {
-      return questionnaireSelected(question[_answers.length]);
-    } else {
+    } else if (index == questions.length + 1) {
       return EndOfQuestionnaireNoAnswers();
+    } else {
+      return questionnaireSelected(questions[index - 1]);
     }
   }
 
