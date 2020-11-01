@@ -19,7 +19,7 @@ class StroopTestColorWidget extends StatefulWidget {
 
 class StroopTestColorWidgetState extends State<StroopTestColorWidget> {
   CarouselController buttonCarouselController = CarouselController();
-  List<String> _answers = List<String>();
+  List<List<bool>> _answers = List<List<bool>>();
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class StroopTestColorWidgetState extends State<StroopTestColorWidget> {
             }));
   }
 
-  void nextQuestionClicked([String answer = ""]) {
+  void nextQuestionClicked([List<bool> answer]) {
     setState(() {
       if (answer.isNotEmpty) _answers.add(answer);
     });
@@ -75,7 +75,7 @@ class StroopTestColorWidgetState extends State<StroopTestColorWidget> {
 }
 
 class StroopTestColorTaskWidget extends StatefulWidget {
-  final ValueSetter<String> _nextQuestionClicked;
+  final ValueSetter<List<bool>> _nextQuestionClicked;
   final StroopTestColorTask _task;
 
   StroopTestColorTaskWidget(this._nextQuestionClicked, this._task);
@@ -86,8 +86,9 @@ class StroopTestColorTaskWidget extends StatefulWidget {
 }
 
 class StroopTestColorTaskWidgetState extends State<StroopTestColorTaskWidget> {
-  final ValueSetter<String> _nextQuestionClicked;
+  final ValueSetter<List<bool>> _nextQuestionClicked;
   final StroopTestColorTask _task;
+  List<int> _buttonsClicked;
 
   StroopTestColorTaskWidgetState(this._nextQuestionClicked, this._task);
 
@@ -107,7 +108,7 @@ class StroopTestColorTaskWidgetState extends State<StroopTestColorTaskWidget> {
                         backgroundColor: MaterialStateProperty.resolveWith(
                             (states) => Colors.white),
                       ),
-                      onPressed: () {},
+                      onPressed: () => _buttonsClicked.add(index),
                       child: Text(
                         _task.objects[index].text
                             .toString()
@@ -120,11 +121,32 @@ class StroopTestColorTaskWidgetState extends State<StroopTestColorTaskWidget> {
                       ));
                 }))),
         ElevatedButton(
-          onPressed: () => _nextQuestionClicked("a"),
+          onPressed: () => onFinishButtonPress,
           child: Text('Finish'),
         )
       ],
     );
+  }
+
+  void onFinishButtonPress() {
+    var answers = checkAnswers();
+    _nextQuestionClicked(answers);
+  }
+
+  List<bool> checkAnswers() {
+    List<bool> _checkedAnswers = List<bool>();
+
+    for (int i = 0; i < _task.objects.length; i++) {
+      if ((_task.objects[i].color == _task.colorOfWord &&
+              _buttonsClicked.contains(i)) ||
+          (_task.objects[i].color != _task.colorOfWord &&
+              !_buttonsClicked.contains(i))) {
+        _checkedAnswers.add(true);
+      } else {
+        _checkedAnswers.add(false);
+      }
+    }
+    return _checkedAnswers;
   }
 
   Color createRandomColor(StroopColorType colorType) {
