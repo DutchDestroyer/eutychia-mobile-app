@@ -27,21 +27,17 @@ class StroopTestDirectionWidgetState extends State<StroopTestDirectionWidget> {
             future: parseJson(),
             builder: (context, AsyncSnapshot<StroopTestDirection> snapshot) {
               if (snapshot.hasData) {
-                return Column(
-                  children: [
-                    CarouselSlider(
-                        items: List.generate(
-                            snapshot.data.tasks.length + 2,
-                            (index) => partOfQuestionnaireToDisplay(
-                                index, snapshot.data.tasks)),
-                        carouselController: buttonCarouselController,
-                        options: CarouselOptions(
-                            initialPage: 0,
-                            enableInfiniteScroll: false,
-                            autoPlay: false,
-                            viewportFraction: 1.0)),
-                  ],
-                );
+                return CarouselSlider(
+                    items: List.generate(
+                        snapshot.data.tasks.length + 2,
+                        (index) => partOfQuestionnaireToDisplay(
+                            index, snapshot.data.tasks)),
+                    carouselController: buttonCarouselController,
+                    options: CarouselOptions(
+                        initialPage: 0,
+                        enableInfiniteScroll: false,
+                        autoPlay: false,
+                        viewportFraction: 1.0));
               } else {
                 return Text('Waiting');
               }

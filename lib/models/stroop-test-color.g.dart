@@ -11,7 +11,7 @@ StroopTestColor _$StroopTestColorFromJson(Map<String, dynamic> json) {
     (json['tasks'] as List)
         ?.map((e) => e == null
             ? null
-            : StroopTestColorObject.fromJson(e as Map<String, dynamic>))
+            : StroopTestColorTask.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
 }
