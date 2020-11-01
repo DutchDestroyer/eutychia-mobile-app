@@ -49,7 +49,7 @@ class StroopTestColorWidgetState extends State<StroopTestColorWidget> {
 
   void nextQuestionClicked([List<bool> answer]) {
     setState(() {
-      if (answer.isNotEmpty) _answers.add(answer);
+      if (answer?.isNotEmpty == true) {_answers.add(answer);}
     });
     buttonCarouselController.nextPage(
         duration: Duration(milliseconds: 300), curve: Curves.linear);
@@ -88,7 +88,7 @@ class StroopTestColorTaskWidget extends StatefulWidget {
 class StroopTestColorTaskWidgetState extends State<StroopTestColorTaskWidget> {
   final ValueSetter<List<bool>> _nextQuestionClicked;
   final StroopTestColorTask _task;
-  List<int> _buttonsClicked;
+  List<int> _buttonsClicked = List<int>();
 
   StroopTestColorTaskWidgetState(this._nextQuestionClicked, this._task);
 
@@ -121,16 +121,13 @@ class StroopTestColorTaskWidgetState extends State<StroopTestColorTaskWidget> {
                       ));
                 }))),
         ElevatedButton(
-          onPressed: () => onFinishButtonPress,
+          onPressed: () => {
+            _nextQuestionClicked(checkAnswers())
+          },
           child: Text('Finish'),
         )
       ],
     );
-  }
-
-  void onFinishButtonPress() {
-    var answers = checkAnswers();
-    _nextQuestionClicked(answers);
   }
 
   List<bool> checkAnswers() {

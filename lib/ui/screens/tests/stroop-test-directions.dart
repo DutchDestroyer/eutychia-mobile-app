@@ -47,7 +47,7 @@ class StroopTestDirectionWidgetState extends State<StroopTestDirectionWidget> {
 
   void nextQuestionClicked([String answer = ""]) {
     setState(() {
-      if (answer.isNotEmpty) _answers.add(answer);
+      if (answer?.isNotEmpty == true){ _answers.add(answer);}
     });
     buttonCarouselController.nextPage(
         duration: Duration(milliseconds: 300), curve: Curves.linear);
