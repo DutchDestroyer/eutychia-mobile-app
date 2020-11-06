@@ -13,9 +13,10 @@ class TestOverview extends StatelessWidget {
           title: const Text('Choose test to perform'),
         ),
         body: GridView.count(
-            physics: NeverScrollableScrollPhysics(),
-            childAspectRatio: 2,
             scrollDirection: Axis.vertical,
+            padding: const EdgeInsets.all(20),
+            childAspectRatio: 6,
+            mainAxisSpacing: 10,
             crossAxisCount: 1,
             children: List.generate(QuestionnaireType.values.length, (index) {
               return ElevatedButton(
