@@ -228,7 +228,7 @@ class SliderQuestionWidgetState extends State<SliderQuestionWidget> {
                   value: _currentSliderValue.toDouble(),
                   min: 0,
                   max: (_question.answers.length - 1).toDouble(),
-                  divisions: _question.answers.length,
+                  divisions: _question.answers.length - 1,
                   label: _question.answers[_currentSliderValue],
                   onChanged: (double value) {
                     setState(() {
