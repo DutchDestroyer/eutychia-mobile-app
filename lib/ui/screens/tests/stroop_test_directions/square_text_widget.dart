@@ -1,4 +1,4 @@
-import 'package:Eutychia/models/stroop_test_direction_object.dart';
+import 'package:Eutychia/models/questionnaires/stroop_test_direction_object.dart';
 import 'package:flutter/cupertino.dart';
 
 class SquareText extends StatelessWidget {

@@ -1,5 +1,6 @@
-import 'package:Eutychia/models/equestion_type.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'equestion_type.dart';
 
 part 'generic_question.g.dart';
 

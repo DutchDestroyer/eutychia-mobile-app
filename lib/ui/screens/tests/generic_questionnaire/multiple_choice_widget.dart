@@ -1,4 +1,4 @@
-import 'package:Eutychia/models/generic_question.dart';
+import 'package:Eutychia/models/questionnaires/generic_question.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

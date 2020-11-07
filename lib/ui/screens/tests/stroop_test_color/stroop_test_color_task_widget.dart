@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:Eutychia/models/estroop_color_type.dart';
-import 'package:Eutychia/models/stroop_test_color_task.dart';
+import 'package:Eutychia/models/questionnaires/estroop_color_type.dart';
+import 'package:Eutychia/models/questionnaires/stroop_test_color_task.dart';
 import 'package:Eutychia/utils/hexcolor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

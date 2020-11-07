@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:Eutychia/models/generic_questionnaire.dart';
+import 'package:Eutychia/models/questionnaires/generic_questionnaire.dart';
 import 'package:Eutychia/ui/screens/tests/display_factory.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -46,7 +46,8 @@ class GenericQuestionnaireWidgetState extends BaseQuestionnaireWidget {
                               snapshot.data.questions,
                               nextQuestionClicked,
                               snapshot.data.description,
-                              snapshot.data.finalRemark)),
+                              snapshot.data.finalRemark,
+                              snapshot.data.displayAnswers)),
                   carouselController: buttonCarouselController,
                   options: CarouselOptions(
                       height: MediaQuery.of(context).size.height,

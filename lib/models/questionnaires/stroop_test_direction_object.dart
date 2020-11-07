@@ -1,6 +1,7 @@
-import 'package:Eutychia/models/estroop_direction_type.dart';
 
 import 'package:json_annotation/json_annotation.dart';
+
+import 'estroop_direction_type.dart';
 
 part 'stroop_test_direction_object.g.dart';
 

@@ -1,6 +1,7 @@
-import 'package:Eutychia/models/base_questionnaire.dart';
-import 'package:Eutychia/models/stroop_test_direction_object.dart';
+import 'package:Eutychia/models/questionnaires/stroop_test_direction_object.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'base_questionnaire.dart';
 
 part 'stroop_test_direction.g.dart';
 

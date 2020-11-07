@@ -1,4 +1,4 @@
-import 'package:Eutychia/models/equestionnaire_type.dart';
+import 'package:Eutychia/models/questionnaires/equestionnaire_type.dart';
 import 'package:flutter/material.dart';
 
 class TestOverview extends StatelessWidget {

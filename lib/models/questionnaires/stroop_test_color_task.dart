@@ -1,6 +1,7 @@
-import 'package:Eutychia/models/estroop_color_type.dart';
-import 'package:Eutychia/models/stroop_test_color_object.dart';
+import 'package:Eutychia/models/questionnaires/stroop_test_color_object.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'estroop_color_type.dart';
 
 part 'stroop_test_color_task.g.dart';
 

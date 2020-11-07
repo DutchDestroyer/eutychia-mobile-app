@@ -1,5 +1,5 @@
-import 'package:Eutychia/models/estroop_direction_type.dart';
-import 'package:Eutychia/models/stroop_test_direction_object.dart';
+import 'package:Eutychia/models/questionnaires/estroop_direction_type.dart';
+import 'package:Eutychia/models/questionnaires/stroop_test_direction_object.dart';
 import 'package:Eutychia/ui/screens/tests/stroop_test_directions/square_task_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

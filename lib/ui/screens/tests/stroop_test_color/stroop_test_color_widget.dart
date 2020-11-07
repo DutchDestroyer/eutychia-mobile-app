@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:Eutychia/models/stroop_test_color.dart';
+import 'package:Eutychia/models/questionnaires/stroop_test_color.dart';
 import 'package:Eutychia/ui/screens/tests/base_questionnaire_widget.dart';
 import 'package:Eutychia/ui/screens/tests/display_factory.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -43,7 +43,8 @@ class StroopTestColorWidgetState extends BaseQuestionnaireWidget {
                                 snapshot.data.tasks,
                                 nextQuestionClicked,
                                 snapshot.data.description,
-                                snapshot.data.finalRemark)),
+                                snapshot.data.finalRemark,
+                                snapshot.data.displayAnswers)),
                     carouselController: buttonCarouselController,
                     options: CarouselOptions(
                         initialPage: 0,

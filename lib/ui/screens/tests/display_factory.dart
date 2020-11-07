@@ -1,7 +1,7 @@
-import 'package:Eutychia/models/equestion_type.dart';
-import 'package:Eutychia/models/generic_question.dart';
-import 'package:Eutychia/models/stroop_test_color_task.dart';
-import 'package:Eutychia/models/stroop_test_direction_object.dart';
+import 'package:Eutychia/models/questionnaires/equestion_type.dart';
+import 'package:Eutychia/models/questionnaires/generic_question.dart';
+import 'package:Eutychia/models/questionnaires/stroop_test_color_task.dart';
+import 'package:Eutychia/models/questionnaires/stroop_test_direction_object.dart';
 import 'package:Eutychia/ui/screens/tests/stroop_test_color/stroop_test_color_task_widget.dart';
 import 'package:Eutychia/ui/screens/tests/stroop_test_directions/stroop_test_direction_task_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,12 +12,21 @@ import 'generic_questionnaire/open_question_widget.dart';
 import 'generic_questionnaire/slider_widget.dart';
 
 class DisplayFactory {
-  Widget partOfQuestionnaireToDisplayFactory(int index, List<Object> tasks,
-      Function nextQuestionClicked, String description, String finalRemark) {
+  Widget partOfQuestionnaireToDisplayFactory(
+      int index,
+      List<Object> tasks,
+      Function nextQuestionClicked,
+      String description,
+      String finalRemark,
+      bool displayAnswers) {
     if (index == 0) {
       return QuestionDescription(nextQuestionClicked, description);
     } else if (index == tasks.length + 1) {
-      return EndOfQuestionnaireNoAnswers(finalRemark);
+      if (displayAnswers) {
+        return EndOfQuestionnaireDisplayAnswers();
+      } else {
+        return EndOfQuestionnaireNoAnswers(finalRemark);
+      }
     } else {
       return questionSelector(nextQuestionClicked, tasks[index - 1]);
     }

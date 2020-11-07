@@ -1,7 +1,7 @@
-import 'package:Eutychia/models/base_questionnaire.dart';
-import 'package:Eutychia/models/generic_question.dart';
-
 import 'package:json_annotation/json_annotation.dart';
+
+import 'base_questionnaire.dart';
+import 'generic_question.dart';
 
 part 'generic_questionnaire.g.dart';
 
