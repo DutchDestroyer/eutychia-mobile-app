@@ -21,8 +21,6 @@ class StroopTestDirectionWidget extends StatefulWidget {
 class StroopTestDirectionWidgetState extends BaseQuestionnaireWidget {
   final DisplayFactory _displayFactory;
 
-  List<String> _answers = List<String>();
-
   StroopTestDirectionWidgetState(this._displayFactory);
 
   @override
@@ -45,7 +43,8 @@ class StroopTestDirectionWidgetState extends BaseQuestionnaireWidget {
                                 nextQuestionClicked,
                                 snapshot.data.description,
                                 snapshot.data.finalRemark,
-                                snapshot.data.displayAnswers)),
+                                snapshot.data.displayAnswers,
+                                snapshot.data.questionnaireType)),
                     carouselController: buttonCarouselController,
                     options: CarouselOptions(
                         initialPage: 0,
@@ -57,16 +56,6 @@ class StroopTestDirectionWidgetState extends BaseQuestionnaireWidget {
                 return Text('Waiting');
               }
             }));
-  }
-
-  void nextQuestionClicked([String answer = ""]) {
-    setState(() {
-      if (answer?.isNotEmpty == true) {
-        _answers.add(answer);
-      }
-    });
-    buttonCarouselController.nextPage(
-        duration: Duration(milliseconds: 300), curve: Curves.linear);
   }
 
   Future<StroopTestDirection> parseJson() async {

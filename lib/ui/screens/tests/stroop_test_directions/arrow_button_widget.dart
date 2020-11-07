@@ -1,3 +1,4 @@
+import 'package:Eutychia/models/questionnaires/equestionnaire_type.dart';
 import 'package:Eutychia/models/questionnaires/estroop_direction_type.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,10 +6,11 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 class ArrowButton extends StatelessWidget {
-  final StroopDirectionType directionType;
-  final Function nextQuestionClicked;
-
-  ArrowButton(this.directionType, this.nextQuestionClicked);
+  final StroopDirectionType _directionType;
+  final Function _nextQuestionClicked;
+  final QuestionnaireType _questionnaireType;
+  ArrowButton(
+      this._directionType, this._nextQuestionClicked, this._questionnaireType);
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +23,12 @@ class ArrowButton extends StatelessWidget {
                 child: IconButton(
                   icon: Icon(Icons.arrow_upward),
                   onPressed: () =>
-                      nextQuestionClicked(directionType.toString()),
+                      _nextQuestionClicked(_questionnaireType, _directionType),
                 ))));
   }
 
   double setAngle() {
-    switch (directionType) {
+    switch (_directionType) {
       case (StroopDirectionType.top):
         return 0 * math.pi / 180;
       case (StroopDirectionType.left):

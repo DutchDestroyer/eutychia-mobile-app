@@ -1,3 +1,4 @@
+import 'package:Eutychia/models/questionnaires/equestionnaire_type.dart';
 import 'package:Eutychia/models/questionnaires/generic_question.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,9 @@ import 'package:flutter/material.dart';
 class MultipleChoiceWidget extends StatelessWidget {
   final GenericQuestion _question;
   final Function _nextQuestionClicked;
-  MultipleChoiceWidget(this._question, this._nextQuestionClicked);
+  final QuestionnaireType _questionnaireType;
+  MultipleChoiceWidget(
+      this._question, this._nextQuestionClicked, this._questionnaireType);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,7 +23,8 @@ class MultipleChoiceWidget extends StatelessWidget {
                   return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
-                        onPressed: () => _nextQuestionClicked(index.toString()),
+                        onPressed: () => _nextQuestionClicked(
+                            _questionnaireType, index.toString()),
                         child: Text(_question.answers[index]),
                       ));
                 })),

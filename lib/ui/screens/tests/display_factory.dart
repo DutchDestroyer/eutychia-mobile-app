@@ -1,4 +1,5 @@
 import 'package:Eutychia/models/questionnaires/equestion_type.dart';
+import 'package:Eutychia/models/questionnaires/equestionnaire_type.dart';
 import 'package:Eutychia/models/questionnaires/generic_question.dart';
 import 'package:Eutychia/models/questionnaires/stroop_test_color_task.dart';
 import 'package:Eutychia/models/questionnaires/stroop_test_direction_object.dart';
@@ -18,41 +19,47 @@ class DisplayFactory {
       Function nextQuestionClicked,
       String description,
       String finalRemark,
-      bool displayAnswers) {
+      bool displayAnswers,
+      QuestionnaireType questionnaireType,
+      [Object answers]) {
     if (index == 0) {
       return QuestionDescription(nextQuestionClicked, description);
     } else if (index == tasks.length + 1) {
-      if (displayAnswers) {
-        return EndOfQuestionnaireDisplayAnswers();
-      } else {
-        return EndOfQuestionnaireNoAnswers(finalRemark);
-      }
+      return EndOfQuestionnaireWidget(finalRemark, displayAnswers);
     } else {
-      return questionSelector(nextQuestionClicked, tasks[index - 1]);
+      return questionSelector(
+          nextQuestionClicked, tasks[index - 1], questionnaireType);
     }
   }
 
-  Widget questionSelector(Function nextQuestionClicked, Object task) {
+  Widget questionSelector(Function nextQuestionClicked, Object task,
+      QuestionnaireType questionnaireType) {
     if (task is StroopTestDirectionObject) {
-      return StroopTestDirectionTaskWidget(nextQuestionClicked, task);
+      return StroopTestDirectionTaskWidget(
+          nextQuestionClicked, task, questionnaireType);
     } else if (task is StroopTestColorTask) {
-      return StroopTestColorTaskWidget(nextQuestionClicked, task);
+      return StroopTestColorTaskWidget(
+          nextQuestionClicked, task, questionnaireType);
     } else if (task is GenericQuestion) {
-      return questionnaireWidgetFactory(nextQuestionClicked, task);
+      return questionnaireWidgetFactory(
+          nextQuestionClicked, task, questionnaireType);
     } else {
       throw Error();
     }
   }
 
-  Widget questionnaireWidgetFactory(
-      Function nextQuestionClicked, GenericQuestion question) {
+  Widget questionnaireWidgetFactory(Function nextQuestionClicked,
+      GenericQuestion question, QuestionnaireType questionnaireType) {
     switch (question.questionType) {
       case QuestionType.multipleChoice:
-        return MultipleChoiceWidget(question, nextQuestionClicked);
+        return MultipleChoiceWidget(
+            question, nextQuestionClicked, questionnaireType);
       case QuestionType.openQuestion:
-        return OpenQuestionWidget(question, nextQuestionClicked);
+        return OpenQuestionWidget(
+            question, nextQuestionClicked, questionnaireType);
       case QuestionType.slider:
-        return SliderQuestionWidget(question, nextQuestionClicked);
+        return SliderQuestionWidget(
+            question, nextQuestionClicked, questionnaireType);
       default:
         throw Error();
     }

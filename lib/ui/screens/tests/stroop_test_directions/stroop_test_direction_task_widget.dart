@@ -1,3 +1,4 @@
+import 'package:Eutychia/models/questionnaires/equestionnaire_type.dart';
 import 'package:Eutychia/models/questionnaires/estroop_direction_type.dart';
 import 'package:Eutychia/models/questionnaires/stroop_test_direction_object.dart';
 import 'package:Eutychia/ui/screens/tests/stroop_test_directions/square_task_widget.dart';
@@ -9,8 +10,9 @@ import 'arrow_button_widget.dart';
 class StroopTestDirectionTaskWidget extends StatelessWidget {
   final Function _nextQuestionClicked;
   final StroopTestDirectionObject _task;
-
-  StroopTestDirectionTaskWidget(this._nextQuestionClicked, this._task);
+  final QuestionnaireType _questionnaireType;
+  StroopTestDirectionTaskWidget(
+      this._nextQuestionClicked, this._task, this._questionnaireType);
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +26,21 @@ class StroopTestDirectionTaskWidget extends StatelessWidget {
               child: Padding(
                   padding: const EdgeInsets.all(5),
                   child: SquareTaskWidget(_task)))),
-      ArrowButton(StroopDirectionType.top, _nextQuestionClicked),
+      ArrowButton(
+          StroopDirectionType.top, _nextQuestionClicked, _questionnaireType),
       Padding(
           padding: const EdgeInsets.all(5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ArrowButton(StroopDirectionType.left, _nextQuestionClicked),
-              ArrowButton(StroopDirectionType.right, _nextQuestionClicked),
+              ArrowButton(StroopDirectionType.left, _nextQuestionClicked,
+                  _questionnaireType),
+              ArrowButton(StroopDirectionType.right, _nextQuestionClicked,
+                  _questionnaireType),
             ],
           )),
-      ArrowButton(StroopDirectionType.bottom, _nextQuestionClicked)
+      ArrowButton(
+          StroopDirectionType.bottom, _nextQuestionClicked, _questionnaireType)
     ]);
   }
 }

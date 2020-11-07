@@ -20,8 +20,6 @@ class StroopTestColorWidget extends StatefulWidget {
 class StroopTestColorWidgetState extends BaseQuestionnaireWidget {
   final DisplayFactory _displayFactory;
 
-  List<List<bool>> _answers = List<List<bool>>();
-
   StroopTestColorWidgetState(this._displayFactory);
 
   @override
@@ -44,7 +42,8 @@ class StroopTestColorWidgetState extends BaseQuestionnaireWidget {
                                 nextQuestionClicked,
                                 snapshot.data.description,
                                 snapshot.data.finalRemark,
-                                snapshot.data.displayAnswers)),
+                                snapshot.data.displayAnswers,
+                                snapshot.data.questionnaireType)),
                     carouselController: buttonCarouselController,
                     options: CarouselOptions(
                         initialPage: 0,
@@ -56,16 +55,6 @@ class StroopTestColorWidgetState extends BaseQuestionnaireWidget {
                 return Text('waiting');
               }
             }));
-  }
-
-  void nextQuestionClicked([List<bool> answer]) {
-    setState(() {
-      if (answer?.isNotEmpty == true) {
-        _answers.add(answer);
-      }
-    });
-    buttonCarouselController.nextPage(
-        duration: Duration(milliseconds: 300), curve: Curves.linear);
   }
 
   Future<StroopTestColor> parseJson() async {

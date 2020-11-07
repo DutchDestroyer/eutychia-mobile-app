@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:Eutychia/models/questionnaires/equestionnaire_type.dart';
 import 'package:Eutychia/models/questionnaires/estroop_color_type.dart';
 import 'package:Eutychia/models/questionnaires/stroop_test_color_task.dart';
 import 'package:Eutychia/utils/hexcolor.dart';
@@ -9,20 +10,25 @@ import 'package:flutter/material.dart';
 class StroopTestColorTaskWidget extends StatefulWidget {
   final Function _nextQuestionClicked;
   final StroopTestColorTask _task;
+  final QuestionnaireType _questionnaireType;
 
-  StroopTestColorTaskWidget(this._nextQuestionClicked, this._task);
+  StroopTestColorTaskWidget(
+      this._nextQuestionClicked, this._task, this._questionnaireType);
 
   @override
   StroopTestColorTaskWidgetState createState() =>
-      StroopTestColorTaskWidgetState(_nextQuestionClicked, _task);
+      StroopTestColorTaskWidgetState(
+          _nextQuestionClicked, _task, _questionnaireType);
 }
 
 class StroopTestColorTaskWidgetState extends State<StroopTestColorTaskWidget> {
   final Function _nextQuestionClicked;
   final StroopTestColorTask _task;
   List<int> _buttonsClicked = List<int>();
+  final QuestionnaireType _questionnaireType;
 
-  StroopTestColorTaskWidgetState(this._nextQuestionClicked, this._task);
+  StroopTestColorTaskWidgetState(
+      this._nextQuestionClicked, this._task, this._questionnaireType);
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +68,8 @@ class StroopTestColorTaskWidgetState extends State<StroopTestColorTaskWidget> {
                       ));
                 }))),
         ElevatedButton(
-          onPressed: () => {_nextQuestionClicked(checkAnswers())},
+          onPressed: () =>
+              {_nextQuestionClicked(_questionnaireType, checkAnswers())},
           child: Text('Finish'),
         )
       ],

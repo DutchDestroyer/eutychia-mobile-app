@@ -68,5 +68,6 @@
 	"title": "Stroop test direction",
 	"description": "This is the description of the test",
     "displayAnswers": false,
-    "finalRemark": "Thank you for completing the stroop direction questionnaire"
+    "finalRemark": "Thank you for completing the stroop direction questionnaire",
+    "questionnaireType": "stroopTestDirection"
 }

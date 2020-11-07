@@ -1,30 +1,28 @@
+import 'package:Eutychia/models/questionnaires/equestionnaire_type.dart';
 import 'package:Eutychia/models/questionnaires/generic_question.dart';
 import 'package:flutter/material.dart';
 
 class OpenQuestionWidget extends StatefulWidget {
   final GenericQuestion _question;
   final Function _nextQuestionClicked;
-
-  OpenQuestionWidget(this._question, this._nextQuestionClicked);
+  final QuestionnaireType _questionnaireType;
+  OpenQuestionWidget(
+      this._question, this._nextQuestionClicked, this._questionnaireType);
   @override
-  OpenQuestionWidgetState createState() =>
-      OpenQuestionWidgetState(_question, _nextQuestionClicked);
+  OpenQuestionWidgetState createState() => OpenQuestionWidgetState(
+      _question, _nextQuestionClicked, _questionnaireType);
 }
 
 class OpenQuestionWidgetState extends State<OpenQuestionWidget> {
   final textController = TextEditingController();
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    textController.dispose();
-    super.dispose();
-  }
 
   final _formKey = GlobalKey<FormState>();
   final GenericQuestion _question;
   final Function _nextQuestionClicked;
+  final QuestionnaireType _questionnaireType;
 
-  OpenQuestionWidgetState(this._question, this._nextQuestionClicked);
+  OpenQuestionWidgetState(
+      this._question, this._nextQuestionClicked, this._questionnaireType);
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -44,11 +42,18 @@ class OpenQuestionWidgetState extends State<OpenQuestionWidget> {
           ElevatedButton(
             onPressed: () {
               if (_formKey.currentState.validate()) {
-                _nextQuestionClicked(textController.text);
+                _nextQuestionClicked(_questionnaireType, textController.text);
               }
             },
             child: Text('Next'),
           )
         ]));
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    textController.dispose();
+    super.dispose();
   }
 }

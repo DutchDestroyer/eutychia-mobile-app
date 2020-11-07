@@ -23,8 +23,6 @@ class GenericQuestionnaireWidget extends StatefulWidget {
 class GenericQuestionnaireWidgetState extends BaseQuestionnaireWidget {
   final DisplayFactory _displayFactory;
 
-  List<String> _answers = List<String>();
-
   GenericQuestionnaireWidgetState(this._displayFactory);
 
   @override
@@ -47,7 +45,8 @@ class GenericQuestionnaireWidgetState extends BaseQuestionnaireWidget {
                               nextQuestionClicked,
                               snapshot.data.description,
                               snapshot.data.finalRemark,
-                              snapshot.data.displayAnswers)),
+                              snapshot.data.displayAnswers,
+                              snapshot.data.questionnaireType)),
                   carouselController: buttonCarouselController,
                   options: CarouselOptions(
                       height: MediaQuery.of(context).size.height,
@@ -67,16 +66,6 @@ class GenericQuestionnaireWidgetState extends BaseQuestionnaireWidget {
         await rootBundle.loadString('assets/questionnaires/PHQ-9.json');
     final jsonResponse = jsonDecode(jsonString);
     return GenericQuestionnaire.fromJson(jsonResponse);
-  }
-
-  void nextQuestionClicked([String answer = ""]) {
-    setState(() {
-      if (answer.isNotEmpty) {
-        _answers.add(answer);
-      }
-    });
-    buttonCarouselController.nextPage(
-        duration: Duration(milliseconds: 300), curve: Curves.linear);
   }
 }
 

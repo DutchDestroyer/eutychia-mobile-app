@@ -15,14 +15,16 @@ class QuestionDescription extends StatelessWidget {
   }
 }
 
-class EndOfQuestionnaireNoAnswers extends StatelessWidget {
+class EndOfQuestionnaireWidget extends StatelessWidget {
   final String _finalRemark;
-  EndOfQuestionnaireNoAnswers(this._finalRemark);
+  final bool _displayAnswers;
+  EndOfQuestionnaireWidget(this._finalRemark, this._displayAnswers);
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
       Text(_finalRemark),
+      EndOfQuestionnaireDisplayAnswers(_displayAnswers),
       ElevatedButton(
           onPressed: () => {
                 Navigator.popUntil(
@@ -34,9 +36,15 @@ class EndOfQuestionnaireNoAnswers extends StatelessWidget {
 }
 
 class EndOfQuestionnaireDisplayAnswers extends StatelessWidget {
+  final bool _displayAnswers;
+  EndOfQuestionnaireDisplayAnswers(this._displayAnswers);
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    if (!_displayAnswers) {
+      return Text("For this test, no answers will be displayed");
+    } else {
+      return Text("Display answers");
+    }
   }
 }
