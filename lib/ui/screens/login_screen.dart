@@ -1,4 +1,3 @@
-import 'package:Eutychia/ui/screens/test_overview.dart';
 import 'package:Eutychia/utils/email_address_validator.dart';
 import 'package:flutter/material.dart';
 
@@ -57,10 +56,8 @@ class _LoginFormState extends State<LoginForm> {
               if (_formKey.currentState.validate()) {
                 Scaffold.of(context)
                     .showSnackBar(SnackBar(content: Text('Processing Data')));
-                Navigator.pushReplacement(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => TestOverview()));
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/testoverview', ModalRoute.withName('/login'));
               }
             },
             child: Text('Login'),

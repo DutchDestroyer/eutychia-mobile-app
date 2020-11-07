@@ -1,4 +1,3 @@
-import 'package:Eutychia/ui/screens/test_overview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -22,8 +21,8 @@ class EndOfQuestionnaireNoAnswers extends StatelessWidget {
       Text('Description'),
       ElevatedButton(
           onPressed: () => {
-                Navigator.pushReplacement(context,
-                    new MaterialPageRoute(builder: (context) => TestOverview()))
+                Navigator.popUntil(
+                    context, ModalRoute.withName('/testoverview'))
               },
           child: Text('Finish'))
     ]);

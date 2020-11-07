@@ -1,14 +1,7 @@
 import 'package:Eutychia/models/equestionnaire_type.dart';
-import 'package:Eutychia/ui/screens/tests/display_factory.dart';
-import 'package:Eutychia/ui/screens/tests/stroop_test_directions/stroop_test_directions_widget.dart';
-import 'package:Eutychia/ui/screens/tests/stroop_test_color/stroop_test_color_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'package:Eutychia/ui/screens/tests/generic_questionnaire/generic_questionnaire_widget.dart';
-
 class TestOverview extends StatelessWidget {
-  final DisplayFactory _displayFactory = DisplayFactory();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,11 +17,8 @@ class TestOverview extends StatelessWidget {
             children: List.generate(QuestionnaireType.values.length, (index) {
               return ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) =>
-                              classFactory(QuestionnaireType.values[index])));
+                  Navigator.pushNamed(
+                      context, testFactory(QuestionnaireType.values[index]));
                 },
                 child: Text(QuestionnaireType.values[index]
                     .toString()
@@ -38,14 +28,14 @@ class TestOverview extends StatelessWidget {
             })));
   }
 
-  Widget classFactory(QuestionnaireType questionnaireTitle) {
+  String testFactory(QuestionnaireType questionnaireTitle) {
     switch (questionnaireTitle) {
       case QuestionnaireType.phq9:
-        return GenericQuestionnaireWidget(_displayFactory);
+        return '/genericquestionnaire';
       case QuestionnaireType.stroopTestColor:
-        return StroopTestColorWidget(_displayFactory);
+        return '/strooptestcolor';
       case QuestionnaireType.stroopTestDirection:
-        return StroopTestDirectionWidget(_displayFactory);
+        return '/strooptestdirections';
       default:
         throw Error();
     }

@@ -6,7 +6,7 @@ import 'package:Eutychia/ui/screens/tests/stroop_test_color/stroop_test_color_ta
 import 'package:Eutychia/ui/screens/tests/stroop_test_directions/stroop_test_direction_task_widget.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../common_questionnaire_views.dart';
+import 'common_questionnaire_views.dart';
 import 'generic_questionnaire/multiple_choice_widget.dart';
 import 'generic_questionnaire/open_question_widget.dart';
 import 'generic_questionnaire/slider_widget.dart';
