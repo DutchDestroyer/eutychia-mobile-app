@@ -1,23 +1,28 @@
 import 'dart:convert';
 
-import 'package:Eutychia/models/stroop_test_color_task.dart';
 import 'package:Eutychia/models/stroop_test_color.dart';
-import 'package:Eutychia/ui/screens/tests/stroop_test_color/stroop_test_color_task_widget.dart';
+import 'package:Eutychia/ui/screens/tests/display_factory.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../common_questionnaire_views.dart';
-
 class StroopTestColorWidget extends StatefulWidget {
+  final DisplayFactory _displayFactory;
+  StroopTestColorWidget(this._displayFactory);
+
   @override
-  StroopTestColorWidgetState createState() => StroopTestColorWidgetState();
+  StroopTestColorWidgetState createState() =>
+      StroopTestColorWidgetState(_displayFactory);
 }
 
 class StroopTestColorWidgetState extends State<StroopTestColorWidget> {
+  final DisplayFactory _displayFactory;
+
   CarouselController buttonCarouselController = CarouselController();
   List<List<bool>> _answers = List<List<bool>>();
+
+  StroopTestColorWidgetState(this._displayFactory);
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +35,11 @@ class StroopTestColorWidgetState extends State<StroopTestColorWidget> {
                 return CarouselSlider(
                     items: List.generate(
                         snapshot.data.tasks.length + 2,
-                        (index) => partOfQuestionnaireToDisplayFactory(
-                            index, snapshot.data.tasks)),
+                        (index) =>
+                            _displayFactory.partOfQuestionnaireToDisplayFactory(
+                                index,
+                                snapshot.data.tasks,
+                                nextQuestionClicked)),
                     carouselController: buttonCarouselController,
                     options: CarouselOptions(
                         initialPage: 0,
@@ -53,17 +61,6 @@ class StroopTestColorWidgetState extends State<StroopTestColorWidget> {
     });
     buttonCarouselController.nextPage(
         duration: Duration(milliseconds: 300), curve: Curves.linear);
-  }
-
-  Widget partOfQuestionnaireToDisplayFactory(
-      int index, List<StroopTestColorTask> tasks) {
-    if (index == 0) {
-      return QuestionDescription(nextQuestionClicked);
-    } else if (index == tasks.length + 1) {
-      return EndOfQuestionnaireNoAnswers();
-    } else {
-      return StroopTestColorTaskWidget(nextQuestionClicked, tasks[index - 1]);
-    }
   }
 
   Future<StroopTestColor> parseJson() async {

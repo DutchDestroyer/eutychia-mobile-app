@@ -1,23 +1,29 @@
 import 'dart:convert';
 
-import 'package:Eutychia/models/stroop_test_direction_object.dart';
 import 'package:Eutychia/models/stroop_test_direction.dart';
-import 'package:Eutychia/ui/screens/common_questionnaire_views.dart';
-import 'package:Eutychia/ui/screens/tests/stroop_test_directions/stroop_test_direction_task_widget.dart';
+import 'package:Eutychia/ui/screens/tests/display_factory.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
 
 class StroopTestDirectionWidget extends StatefulWidget {
+  final DisplayFactory _displayFactory;
+  StroopTestDirectionWidget(this._displayFactory);
+
   @override
   StroopTestDirectionWidgetState createState() =>
-      StroopTestDirectionWidgetState();
+      StroopTestDirectionWidgetState(_displayFactory);
 }
 
 class StroopTestDirectionWidgetState extends State<StroopTestDirectionWidget> {
+  final DisplayFactory _displayFactory;
+
   CarouselController buttonCarouselController = CarouselController();
   List<String> _answers = List<String>();
+
+  StroopTestDirectionWidgetState(this._displayFactory);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,8 +35,11 @@ class StroopTestDirectionWidgetState extends State<StroopTestDirectionWidget> {
                 return CarouselSlider(
                     items: List.generate(
                         snapshot.data.tasks.length + 2,
-                        (index) => partOfQuestionnaireToDisplayFactory(
-                            index, snapshot.data.tasks)),
+                        (index) =>
+                            _displayFactory.partOfQuestionnaireToDisplayFactory(
+                                index,
+                                snapshot.data.tasks,
+                                nextQuestionClicked)),
                     carouselController: buttonCarouselController,
                     options: CarouselOptions(
                         initialPage: 0,
@@ -59,17 +68,5 @@ class StroopTestDirectionWidgetState extends State<StroopTestDirectionWidget> {
         .loadString('assets/resources/stroop-test-direction-data.json');
     final jsonResponse = jsonDecode(jsonString);
     return StroopTestDirection.fromJson(jsonResponse);
-  }
-
-  Widget partOfQuestionnaireToDisplayFactory(
-      int index, List<StroopTestDirectionObject> tasks) {
-    if (index == 0) {
-      return QuestionDescription(nextQuestionClicked);
-    } else if (index == tasks.length + 1) {
-      return EndOfQuestionnaireNoAnswers();
-    } else {
-      return StroopTestDirectionTaskWidget(
-          nextQuestionClicked, tasks[index - 1]);
-    }
   }
 }

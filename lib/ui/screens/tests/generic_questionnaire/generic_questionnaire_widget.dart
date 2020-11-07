@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:Eutychia/models/generic_question.dart';
 import 'package:Eutychia/models/generic_questionnaire.dart';
-import 'package:Eutychia/models/equestion_type.dart';
-import 'package:Eutychia/ui/screens/tests/generic_questionnaire/slider_widget.dart';
+import 'package:Eutychia/ui/screens/tests/display_factory.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,19 +9,24 @@ import 'package:flutter/services.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
 
-import '../../common_questionnaire_views.dart';
-import 'multiple_choice_widget.dart';
-import 'open_question_widget.dart';
-
 class GenericQuestionnaireWidget extends StatefulWidget {
+  final DisplayFactory _displayFactory;
+  GenericQuestionnaireWidget(this._displayFactory);
+
   @override
-  QuestionnaireScaffoldState createState() => QuestionnaireScaffoldState();
+  GenericQuestionnaireWidgetState createState() =>
+      GenericQuestionnaireWidgetState(_displayFactory);
 }
 
-class QuestionnaireScaffoldState extends State<GenericQuestionnaireWidget> {
+class GenericQuestionnaireWidgetState
+    extends State<GenericQuestionnaireWidget> {
+  final DisplayFactory _displayFactory;
+
   String _appBarTitle = 'Waiting';
   List<String> _answers = List<String>();
   CarouselController buttonCarouselController = CarouselController();
+
+  GenericQuestionnaireWidgetState(this._displayFactory);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +42,10 @@ class QuestionnaireScaffoldState extends State<GenericQuestionnaireWidget> {
                   items: List.generate(
                       snapshot.data.questions.length + 2,
                       (index) =>
-                          questionToDisplayFactory(snapshot.data.questions, index)),
+                          _displayFactory.partOfQuestionnaireToDisplayFactory(
+                              index,
+                              snapshot.data.questions,
+                              nextQuestionClicked)),
                   carouselController: buttonCarouselController,
                   options: CarouselOptions(
                       height: MediaQuery.of(context).size.height,
@@ -75,29 +81,6 @@ class QuestionnaireScaffoldState extends State<GenericQuestionnaireWidget> {
     });
     buttonCarouselController.nextPage(
         duration: Duration(milliseconds: 300), curve: Curves.linear);
-  }
-
-  Widget questionToDisplayFactory(List<GenericQuestion> questions, int index) {
-    if (index == 0) {
-      return QuestionDescription(nextQuestionClicked);
-    } else if (index == questions.length + 1) {
-      return EndOfQuestionnaireNoAnswers();
-    } else {
-      return questionnaireWidgetFactory(questions[index - 1]);
-    }
-  }
-
-  Widget questionnaireWidgetFactory(GenericQuestion question) {
-    switch (question.questionType) {
-      case QuestionType.multipleChoice:
-        return MultipleChoiceWidget(question, nextQuestionClicked);
-      case QuestionType.openQuestion:
-        return OpenQuestionWidget(question, nextQuestionClicked);
-      case QuestionType.slider:
-        return SliderQuestionWidget(question, nextQuestionClicked);
-      default:
-        throw Error();
-    }
   }
 }
 
