@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
 
+import '../base_questionnaire_widget.dart';
+
 class StroopTestDirectionWidget extends StatefulWidget {
   final DisplayFactory _displayFactory;
   StroopTestDirectionWidget(this._displayFactory);
@@ -16,10 +18,9 @@ class StroopTestDirectionWidget extends StatefulWidget {
       StroopTestDirectionWidgetState(_displayFactory);
 }
 
-class StroopTestDirectionWidgetState extends State<StroopTestDirectionWidget> {
+class StroopTestDirectionWidgetState extends BaseQuestionnaireWidget {
   final DisplayFactory _displayFactory;
 
-  CarouselController buttonCarouselController = CarouselController();
   List<String> _answers = List<String>();
 
   StroopTestDirectionWidgetState(this._displayFactory);
@@ -27,11 +28,13 @@ class StroopTestDirectionWidgetState extends State<StroopTestDirectionWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Stroop test direction")),
+        appBar: AppBar(title: Text(appBarTitle)),
         body: FutureBuilder<StroopTestDirection>(
             future: parseJson(),
             builder: (context, AsyncSnapshot<StroopTestDirection> snapshot) {
               if (snapshot.hasData) {
+                WidgetsBinding.instance.addPostFrameCallback(
+                    (_) => updateBarTitle(snapshot.data.title));
                 return CarouselSlider(
                     items: List.generate(
                         snapshot.data.tasks.length + 2,
@@ -39,7 +42,9 @@ class StroopTestDirectionWidgetState extends State<StroopTestDirectionWidget> {
                             _displayFactory.partOfQuestionnaireToDisplayFactory(
                                 index,
                                 snapshot.data.tasks,
-                                nextQuestionClicked)),
+                                nextQuestionClicked,
+                                snapshot.data.description,
+                                snapshot.data.finalRemark)),
                     carouselController: buttonCarouselController,
                     options: CarouselOptions(
                         initialPage: 0,

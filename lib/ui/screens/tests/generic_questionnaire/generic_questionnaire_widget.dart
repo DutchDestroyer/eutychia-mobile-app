@@ -9,6 +9,8 @@ import 'package:flutter/services.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
 
+import '../base_questionnaire_widget.dart';
+
 class GenericQuestionnaireWidget extends StatefulWidget {
   final DisplayFactory _displayFactory;
   GenericQuestionnaireWidget(this._displayFactory);
@@ -18,20 +20,17 @@ class GenericQuestionnaireWidget extends StatefulWidget {
       GenericQuestionnaireWidgetState(_displayFactory);
 }
 
-class GenericQuestionnaireWidgetState
-    extends State<GenericQuestionnaireWidget> {
+class GenericQuestionnaireWidgetState extends BaseQuestionnaireWidget {
   final DisplayFactory _displayFactory;
 
-  String _appBarTitle = 'Waiting';
   List<String> _answers = List<String>();
-  CarouselController buttonCarouselController = CarouselController();
 
   GenericQuestionnaireWidgetState(this._displayFactory);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(_appBarTitle)),
+      appBar: AppBar(title: Text(appBarTitle)),
       body: FutureBuilder<GenericQuestionnaire>(
           future: parseJson(),
           builder: (context, AsyncSnapshot<GenericQuestionnaire> snapshot) {
@@ -45,7 +44,9 @@ class GenericQuestionnaireWidgetState
                           _displayFactory.partOfQuestionnaireToDisplayFactory(
                               index,
                               snapshot.data.questions,
-                              nextQuestionClicked)),
+                              nextQuestionClicked,
+                              snapshot.data.description,
+                              snapshot.data.finalRemark)),
                   carouselController: buttonCarouselController,
                   options: CarouselOptions(
                       height: MediaQuery.of(context).size.height,
@@ -65,12 +66,6 @@ class GenericQuestionnaireWidgetState
         await rootBundle.loadString('assets/questionnaires/PHQ-9.json');
     final jsonResponse = jsonDecode(jsonString);
     return GenericQuestionnaire.fromJson(jsonResponse);
-  }
-
-  void updateBarTitle(String title) {
-    setState(() {
-      _appBarTitle = title;
-    });
   }
 
   void nextQuestionClicked([String answer = ""]) {

@@ -231,5 +231,9 @@
                 }
             ]
         }            
-    ]
+    ],
+	"title": "Stroop test color",
+	"description": "This is the description of the test",
+    "displayAnswers": false,
+    "finalRemark": "Thank you for completing the stroop color questionnaire"
 }

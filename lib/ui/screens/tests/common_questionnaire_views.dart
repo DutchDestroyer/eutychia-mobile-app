@@ -2,23 +2,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class QuestionDescription extends StatelessWidget {
-  final Function callback;
-  QuestionDescription(this.callback);
+  final Function _callback;
+  final String _description;
+  QuestionDescription(this._callback, this._description);
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Text('Description'),
-      ElevatedButton(onPressed: callback, child: Text('Start'))
+      Text(_description),
+      ElevatedButton(onPressed: _callback, child: Text('Start'))
     ]);
   }
 }
 
 class EndOfQuestionnaireNoAnswers extends StatelessWidget {
+  final String _finalRemark;
+  EndOfQuestionnaireNoAnswers(this._finalRemark);
+
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Text('Description'),
+      Text(_finalRemark),
       ElevatedButton(
           onPressed: () => {
                 Navigator.popUntil(

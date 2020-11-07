@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:Eutychia/models/stroop_test_color.dart';
+import 'package:Eutychia/ui/screens/tests/base_questionnaire_widget.dart';
 import 'package:Eutychia/ui/screens/tests/display_factory.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,10 +17,9 @@ class StroopTestColorWidget extends StatefulWidget {
       StroopTestColorWidgetState(_displayFactory);
 }
 
-class StroopTestColorWidgetState extends State<StroopTestColorWidget> {
+class StroopTestColorWidgetState extends BaseQuestionnaireWidget {
   final DisplayFactory _displayFactory;
 
-  CarouselController buttonCarouselController = CarouselController();
   List<List<bool>> _answers = List<List<bool>>();
 
   StroopTestColorWidgetState(this._displayFactory);
@@ -27,11 +27,13 @@ class StroopTestColorWidgetState extends State<StroopTestColorWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Stroop test color")),
+        appBar: AppBar(title: Text(appBarTitle)),
         body: FutureBuilder<StroopTestColor>(
             future: parseJson(),
             builder: (context, AsyncSnapshot<StroopTestColor> snapshot) {
               if (snapshot.hasData) {
+                WidgetsBinding.instance.addPostFrameCallback(
+                    (_) => updateBarTitle(snapshot.data.title));
                 return CarouselSlider(
                     items: List.generate(
                         snapshot.data.tasks.length + 2,
@@ -39,7 +41,9 @@ class StroopTestColorWidgetState extends State<StroopTestColorWidget> {
                             _displayFactory.partOfQuestionnaireToDisplayFactory(
                                 index,
                                 snapshot.data.tasks,
-                                nextQuestionClicked)),
+                                nextQuestionClicked,
+                                snapshot.data.description,
+                                snapshot.data.finalRemark)),
                     carouselController: buttonCarouselController,
                     options: CarouselOptions(
                         initialPage: 0,

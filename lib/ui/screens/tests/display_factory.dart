@@ -12,14 +12,14 @@ import 'generic_questionnaire/open_question_widget.dart';
 import 'generic_questionnaire/slider_widget.dart';
 
 class DisplayFactory {
-  Widget partOfQuestionnaireToDisplayFactory(
-      int index, List<Object> tasks, Function _nextQuestionClicked) {
+  Widget partOfQuestionnaireToDisplayFactory(int index, List<Object> tasks,
+      Function nextQuestionClicked, String description, String finalRemark) {
     if (index == 0) {
-      return QuestionDescription(_nextQuestionClicked);
+      return QuestionDescription(nextQuestionClicked, description);
     } else if (index == tasks.length + 1) {
-      return EndOfQuestionnaireNoAnswers();
+      return EndOfQuestionnaireNoAnswers(finalRemark);
     } else {
-      return questionSelector(_nextQuestionClicked, tasks[index - 1]);
+      return questionSelector(nextQuestionClicked, tasks[index - 1]);
     }
   }
 

@@ -13,10 +13,18 @@ StroopTestColor _$StroopTestColorFromJson(Map<String, dynamic> json) {
             ? null
             : StroopTestColorTask.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    json['title'] as String,
+    json['description'] as String,
+    json['displayAnswers'] as bool,
+    json['finalRemark'] as String,
   );
 }
 
 Map<String, dynamic> _$StroopTestColorToJson(StroopTestColor instance) =>
     <String, dynamic>{
+      'title': instance.title,
+      'description': instance.description,
+      'displayAnswers': instance.displayAnswers,
+      'finalRemark': instance.finalRemark,
       'tasks': instance.tasks?.map((e) => e?.toJson())?.toList(),
     };
