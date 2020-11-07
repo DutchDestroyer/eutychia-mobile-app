@@ -1,9 +1,9 @@
 import 'package:Eutychia/models/equestionnaire_type.dart';
-import 'package:Eutychia/ui/screens/tests/stroop_test_directions.dart';
-import 'package:Eutychia/ui/screens/tests/stroop_test_color.dart';
+import 'package:Eutychia/ui/screens/tests/stroop_test_directions/stroop_test_directions_widget.dart';
+import 'package:Eutychia/ui/screens/tests/stroop_test_color/stroop_test_color_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'package:Eutychia/ui/screens/tests/generic_questionnaire.dart';
+import 'package:Eutychia/ui/screens/tests/generic_questionnaire/generic_questionnaire_widget.dart';
 
 class TestOverview extends StatelessWidget {
   @override
