@@ -49,7 +49,9 @@ class StroopTestColorWidgetState extends State<StroopTestColorWidget> {
 
   void nextQuestionClicked([List<bool> answer]) {
     setState(() {
-      if (answer?.isNotEmpty == true) {_answers.add(answer);}
+      if (answer?.isNotEmpty == true) {
+        _answers.add(answer);
+      }
     });
     buttonCarouselController.nextPage(
         duration: Duration(milliseconds: 300), curve: Curves.linear);
@@ -104,11 +106,20 @@ class StroopTestColorTaskWidgetState extends State<StroopTestColorTaskWidget> {
                 crossAxisCount: 3,
                 children: List.generate(_task.objects.length, (index) {
                   return ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.resolveWith(
-                            (states) => Colors.white),
-                      ),
-                      onPressed: () => _buttonsClicked.add(index),
+                      style: ButtonStyle(backgroundColor:
+                          MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.pressed)) {
+                          return Colors.blue;
+                        } else if (states.contains(MaterialState.disabled)) {
+                          return Colors.grey;
+                        } else {
+                          return Colors.white;
+                        }
+                      })),
+                      onPressed: _buttonsClicked.contains(index)
+                          ? null
+                          : () => onButtonClick(index),
                       child: Text(
                         _task.objects[index].text
                             .toString()
@@ -121,13 +132,17 @@ class StroopTestColorTaskWidgetState extends State<StroopTestColorTaskWidget> {
                       ));
                 }))),
         ElevatedButton(
-          onPressed: () => {
-            _nextQuestionClicked(checkAnswers())
-          },
+          onPressed: () => {_nextQuestionClicked(checkAnswers())},
           child: Text('Finish'),
         )
       ],
     );
+  }
+
+  void onButtonClick(int index) {
+    setState(() {
+      _buttonsClicked.add(index);
+    });
   }
 
   List<bool> checkAnswers() {
