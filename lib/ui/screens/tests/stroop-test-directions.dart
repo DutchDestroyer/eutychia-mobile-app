@@ -47,7 +47,9 @@ class StroopTestDirectionWidgetState extends State<StroopTestDirectionWidget> {
 
   void nextQuestionClicked([String answer = ""]) {
     setState(() {
-      if (answer?.isNotEmpty == true){ _answers.add(answer);}
+      if (answer?.isNotEmpty == true) {
+        _answers.add(answer);
+      }
     });
     buttonCarouselController.nextPage(
         duration: Duration(milliseconds: 300), curve: Curves.linear);
@@ -82,34 +84,51 @@ class StroopTestDirectionTaskWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Ink(
-          decoration: BoxDecoration(border: Border.all(color: Colors.red)),
-          height: (MediaQuery.of(context).size.height / 2),
-          width: (MediaQuery.of(context).size.height / 2),
-          child: SquareTask(_task)),
-      Ink(
-          decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
-          child: ArrowButton(StroopDirectionType.top, _nextQuestionClicked)),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Ink(
+      Padding(
+          padding: const EdgeInsets.all(20),
+          child: Ink(
+              decoration: BoxDecoration(border: Border.all(color: Colors.red)),
+              height: (MediaQuery.of(context).size.height / 2),
+              width: (MediaQuery.of(context).size.height / 2),
+              child: Padding(
+                  padding: const EdgeInsets.all(5), child: SquareTask(_task)))),
+      Padding(
+          padding: const EdgeInsets.all(5),
+          child: Ink(
               decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
-              child: Transform.rotate(
-                  angle: 270 * math.pi / 180,
-                  child: ArrowButton(
-                      StroopDirectionType.left, _nextQuestionClicked))),
-          Ink(
+              child:
+                  ArrowButton(StroopDirectionType.top, _nextQuestionClicked))),
+      Padding(
+          padding: const EdgeInsets.all(5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Ink(
+                      decoration:
+                          BoxDecoration(border: Border.all(color: Colors.blue)),
+                      child: Transform.rotate(
+                          angle: 270 * math.pi / 180,
+                          child: ArrowButton(StroopDirectionType.left,
+                              _nextQuestionClicked)))),
+              Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Ink(
+                      decoration:
+                          BoxDecoration(border: Border.all(color: Colors.blue)),
+                      child: Transform.rotate(
+                          angle: 90 * math.pi / 180,
+                          child: ArrowButton(StroopDirectionType.right,
+                              _nextQuestionClicked)))),
+            ],
+          )),
+      Padding(
+          padding: const EdgeInsets.all(5),
+          child: Ink(
               decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
-              child: Transform.rotate(
-                  angle: 90 * math.pi / 180,
-                  child: ArrowButton(
-                      StroopDirectionType.right, _nextQuestionClicked))),
-        ],
-      ),
-      Ink(
-          decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
-          child: ArrowButton(StroopDirectionType.bottom, _nextQuestionClicked))
+              child: ArrowButton(
+                  StroopDirectionType.bottom, _nextQuestionClicked)))
     ]);
   }
 }
@@ -141,7 +160,8 @@ class SquareText extends StatelessWidget {
   SquareText(this._task);
   @override
   Widget build(BuildContext context) {
-    return Text(_task.text.toString().split('.').elementAt(1));
+    return Text(_task.text.toString().split('.').elementAt(1),
+        style: TextStyle(fontSize: 18));
   }
 }
 
