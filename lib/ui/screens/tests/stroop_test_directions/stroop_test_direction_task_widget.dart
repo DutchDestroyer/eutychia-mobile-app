@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'arrow_button_widget.dart';
 
 class StroopTestDirectionTaskWidget extends StatelessWidget {
-  final ValueSetter<String> _nextQuestionClicked;
+  final Function _nextQuestionClicked;
   final StroopTestDirectionObject _task;
 
   StroopTestDirectionTaskWidget(this._nextQuestionClicked, this._task);

@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class StroopTestColorTaskWidget extends StatefulWidget {
-  final ValueSetter<List<bool>> _nextQuestionClicked;
+  final Function _nextQuestionClicked;
   final StroopTestColorTask _task;
 
   StroopTestColorTaskWidget(this._nextQuestionClicked, this._task);
@@ -18,7 +18,7 @@ class StroopTestColorTaskWidget extends StatefulWidget {
 }
 
 class StroopTestColorTaskWidgetState extends State<StroopTestColorTaskWidget> {
-  final ValueSetter<List<bool>> _nextQuestionClicked;
+  final Function _nextQuestionClicked;
   final StroopTestColorTask _task;
   List<int> _buttonsClicked = List<int>();
 

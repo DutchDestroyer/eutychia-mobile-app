@@ -6,7 +6,7 @@ import 'dart:math' as math;
 
 class ArrowButton extends StatelessWidget {
   final StroopDirectionType directionType;
-  final ValueSetter<String> nextQuestionClicked;
+  final Function nextQuestionClicked;
 
   ArrowButton(this.directionType, this.nextQuestionClicked);
 

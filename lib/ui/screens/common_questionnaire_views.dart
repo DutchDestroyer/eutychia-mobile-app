@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class QuestionDescription extends StatelessWidget {
-  final VoidCallback callback;
+  final Function callback;
   QuestionDescription(this.callback);
 
   @override

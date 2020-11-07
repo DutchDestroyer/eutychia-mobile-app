@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class MultipleChoiceWidget extends StatelessWidget {
   final GenericQuestion _question;
-  final ValueSetter<String> _nextQuestionClicked;
+  final Function _nextQuestionClicked;
   MultipleChoiceWidget(this._question, this._nextQuestionClicked);
   @override
   Widget build(BuildContext context) {

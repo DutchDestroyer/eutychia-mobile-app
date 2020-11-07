@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class OpenQuestionWidget extends StatefulWidget {
   final GenericQuestion _question;
-  final ValueSetter<String> _nextQuestionClicked;
+  final Function _nextQuestionClicked;
 
   OpenQuestionWidget(this._question, this._nextQuestionClicked);
   @override
@@ -22,7 +22,7 @@ class OpenQuestionWidgetState extends State<OpenQuestionWidget> {
 
   final _formKey = GlobalKey<FormState>();
   final GenericQuestion _question;
-  final ValueSetter<String> _nextQuestionClicked;
+  final Function _nextQuestionClicked;
 
   OpenQuestionWidgetState(this._question, this._nextQuestionClicked);
   @override

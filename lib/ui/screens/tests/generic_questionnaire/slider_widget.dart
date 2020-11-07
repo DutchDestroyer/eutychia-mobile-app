@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class SliderQuestionWidget extends StatefulWidget {
   final GenericQuestion _question;
-  final ValueSetter<String> _nextQuestionClicked;
+  final Function _nextQuestionClicked;
 
   SliderQuestionWidget(this._question, this._nextQuestionClicked);
   @override
@@ -15,7 +15,7 @@ class SliderQuestionWidget extends StatefulWidget {
 class SliderQuestionWidgetState extends State<SliderQuestionWidget> {
   int _currentSliderValue = 0;
   final GenericQuestion _question;
-  final ValueSetter<String> _nextQuestionClicked;
+  final Function _nextQuestionClicked;
 
   SliderQuestionWidgetState(this._question, this._nextQuestionClicked);
 
