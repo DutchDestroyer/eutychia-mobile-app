@@ -1,24 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'stroop-test-direction-object.dart';
+part of 'questionnaires_list.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-StroopTestDirectionObject _$StroopTestDirectionObjectFromJson(
-    Map<String, dynamic> json) {
-  return StroopTestDirectionObject(
-    _$enumDecodeNullable(_$StroopDirectionTypeEnumMap, json['direction']),
-    _$enumDecodeNullable(_$StroopDirectionTypeEnumMap, json['text']),
+QuestionnairesList _$QuestionnairesListFromJson(Map<String, dynamic> json) {
+  return QuestionnairesList(
+    (json['questionnaireTitles'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$QuestionnaireTypeEnumMap, e))
+        ?.toList(),
   );
 }
 
-Map<String, dynamic> _$StroopTestDirectionObjectToJson(
-        StroopTestDirectionObject instance) =>
+Map<String, dynamic> _$QuestionnairesListToJson(QuestionnairesList instance) =>
     <String, dynamic>{
-      'direction': _$StroopDirectionTypeEnumMap[instance.direction],
-      'text': _$StroopDirectionTypeEnumMap[instance.text],
+      'questionnaireTitles': instance.questionnaireTitles
+          ?.map((e) => _$QuestionnaireTypeEnumMap[e])
+          ?.toList(),
     };
 
 T _$enumDecode<T>(
@@ -53,9 +53,8 @@ T _$enumDecodeNullable<T>(
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
-const _$StroopDirectionTypeEnumMap = {
-  StroopDirectionType.left: 'left',
-  StroopDirectionType.right: 'right',
-  StroopDirectionType.top: 'top',
-  StroopDirectionType.bottom: 'bottom',
+const _$QuestionnaireTypeEnumMap = {
+  QuestionnaireType.phq9: 'phq9',
+  QuestionnaireType.stroopTestColor: 'stroopTestColor',
+  QuestionnaireType.stroopTestDirection: 'stroopTestDirection',
 };

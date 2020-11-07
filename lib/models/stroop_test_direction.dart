@@ -1,7 +1,7 @@
-import 'package:Eutychia/models/stroop-test-direction-object.dart';
+import 'package:Eutychia/models/stroop_test_direction_object.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'stroop-test-direction.g.dart';
+part 'stroop_test_direction.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class StroopTestDirection {

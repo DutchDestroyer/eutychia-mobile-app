@@ -1,5 +1,5 @@
-import 'package:Eutychia/ui/screens/test-overview.dart';
-import 'package:Eutychia/utils/email-address-validator.dart';
+import 'package:Eutychia/ui/screens/test_overview.dart';
+import 'package:Eutychia/utils/email_address_validator.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {

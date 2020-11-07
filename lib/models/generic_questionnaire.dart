@@ -1,8 +1,8 @@
-import 'package:Eutychia/models/generic-question.dart';
+import 'package:Eutychia/models/generic_question.dart';
 
 import 'package:json_annotation/json_annotation.dart';
 
-part 'generic-questionnaire.g.dart';
+part 'generic_questionnaire.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class GenericQuestionnaire {

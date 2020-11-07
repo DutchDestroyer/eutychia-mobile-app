@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:Eutychia/models/generic-question.dart';
-import 'package:Eutychia/models/generic-questionnaire.dart';
-import 'package:Eutychia/models/equestion-type.dart';
+import 'package:Eutychia/models/generic_question.dart';
+import 'package:Eutychia/models/generic_questionnaire.dart';
+import 'package:Eutychia/models/equestion_type.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
 
-import '../common-questionnaire-views.dart';
+import '../common_questionnaire_views.dart';
 
 class GenericQuestionnaireWidget extends StatefulWidget {
   @override

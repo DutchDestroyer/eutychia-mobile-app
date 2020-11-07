@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'equestionnaire-type.dart';
+import 'equestionnaire_type.dart';
 
-part 'questionnaires-list.g.dart';
+part 'questionnaires_list.g.dart';
 
 @JsonSerializable()
 class QuestionnairesList {

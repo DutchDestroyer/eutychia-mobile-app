@@ -1,4 +1,4 @@
-import 'package:Eutychia/ui/screens/test-overview.dart';
+import 'package:Eutychia/ui/screens/test_overview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

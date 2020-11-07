@@ -1,24 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'stroop-test-color-object.dart';
+part of 'generic_question.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-StroopTestColorObject _$StroopTestColorObjectFromJson(
-    Map<String, dynamic> json) {
-  return StroopTestColorObject(
-    _$enumDecodeNullable(_$StroopColorTypeEnumMap, json['color']),
-    _$enumDecodeNullable(_$StroopColorTypeEnumMap, json['text']),
+GenericQuestion _$GenericQuestionFromJson(Map<String, dynamic> json) {
+  return GenericQuestion(
+    json['question'] as String,
+    _$enumDecodeNullable(_$QuestionTypeEnumMap, json['questionType']),
+    (json['answers'] as List)?.map((e) => e as String)?.toList(),
   );
 }
 
-Map<String, dynamic> _$StroopTestColorObjectToJson(
-        StroopTestColorObject instance) =>
+Map<String, dynamic> _$GenericQuestionToJson(GenericQuestion instance) =>
     <String, dynamic>{
-      'color': _$StroopColorTypeEnumMap[instance.color],
-      'text': _$StroopColorTypeEnumMap[instance.text],
+      'question': instance.question,
+      'questionType': _$QuestionTypeEnumMap[instance.questionType],
+      'answers': instance.answers,
     };
 
 T _$enumDecode<T>(
@@ -53,10 +53,8 @@ T _$enumDecodeNullable<T>(
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
-const _$StroopColorTypeEnumMap = {
-  StroopColorType.Red: 'Red',
-  StroopColorType.Blue: 'Blue',
-  StroopColorType.Green: 'Green',
-  StroopColorType.Purple: 'Purple',
-  StroopColorType.Orange: 'Orange',
+const _$QuestionTypeEnumMap = {
+  QuestionType.openQuestion: 'openQuestion',
+  QuestionType.multipleChoice: 'multipleChoice',
+  QuestionType.slider: 'slider',
 };

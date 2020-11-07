@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'stroop-test-color.dart';
+part of 'stroop_test_color.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

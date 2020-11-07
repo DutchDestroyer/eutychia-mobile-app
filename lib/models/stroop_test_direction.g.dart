@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'stroop-test-direction.dart';
+part of 'stroop_test_direction.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

@@ -1,7 +1,7 @@
-import 'package:Eutychia/models/estroop-color-type.dart';
+import 'package:Eutychia/models/estroop_color_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'stroop-test-color-object.g.dart';
+part 'stroop_test_color_object.g.dart';
 
 @JsonSerializable()
 class StroopTestColorObject {

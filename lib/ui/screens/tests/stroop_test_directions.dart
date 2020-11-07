@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:Eutychia/models/estroop-direction-type.dart';
-import 'package:Eutychia/models/stroop-test-direction-object.dart';
-import 'package:Eutychia/models/stroop-test-direction.dart';
-import 'package:Eutychia/ui/screens/common-questionnaire-views.dart';
+import 'package:Eutychia/models/estroop_direction_type.dart';
+import 'package:Eutychia/models/stroop_test_direction_object.dart';
+import 'package:Eutychia/models/stroop_test_direction.dart';
+import 'package:Eutychia/ui/screens/common_questionnaire_views.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;

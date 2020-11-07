@@ -1,27 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'stroop-test-color-task.dart';
+part of 'stroop_test_direction_object.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-StroopTestColorTask _$StroopTestColorTaskFromJson(Map<String, dynamic> json) {
-  return StroopTestColorTask(
-    (json['objects'] as List)
-        ?.map((e) => e == null
-            ? null
-            : StroopTestColorObject.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    _$enumDecodeNullable(_$StroopColorTypeEnumMap, json['colorOfWord']),
+StroopTestDirectionObject _$StroopTestDirectionObjectFromJson(
+    Map<String, dynamic> json) {
+  return StroopTestDirectionObject(
+    _$enumDecodeNullable(_$StroopDirectionTypeEnumMap, json['direction']),
+    _$enumDecodeNullable(_$StroopDirectionTypeEnumMap, json['text']),
   );
 }
 
-Map<String, dynamic> _$StroopTestColorTaskToJson(
-        StroopTestColorTask instance) =>
+Map<String, dynamic> _$StroopTestDirectionObjectToJson(
+        StroopTestDirectionObject instance) =>
     <String, dynamic>{
-      'objects': instance.objects?.map((e) => e?.toJson())?.toList(),
-      'colorOfWord': _$StroopColorTypeEnumMap[instance.colorOfWord],
+      'direction': _$StroopDirectionTypeEnumMap[instance.direction],
+      'text': _$StroopDirectionTypeEnumMap[instance.text],
     };
 
 T _$enumDecode<T>(
@@ -56,10 +53,9 @@ T _$enumDecodeNullable<T>(
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
-const _$StroopColorTypeEnumMap = {
-  StroopColorType.Red: 'Red',
-  StroopColorType.Blue: 'Blue',
-  StroopColorType.Green: 'Green',
-  StroopColorType.Purple: 'Purple',
-  StroopColorType.Orange: 'Orange',
+const _$StroopDirectionTypeEnumMap = {
+  StroopDirectionType.left: 'left',
+  StroopDirectionType.right: 'right',
+  StroopDirectionType.top: 'top',
+  StroopDirectionType.bottom: 'bottom',
 };

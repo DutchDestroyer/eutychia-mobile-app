@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:Eutychia/models/estroop-color-type.dart';
-import 'package:Eutychia/models/stroop-test-color-task.dart';
-import 'package:Eutychia/models/stroop-test-color.dart';
+import 'package:Eutychia/models/estroop_color_type.dart';
+import 'package:Eutychia/models/stroop_test_color_task.dart';
+import 'package:Eutychia/models/stroop_test_color.dart';
 import 'package:Eutychia/utils/hexcolor.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
-import '../common-questionnaire-views.dart';
+import '../common_questionnaire_views.dart';
 
 class StroopTestColorWidget extends StatefulWidget {
   @override
