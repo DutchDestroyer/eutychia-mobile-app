@@ -1,8 +1,9 @@
 import 'package:Eutychia/models/questionnaires/estroop_direction_type.dart';
 
 class StroopTestDirectionAnswer {
-  final StroopDirectionType answer;
+  final StroopDirectionType givenAnswer;
+  final StroopDirectionType correctAnswer;
   int time;
 
-  StroopTestDirectionAnswer(this.answer);
+  StroopTestDirectionAnswer(this.givenAnswer, this.correctAnswer);
 }

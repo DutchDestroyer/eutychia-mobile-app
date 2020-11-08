@@ -1,6 +1,10 @@
 class StroopTestColorAnswer {
-  final List<bool> answer;
+  final int clickedCorrectly;
+  final int clickedIncorrectly;
+  final int notClickedCorrectly;
+  final int notClickedIncorrectly;
   int time;
 
-  StroopTestColorAnswer(this.answer);
+  StroopTestColorAnswer(this.clickedCorrectly, this.clickedIncorrectly,
+      this.notClickedCorrectly, this.notClickedIncorrectly);
 }

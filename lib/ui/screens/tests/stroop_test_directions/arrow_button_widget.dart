@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 class ArrowButton extends StatelessWidget {
-  final StroopDirectionType _directionType;
+  final StroopDirectionType _directionOfArrow;
+  final StroopDirectionType _correctAnswer;
   final Function _nextQuestionClicked;
-  ArrowButton(this._directionType, this._nextQuestionClicked);
+  ArrowButton(
+      this._directionOfArrow, this._correctAnswer, this._nextQuestionClicked);
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +23,13 @@ class ArrowButton extends StatelessWidget {
                 child: IconButton(
                   icon: Icon(Icons.arrow_upward),
                   onPressed: () => _nextQuestionClicked(
-                      StroopTestDirectionAnswer(_directionType)),
+                      StroopTestDirectionAnswer(
+                          _directionOfArrow, _correctAnswer)),
                 ))));
   }
 
   double setAngle() {
-    switch (_directionType) {
+    switch (_directionOfArrow) {
       case (StroopDirectionType.top):
         return 0 * math.pi / 180;
       case (StroopDirectionType.left):

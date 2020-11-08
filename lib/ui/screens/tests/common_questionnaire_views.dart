@@ -1,7 +1,14 @@
 import 'package:Eutychia/models/answers/base_questionnaire_answers.dart';
+import 'package:Eutychia/models/answers/generic_questionnaire_answers.dart';
+import 'package:Eutychia/models/answers/stroop_test_color_answers.dart';
+import 'package:Eutychia/models/answers/stroop_test_direction_answers.dart';
+import 'package:Eutychia/ui/screens/tests/stroop_test_color/stroop_test_color_end_view.dart';
+import 'package:Eutychia/ui/screens/tests/stroop_test_directions/stroop_test_direction_end_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'generic_questionnaire/generic_questionnaire_end_view.dart';
 
 class QuestionDescription extends StatelessWidget {
   final Function _callback;
@@ -53,7 +60,19 @@ class EndOfQuestionnaireDisplayAnswers extends StatelessWidget {
     if (!_displayAnswers) {
       return Text("For this test, no answers will be displayed");
     } else {
-      return Text("number of answers ${_answers.answers.length}");
+      return _endOfQuestionnaireViewFactory();
+    }
+  }
+
+  Widget _endOfQuestionnaireViewFactory() {
+    if (_answers is GenericQuestionnaireAnswers) {
+      return GenericQuestionnaireEndView(_answers);
+    } else if (_answers is StroopTestColorAnswers) {
+      return StroopTestColorEndView(_answers);
+    } else if (_answers is StroopTestDirectionAnswers) {
+      return StroopTestDirectionEndView(_answers);
+    } else {
+      throw Error();
     }
   }
 }

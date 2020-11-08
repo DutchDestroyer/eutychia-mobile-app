@@ -80,25 +80,3 @@ class GenericQuestionnaireWidgetState extends BaseQuestionnaireWidget {
         duration: Duration(milliseconds: 300), curve: Curves.linear);
   }
 }
-
-/*class EndOfQuestionnaireWidget extends StatelessWidget {
-  final List<String> _answers;
-  EndOfQuestionnaireWidget(this._answers);
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text('Finished, your answers are:'),
-        ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: _answers.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Text(
-                _answers[index],
-              );
-            })
-      ],
-    );
-  }
-}*/

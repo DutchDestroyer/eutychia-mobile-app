@@ -63,8 +63,7 @@ class StroopTestColorTaskWidgetState extends State<StroopTestColorTaskWidget> {
                       ));
                 }))),
         ElevatedButton(
-          onPressed: () =>
-              {_nextQuestionClicked(StroopTestColorAnswer(checkAnswers()))},
+          onPressed: () => {_nextQuestionClicked(checkAnswers())},
           child: Text('Finish'),
         )
       ],
@@ -77,20 +76,28 @@ class StroopTestColorTaskWidgetState extends State<StroopTestColorTaskWidget> {
     });
   }
 
-  List<bool> checkAnswers() {
-    List<bool> _checkedAnswers = List<bool>();
+  StroopTestColorAnswer checkAnswers() {
+    int _clickedCorrectly = 0;
+    int _clickedIncorrectly = 0;
+    int _notclickedCorrectly = 0;
+    int _notClickedIncorrectly = 0;
 
     for (int i = 0; i < _task.objects.length; i++) {
-      if ((_task.objects[i].color == _task.colorOfWord &&
-              _buttonsClicked.contains(i)) ||
-          (_task.objects[i].color != _task.colorOfWord &&
-              !_buttonsClicked.contains(i))) {
-        _checkedAnswers.add(true);
+      if (_task.objects[i].color == _task.colorOfWord &&
+          _buttonsClicked.contains(i)) {
+        _clickedCorrectly++;
+      } else if (_task.objects[i].color != _task.colorOfWord &&
+          !_buttonsClicked.contains(i)) {
+        _notclickedCorrectly++;
+      } else if (_task.objects[i].color == _task.colorOfWord &&
+          !_buttonsClicked.contains(i)) {
+        _notClickedIncorrectly++;
       } else {
-        _checkedAnswers.add(false);
+        _clickedIncorrectly++;
       }
     }
-    return _checkedAnswers;
+    return StroopTestColorAnswer(_clickedCorrectly, _clickedIncorrectly,
+        _notclickedCorrectly, _notClickedIncorrectly);
   }
 
   Color createRandomColor(StroopColorType colorType) {

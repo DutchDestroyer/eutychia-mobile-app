@@ -23,17 +23,19 @@ class StroopTestDirectionTaskWidget extends StatelessWidget {
               child: Padding(
                   padding: const EdgeInsets.all(5),
                   child: SquareTaskWidget(_task)))),
-      ArrowButton(StroopDirectionType.top, _nextQuestionClicked),
+      ArrowButton(StroopDirectionType.top, _task.text, _nextQuestionClicked),
       Padding(
           padding: const EdgeInsets.all(5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ArrowButton(StroopDirectionType.left, _nextQuestionClicked),
-              ArrowButton(StroopDirectionType.right, _nextQuestionClicked),
+              ArrowButton(
+                  StroopDirectionType.left, _task.text, _nextQuestionClicked),
+              ArrowButton(
+                  StroopDirectionType.right, _task.text, _nextQuestionClicked),
             ],
           )),
-      ArrowButton(StroopDirectionType.bottom, _nextQuestionClicked)
+      ArrowButton(StroopDirectionType.bottom, _task.text, _nextQuestionClicked)
     ]);
   }
 }
