@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:Eutychia/models/questionnaires/generic_questionnaire.dart';
 import 'package:Eutychia/ui/screens/tests/display_factory.dart';
+import 'package:Eutychia/viewmodels/tests/generic_questionnaire_viewmodel.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,17 +14,22 @@ import '../base_questionnaire_widget.dart';
 
 class GenericQuestionnaireWidget extends StatefulWidget {
   final DisplayFactory _displayFactory;
-  GenericQuestionnaireWidget(this._displayFactory);
+  final GenericQuestionnaireViewModel _genericQuestionnaireViewModel;
+
+  GenericQuestionnaireWidget(
+      this._displayFactory, this._genericQuestionnaireViewModel);
 
   @override
   GenericQuestionnaireWidgetState createState() =>
-      GenericQuestionnaireWidgetState(_displayFactory);
+      GenericQuestionnaireWidgetState(
+          _displayFactory, _genericQuestionnaireViewModel);
 }
 
 class GenericQuestionnaireWidgetState extends BaseQuestionnaireWidget {
   final DisplayFactory _displayFactory;
-
-  GenericQuestionnaireWidgetState(this._displayFactory);
+  final GenericQuestionnaireViewModel _genericQuestionnaireViewModel;
+  GenericQuestionnaireWidgetState(
+      this._displayFactory, this._genericQuestionnaireViewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +52,7 @@ class GenericQuestionnaireWidgetState extends BaseQuestionnaireWidget {
                               snapshot.data.description,
                               snapshot.data.finalRemark,
                               snapshot.data.displayAnswers,
-                              answers)),
+                              _genericQuestionnaireViewModel.answers)),
                   carouselController: buttonCarouselController,
                   options: CarouselOptions(
                       height: MediaQuery.of(context).size.height,
@@ -66,6 +72,12 @@ class GenericQuestionnaireWidgetState extends BaseQuestionnaireWidget {
         await rootBundle.loadString('assets/questionnaires/PHQ-9.json');
     final jsonResponse = jsonDecode(jsonString);
     return GenericQuestionnaire.fromJson(jsonResponse);
+  }
+
+  void nextQuestionClicked([Object answer]) {
+    _genericQuestionnaireViewModel.updateAnswers(answer);
+    buttonCarouselController.nextPage(
+        duration: Duration(milliseconds: 300), curve: Curves.linear);
   }
 }
 

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:Eutychia/models/questionnaires/stroop_test_direction.dart';
 import 'package:Eutychia/ui/screens/tests/display_factory.dart';
+import 'package:Eutychia/viewmodels/tests/stroop_test_direction_viewmodel.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -11,17 +12,23 @@ import '../base_questionnaire_widget.dart';
 
 class StroopTestDirectionWidget extends StatefulWidget {
   final DisplayFactory _displayFactory;
-  StroopTestDirectionWidget(this._displayFactory);
+  final StroopTestDirectionViewModel _stroopTestDirectionViewModel;
+
+  StroopTestDirectionWidget(
+      this._displayFactory, this._stroopTestDirectionViewModel);
 
   @override
   StroopTestDirectionWidgetState createState() =>
-      StroopTestDirectionWidgetState(_displayFactory);
+      StroopTestDirectionWidgetState(
+          _displayFactory, _stroopTestDirectionViewModel);
 }
 
 class StroopTestDirectionWidgetState extends BaseQuestionnaireWidget {
   final DisplayFactory _displayFactory;
+  final StroopTestDirectionViewModel _stroopTestDirectionViewModel;
 
-  StroopTestDirectionWidgetState(this._displayFactory);
+  StroopTestDirectionWidgetState(
+      this._displayFactory, this._stroopTestDirectionViewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +51,7 @@ class StroopTestDirectionWidgetState extends BaseQuestionnaireWidget {
                                 snapshot.data.description,
                                 snapshot.data.finalRemark,
                                 snapshot.data.displayAnswers,
-                                answers)),
+                                _stroopTestDirectionViewModel.answers)),
                     carouselController: buttonCarouselController,
                     options: CarouselOptions(
                         initialPage: 0,
@@ -63,5 +70,11 @@ class StroopTestDirectionWidgetState extends BaseQuestionnaireWidget {
         .loadString('assets/resources/stroop-test-direction-data.json');
     final jsonResponse = jsonDecode(jsonString);
     return StroopTestDirection.fromJson(jsonResponse);
+  }
+
+  void nextQuestionClicked([Object answer]) {
+    _stroopTestDirectionViewModel.updateAnswers(answer);
+    buttonCarouselController.nextPage(
+        duration: Duration(milliseconds: 300), curve: Curves.linear);
   }
 }
