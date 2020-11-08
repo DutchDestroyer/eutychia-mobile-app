@@ -1,16 +1,14 @@
-import 'package:Eutychia/models/questionnaires/equestionnaire_type.dart';
+import 'package:Eutychia/models/answers/generic_questionnaire_answer.dart';
 import 'package:Eutychia/models/questionnaires/generic_question.dart';
 import 'package:flutter/material.dart';
 
 class OpenQuestionWidget extends StatefulWidget {
   final GenericQuestion _question;
   final Function _nextQuestionClicked;
-  final QuestionnaireType _questionnaireType;
-  OpenQuestionWidget(
-      this._question, this._nextQuestionClicked, this._questionnaireType);
+  OpenQuestionWidget(this._question, this._nextQuestionClicked);
   @override
-  OpenQuestionWidgetState createState() => OpenQuestionWidgetState(
-      _question, _nextQuestionClicked, _questionnaireType);
+  OpenQuestionWidgetState createState() =>
+      OpenQuestionWidgetState(_question, _nextQuestionClicked);
 }
 
 class OpenQuestionWidgetState extends State<OpenQuestionWidget> {
@@ -19,10 +17,8 @@ class OpenQuestionWidgetState extends State<OpenQuestionWidget> {
   final _formKey = GlobalKey<FormState>();
   final GenericQuestion _question;
   final Function _nextQuestionClicked;
-  final QuestionnaireType _questionnaireType;
 
-  OpenQuestionWidgetState(
-      this._question, this._nextQuestionClicked, this._questionnaireType);
+  OpenQuestionWidgetState(this._question, this._nextQuestionClicked);
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -42,7 +38,8 @@ class OpenQuestionWidgetState extends State<OpenQuestionWidget> {
           ElevatedButton(
             onPressed: () {
               if (_formKey.currentState.validate()) {
-                _nextQuestionClicked(_questionnaireType, textController.text);
+                _nextQuestionClicked(
+                    GenericQuestionnaireAnswer(textController.text));
               }
             },
             child: Text('Next'),

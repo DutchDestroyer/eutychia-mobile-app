@@ -43,7 +43,7 @@ class StroopTestColorWidgetState extends BaseQuestionnaireWidget {
                                 snapshot.data.description,
                                 snapshot.data.finalRemark,
                                 snapshot.data.displayAnswers,
-                                snapshot.data.questionnaireType)),
+                                answers)),
                     carouselController: buttonCarouselController,
                     options: CarouselOptions(
                         initialPage: 0,

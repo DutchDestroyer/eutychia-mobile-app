@@ -1,6 +1,6 @@
 class StroopTestColorAnswer {
   final List<bool> answer;
-  final int time;
+  int time;
 
-  StroopTestColorAnswer(this.answer, this.time);
+  StroopTestColorAnswer(this.answer);
 }

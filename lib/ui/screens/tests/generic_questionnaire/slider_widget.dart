@@ -1,4 +1,4 @@
-import 'package:Eutychia/models/questionnaires/equestionnaire_type.dart';
+import 'package:Eutychia/models/answers/generic_questionnaire_answer.dart';
 import 'package:Eutychia/models/questionnaires/generic_question.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,23 +6,19 @@ import 'package:flutter/material.dart';
 class SliderQuestionWidget extends StatefulWidget {
   final GenericQuestion _question;
   final Function _nextQuestionClicked;
-  final QuestionnaireType _questionnaireType;
 
-  SliderQuestionWidget(
-      this._question, this._nextQuestionClicked, this._questionnaireType);
+  SliderQuestionWidget(this._question, this._nextQuestionClicked);
   @override
-  SliderQuestionWidgetState createState() => SliderQuestionWidgetState(
-      _question, _nextQuestionClicked, _questionnaireType);
+  SliderQuestionWidgetState createState() =>
+      SliderQuestionWidgetState(_question, _nextQuestionClicked);
 }
 
 class SliderQuestionWidgetState extends State<SliderQuestionWidget> {
   int _currentSliderValue = 0;
   final GenericQuestion _question;
   final Function _nextQuestionClicked;
-  final QuestionnaireType _questionnaireType;
 
-  SliderQuestionWidgetState(
-      this._question, this._nextQuestionClicked, this._questionnaireType);
+  SliderQuestionWidgetState(this._question, this._nextQuestionClicked);
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +43,8 @@ class SliderQuestionWidgetState extends State<SliderQuestionWidget> {
         ],
       ),
       ElevatedButton(
-          onPressed: () => _nextQuestionClicked(
-              _questionnaireType, _question.answers[_currentSliderValue]),
+          onPressed: () => _nextQuestionClicked(GenericQuestionnaireAnswer(
+              _question.answers[_currentSliderValue])),
           child: Text('Next'))
     ]);
   }

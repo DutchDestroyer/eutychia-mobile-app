@@ -46,7 +46,7 @@ class GenericQuestionnaireWidgetState extends BaseQuestionnaireWidget {
                               snapshot.data.description,
                               snapshot.data.finalRemark,
                               snapshot.data.displayAnswers,
-                              snapshot.data.questionnaireType)),
+                              answers)),
                   carouselController: buttonCarouselController,
                   options: CarouselOptions(
                       height: MediaQuery.of(context).size.height,

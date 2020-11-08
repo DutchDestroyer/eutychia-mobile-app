@@ -93,7 +93,7 @@
 	],
 	"title": "Patient Health Questionnaire (PHQ-9)",
 	"description": "This is the description of the test",
-	"displayAnswers": false,
+	"displayAnswers": true,
 	"finalRemark": "Thank you for completing the PHQ-9 questionnaire",
 	"questionnaireType": "phq9"
 }

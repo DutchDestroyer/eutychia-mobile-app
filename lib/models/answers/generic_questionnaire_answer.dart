@@ -1,6 +1,6 @@
 class GenericQuestionnaireAnswer {
   final String answer;
-  final int time;
+  int time;
 
-  GenericQuestionnaireAnswer(this.answer, this.time);
+  GenericQuestionnaireAnswer(this.answer);
 }
