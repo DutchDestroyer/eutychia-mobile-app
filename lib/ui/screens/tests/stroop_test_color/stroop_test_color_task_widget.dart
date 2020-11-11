@@ -62,6 +62,7 @@ class StroopTestColorTaskWidgetState extends State<StroopTestColorTaskWidget> {
                             fontSize: 24),
                       ));
                 }))),
+        Text(_task.colorOfWord.toString().split('.')[1].toUpperCase()),
         ElevatedButton(
           onPressed: () => {_nextQuestionClicked(checkAnswers())},
           child: Text('Finish'),

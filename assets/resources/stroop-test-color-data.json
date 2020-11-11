@@ -233,7 +233,7 @@
         }            
     ],
 	"title": "Stroop test color",
-	"description": "This is the description of the test",
+	"description": "In the next screen, you will see 18 squares. Each square contains the text of a color, written in a specific color. Underneath these squares you see one color being written down. Press all squares where the color of the word is the same as this color. For example, if RED is written down below, press all squares that have a text written in RED.",
     "displayAnswers": true,
     "finalRemark": "Thank you for completing the stroop color questionnaire",
     "questionnaireType": "stroopTestColor"

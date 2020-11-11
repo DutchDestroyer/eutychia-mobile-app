@@ -66,7 +66,7 @@
         }
     ],
 	"title": "Stroop test direction",
-	"description": "This is the description of the test",
+	"description": "In the next screens, you will see a word (top, bottom, left, right) depicted somewhere (top, bottom, left right) in a screen. Underneath this screen are four arrows (top, bottom, left right). Click the arrow that corresponds to the word that is written, not the position where it is written.",
     "displayAnswers": true,
     "finalRemark": "Thank you for completing the stroop direction questionnaire",
     "questionnaireType": "stroopTestDirection"
