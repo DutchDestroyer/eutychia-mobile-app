@@ -214,6 +214,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.0"
+  http:
+    dependency: transitive
+    description:
+      name: http
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.12.2"
   http_multi_server:
     dependency: transitive
     description:
@@ -228,6 +235,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.4"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.16.1"
   io:
     dependency: transitive
     description:
@@ -298,6 +312,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.1"
+  openapi:
+    dependency: "direct main"
+    description:
+      path: "C:\\users\\markw\\Documents\\test"
+      relative: false
+    source: path
+    version: "1.0.0"
   package_config:
     dependency: transitive
     description:
