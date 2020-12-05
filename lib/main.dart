@@ -23,13 +23,7 @@ void main() async {
   final StroopTestColorViewModel _stroopTestColorViewModel =
       StroopTestColorViewModel();
 
-  final ApiClient _apiClient =
-      new ApiClient(basePath: "http://10.0.2.2:8080/api");
-  final DefaultApi _defaultApi = DefaultApi(_apiClient);
-
-  final LoginService _loginService = LoginService(_defaultApi);
-
-  final AppAccount _appAccount = AppAccount(_loginService);
+  var _appAccount = createAccount();
 
   runApp(new MaterialApp(
       title: "Eutychia",
@@ -56,6 +50,17 @@ void main() async {
           }),
         )),
       )));
+}
+
+AppAccount createAccount() {
+  final ApiClient _apiClient =
+      new ApiClient(basePath: "http://10.0.2.2:8080/api");
+  final DefaultApi _defaultApi = DefaultApi(_apiClient);
+
+  final LoginService _loginService = LoginService(_defaultApi);
+
+  final AppAccount _appAccount = AppAccount(_loginService);
+  return _appAccount;
 }
 
 MaterialColor _getThemeColor(Set<MaterialState> states) {
