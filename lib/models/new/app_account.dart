@@ -1,20 +1,27 @@
-import 'package:Eutychia/models/new/account_login_data.dart';
+import 'package:Eutychia/models/new/project.dart';
 import 'package:Eutychia/services/login_service.dart';
+import 'package:Eutychia/services/projects_service.dart';
+
+import 'account_login_data.dart';
 
 class AppAccount {
   final LoginService loginService;
-  String emailAddress;
-  String refreshToken;
-  String accessToken;
-  String accountUuid;
+  final ProjectsService projectService;
 
-  AppAccount(this.loginService);
+  String emailAddress;
+
+  AccountLoginData _loginData;
+  AccountLoginData get loginData => _loginData;
+  List<Project> _projects;
+  List<Project> get projects => _projects;
+
+  AppAccount(this.loginService, this.projectService);
 
   void updateLoginData(AccountLoginData loginData) {
-    if (loginData.isSuccessful) {
-      accountUuid = loginData.accountId;
-      refreshToken = loginData.refreshToken;
-      accessToken = loginData.accessToken;
-    }
+    _loginData = loginData;
+  }
+
+  void updateProjects(List<Project> projects) {
+    _projects = projects;
   }
 }

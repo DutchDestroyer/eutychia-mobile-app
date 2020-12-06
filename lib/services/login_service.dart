@@ -1,4 +1,5 @@
 import 'package:Eutychia/models/new/account_login_data.dart';
+import 'package:dartz/dartz.dart';
 import 'package:openapi/api.dart';
 
 class LoginService {
@@ -12,39 +13,33 @@ class LoginService {
     return true;
   }
 
-  Future<AccountLoginData> loginWithToken(
+  Future<Either<Exception, AccountLoginData>> loginWithToken(
       String emailAddress, String token) async {
     var loginBody = LoginBody(
         grantType: LoginBodyGrantTypeEnum.autenthicationtoken_,
         emailAddress: emailAddress,
         refreshToken: token);
 
-    try {
-      var data = await _apiClient.logInWithAccount(loginBody);
-      return AccountLoginData(true,
-          accountId: data.accountID,
-          accessToken: data.accessToken,
-          refreshToken: data.refreshToken);
-    } catch (e) {
-      return AccountLoginData(false);
-    }
+    var result = await Task(() => _apiClient.logInWithAccount(loginBody))
+        .attempt()
+        .run();
+
+    return result.map((data) =>
+        AccountLoginData(data.accountID, data.accessToken, data.refreshToken));
   }
 
-  Future<AccountLoginData> loginWithPassword(
+  Future<Either<Exception, AccountLoginData>> loginWithPassword(
       String emailAddress, String password) async {
     var loginBody = LoginBody(
         grantType: LoginBodyGrantTypeEnum.password_,
         emailAddress: emailAddress,
         password: password);
 
-    try {
-      var data = await _apiClient.logInWithAccount(loginBody);
-      return AccountLoginData(true,
-          accountId: data.accountID,
-          accessToken: data.accessToken,
-          refreshToken: data.refreshToken);
-    } catch (e) {
-      return AccountLoginData(false);
-    }
+    var result = await Task(() => _apiClient.logInWithAccount(loginBody))
+        .attempt()
+        .run();
+
+    return result.map((data) =>
+        AccountLoginData(data.accountID, data.accessToken, data.refreshToken));
   }
 }

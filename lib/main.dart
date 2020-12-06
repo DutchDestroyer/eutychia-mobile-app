@@ -1,5 +1,7 @@
 import 'package:Eutychia/models/new/app_account.dart';
 import 'package:Eutychia/services/login_service.dart';
+import 'package:Eutychia/services/projects_service.dart';
+import 'package:Eutychia/ui/screens/project_overview.dart';
 import 'package:Eutychia/ui/screens/test_overview.dart';
 import 'package:Eutychia/ui/screens/tests/display_factory.dart';
 import 'package:Eutychia/ui/screens/tests/generic_questionnaire/generic_questionnaire_widget.dart';
@@ -30,6 +32,8 @@ void main() async {
       home: LoginScreen(_appAccount),
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => LoginScreen(_appAccount),
+        '/projectoverview': (BuildContext context) =>
+            ProjectOverview(_appAccount),
         '/testoverview': (BuildContext context) => TestOverview(),
         '/genericquestionnaire': (BuildContext context) =>
             GenericQuestionnaireWidget(
@@ -58,8 +62,8 @@ AppAccount createAccount() {
   final DefaultApi _defaultApi = DefaultApi(_apiClient);
 
   final LoginService _loginService = LoginService(_defaultApi);
-
-  final AppAccount _appAccount = AppAccount(_loginService);
+  final ProjectsService _projectsService = ProjectsService(_defaultApi);
+  final AppAccount _appAccount = AppAccount(_loginService, _projectsService);
   return _appAccount;
 }
 

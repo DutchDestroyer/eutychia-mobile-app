@@ -1,6 +1,8 @@
 import 'package:Eutychia/models/new/account_login_data.dart';
 import 'package:Eutychia/models/new/app_account.dart';
+import 'package:Eutychia/ui/screens/progress_bar_indicator.dart';
 import 'package:Eutychia/utils/email_address_validator.dart';
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter/material.dart';
 
 enum _LoginStatus { loginWithToken, loginWithPassword, loggingIn }
@@ -30,13 +32,13 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     switch (_loginStatus) {
       case _LoginStatus.loggingIn:
-        return _logInWithPasswordDisplay(
+        return _loggingInWithPasswordWidget(
             _appAccount, _updateLoginStatus, _emailAddress, _password);
       case _LoginStatus.loginWithPassword:
         return _loginForm(context, _passwordVisible, _passwordFailed,
             _updatePasswordVisibility, _postCredentials, _formKey);
       case _LoginStatus.loginWithToken:
-        return _logInWithTokenDisplay(_appAccount, _updateLoginStatus);
+        return _loggingInWithTokenWidget(_appAccount, _updateLoginStatus);
       default:
         throw Error();
     }
@@ -63,67 +65,53 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-Widget _logInWithPasswordDisplay(
-    AppAccount appAccount,
+Widget _loggingInWithPasswordWidget(
+    AppAccount _appAccount,
     _UpdateLoginStatus updateLoginStatus,
     String emailAddress,
     String password) {
   return Scaffold(
       appBar: AppBar(title: Text("Automatically logging in")),
-      body: FutureBuilder<AccountLoginData>(
-          future:
-              appAccount.loginService.loginWithPassword(emailAddress, password),
-          builder: (context, AsyncSnapshot<AccountLoginData> snapshot) {
-            if (snapshot.hasData && snapshot.data.isSuccessful) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                appAccount.updateLoginData(snapshot.data);
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/testoverview', ModalRoute.withName('/login'));
-              });
-              return _progressBarIndicator();
-            } else if (snapshot.hasData && !snapshot.data.isSuccessful) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                updateLoginStatus(_LoginStatus.loginWithPassword,
-                    passwordFailed: true);
-              });
-              return _progressBarIndicator();
-            } else {
-              return _progressBarIndicator();
+      body: FutureBuilder<dartz.Either<Exception, AccountLoginData>>(
+          future: _appAccount.loginService
+              .loginWithPassword(emailAddress, password),
+          builder: (context,
+              AsyncSnapshot<dartz.Either<Exception, AccountLoginData>>
+                  snapshot) {
+            if (snapshot.hasData) {
+              snapshot.data.fold(
+                (l) => loginFailed(true, updateLoginStatus),
+                (r) => finalizeLogIn(_appAccount, r, context),
+              );
             }
+            return progressBarIndicator();
           }));
 }
 
-Widget _logInWithTokenDisplay(
-    AppAccount appAccount, _UpdateLoginStatus updateLoginStatus) {
-  if (!appAccount.loginService.canLoginWithToken()) {
+Widget _loggingInWithTokenWidget(
+    AppAccount _appAccount, _UpdateLoginStatus updateLoginStatus) {
+  if (!_appAccount.loginService.canLoginWithToken()) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       updateLoginStatus(_LoginStatus.loginWithPassword);
     });
-    return _progressBarIndicator();
+    return progressBarIndicator();
   }
 
   return Scaffold(
       appBar: AppBar(title: Text("Automatically logging in")),
-      body: FutureBuilder<AccountLoginData>(
-          future: appAccount.loginService
-              .loginWithToken(appAccount.emailAddress, appAccount.refreshToken),
-          builder: (context, AsyncSnapshot<AccountLoginData> snapshot) {
-            if (snapshot.hasData && snapshot.data.isSuccessful) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                appAccount.updateLoginData(snapshot.data);
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/testoverview', ModalRoute.withName('/login'));
-              });
-              return _progressBarIndicator();
-            } else if (snapshot.hasData && !snapshot.data.isSuccessful) {
-              // TODO remove invalid token
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                updateLoginStatus(_LoginStatus.loginWithPassword);
-              });
-              return _progressBarIndicator();
-            } else {
-              return _progressBarIndicator();
+      body: FutureBuilder<dartz.Either<Exception, AccountLoginData>>(
+          future: _appAccount.loginService.loginWithToken(
+              _appAccount.emailAddress, _appAccount.loginData.refreshToken),
+          builder: (context,
+              AsyncSnapshot<dartz.Either<Exception, AccountLoginData>>
+                  snapshot) {
+            if (snapshot.hasData) {
+              snapshot.data.fold(
+                (l) => loginFailed(false, updateLoginStatus),
+                (r) => finalizeLogIn(_appAccount, r, context),
+              );
             }
+            return progressBarIndicator();
           }));
 }
 
@@ -195,14 +183,18 @@ StatefulWidget _loginForm(
       ));
 }
 
-Widget _progressBarIndicator() {
-  return Dialog(
-    child: new Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        new CircularProgressIndicator(),
-        new Text("Loading"),
-      ],
-    ),
-  );
+void loginFailed(bool passwordFailed, _UpdateLoginStatus updateLoginStatus) {
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    updateLoginStatus(_LoginStatus.loginWithPassword,
+        passwordFailed: passwordFailed);
+  });
+}
+
+void finalizeLogIn(
+    AppAccount _appAccount, AccountLoginData loginData, BuildContext context) {
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    _appAccount.updateLoginData(loginData);
+    Navigator.pushNamedAndRemoveUntil(
+        context, '/projectoverview', ModalRoute.withName('/login'));
+  });
 }
