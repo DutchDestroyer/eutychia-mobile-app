@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class StroopTestColorWidget extends StatefulWidget {
+  static const routename = '/strooptestcolor';
   final DisplayFactory _displayFactory;
   final StroopTestColorViewModel _stroopTestColorViewModel;
 

@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import '../base_questionnaire_widget.dart';
 
 class StroopTestDirectionWidget extends StatefulWidget {
+  static const routename = '/strooptestdirections';
   final DisplayFactory _displayFactory;
   final StroopTestDirectionViewModel _stroopTestDirectionViewModel;
 

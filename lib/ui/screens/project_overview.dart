@@ -4,10 +4,14 @@ import 'package:Eutychia/viewmodels/project_overview_viewmodel.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 
-class ProjectOverview extends StatelessWidget {
+import 'test_overview.dart';
+
+class ProjectOverviewWidget extends StatelessWidget {
+  static const routeName = '/projectoverview';
+
   final ProjectOverviewViewmodel _projectOverviewViewmodel;
 
-  ProjectOverview(this._projectOverviewViewmodel);
+  ProjectOverviewWidget(this._projectOverviewViewmodel);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,8 @@ class ProjectOverview extends StatelessWidget {
                         children: List.generate(r.length, (index) {
                           return ElevatedButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, '/testoverview');
+                              Navigator.pushNamed(
+                                  context, TestOverviewWidget.routeName);
                             },
                             child: Text(r[index].projectName),
                           );

@@ -1,9 +1,17 @@
 import 'package:Eutychia/models/questionnaires/equestionnaire_type.dart';
 import 'package:flutter/material.dart';
 
-class TestOverview extends StatelessWidget {
+import 'tests/generic_questionnaire/generic_questionnaire_widget.dart';
+import 'tests/stroop_test_color/stroop_test_color_widget.dart';
+import 'tests/stroop_test_directions/stroop_test_directions_widget.dart';
+
+class TestOverviewWidget extends StatelessWidget {
+  static const routeName = '/testoverview';
+
   @override
   Widget build(BuildContext context) {
+    final String accountId = ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('Choose test to perform'),
@@ -31,11 +39,11 @@ class TestOverview extends StatelessWidget {
   String testFactory(QuestionnaireType questionnaireTitle) {
     switch (questionnaireTitle) {
       case QuestionnaireType.phq9:
-        return '/genericquestionnaire';
+        return GenericQuestionnaireWidget.routeName;
       case QuestionnaireType.stroopTestColor:
-        return '/strooptestcolor';
+        return StroopTestColorWidget.routename;
       case QuestionnaireType.stroopTestDirection:
-        return '/strooptestdirections';
+        return StroopTestDirectionWidget.routename;
       default:
         throw Error();
     }

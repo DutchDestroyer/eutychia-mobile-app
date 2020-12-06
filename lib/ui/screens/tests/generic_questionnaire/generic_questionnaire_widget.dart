@@ -13,6 +13,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import '../base_questionnaire_widget.dart';
 
 class GenericQuestionnaireWidget extends StatefulWidget {
+  static const routeName = '/genericquestionnaire';
+
   final DisplayFactory _displayFactory;
   final GenericQuestionnaireViewModel _genericQuestionnaireViewModel;
 

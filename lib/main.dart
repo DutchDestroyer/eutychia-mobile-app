@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:openapi/api.dart';
 
 import 'ui/screens/login_screen.dart';
+import 'ui/screens/test_overview.dart';
 
 void main() async {
   var _appAccount = createAccount();
@@ -36,18 +37,20 @@ void main() async {
 
   runApp(new MaterialApp(
       title: "Eutychia",
-      home: LoginScreen(_loginScreenViewModel),
+      home: LoginScreenWidget(_loginScreenViewModel),
       routes: <String, WidgetBuilder>{
-        '/login': (BuildContext context) => LoginScreen(_loginScreenViewModel),
-        '/projectoverview': (BuildContext context) =>
-            ProjectOverview(_projectOverviewViewmodel),
-        '/testoverview': (BuildContext context) => TestOverview(),
-        '/genericquestionnaire': (BuildContext context) =>
+        LoginScreenWidget.routeName: (BuildContext context) =>
+            LoginScreenWidget(_loginScreenViewModel),
+        ProjectOverviewWidget.routeName: (BuildContext context) =>
+            ProjectOverviewWidget(_projectOverviewViewmodel),
+        TestOverviewWidget.routeName: (BuildContext context) =>
+            TestOverviewWidget(),
+        GenericQuestionnaireWidget.routeName: (BuildContext context) =>
             GenericQuestionnaireWidget(
                 _displayFactory, _genericQuestionnaireViewModel),
-        '/strooptestcolor': (BuildContext context) =>
+        StroopTestColorWidget.routename: (BuildContext context) =>
             StroopTestColorWidget(_displayFactory, _stroopTestColorViewModel),
-        '/strooptestdirections': (BuildContext context) =>
+        StroopTestDirectionWidget.routename: (BuildContext context) =>
             StroopTestDirectionWidget(
                 _displayFactory, _stroopTestDirectionViewModel)
       },

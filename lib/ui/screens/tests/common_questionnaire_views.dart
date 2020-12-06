@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../test_overview.dart';
 import 'generic_questionnaire/generic_questionnaire_end_view.dart';
 
 class QuestionDescription extends StatelessWidget {
@@ -40,8 +41,8 @@ class EndOfQuestionnaireWidget extends StatelessWidget {
           EndOfQuestionnaireDisplayAnswers(_displayAnswers, _answers),
           ElevatedButton(
               onPressed: () => {
-                    Navigator.popUntil(
-                        context, ModalRoute.withName('/testoverview'))
+                    Navigator.popUntil(context,
+                        ModalRoute.withName(TestOverviewWidget.routeName))
                   },
               child: Text('Finish'))
         ]);

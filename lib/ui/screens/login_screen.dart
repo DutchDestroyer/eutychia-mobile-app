@@ -1,5 +1,6 @@
 import 'package:Eutychia/models/new/account_login_data.dart';
 import 'package:Eutychia/ui/screens/progress_bar_indicator.dart';
+import 'package:Eutychia/ui/screens/project_overview.dart';
 import 'package:Eutychia/utils/email_address_validator.dart';
 import 'package:Eutychia/viewmodels/login_screen_viewmodel.dart';
 import 'package:dartz/dartz.dart' as dartz;
@@ -9,23 +10,25 @@ enum _LoginStatus { loginWithToken, loginWithPassword, loggingIn }
 typedef _PostCredentialsFunc = void Function(String, String);
 typedef _UpdateLoginStatus = void Function(_LoginStatus, {bool passwordFailed});
 
-class LoginScreen extends StatefulWidget {
+class LoginScreenWidget extends StatefulWidget {
+  static const routeName = '/login';
+
   final LoginScreenViewModel _loginScreenViewModel;
-  LoginScreen(this._loginScreenViewModel);
+  LoginScreenWidget(this._loginScreenViewModel);
 
   @override
   State<StatefulWidget> createState() =>
-      _LoginScreenState(_loginScreenViewModel);
+      _LoginScreenWidgetState(_loginScreenViewModel);
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenWidgetState extends State<LoginScreenWidget> {
   final LoginScreenViewModel _loginScreenViewModel;
   bool _passwordVisible = false;
   final _formKey = GlobalKey<FormState>();
   String _emailAddress;
   String _password;
   bool _passwordFailed = false;
-  _LoginScreenState(this._loginScreenViewModel);
+  _LoginScreenWidgetState(this._loginScreenViewModel);
 
   _LoginStatus _loginStatus = _LoginStatus.loginWithPassword;
 
@@ -194,7 +197,7 @@ void finalizeLogIn(LoginScreenViewModel _loginScreenViewModel,
     AccountLoginData loginData, BuildContext context, String emailAddress) {
   WidgetsBinding.instance.addPostFrameCallback((_) {
     _loginScreenViewModel.loginSucceeded(loginData, emailAddress);
-    Navigator.pushNamedAndRemoveUntil(
-        context, '/projectoverview', ModalRoute.withName('/login'));
+    Navigator.pushNamedAndRemoveUntil(context, ProjectOverviewWidget.routeName,
+        ModalRoute.withName(LoginScreenWidget.routeName));
   });
 }
