@@ -7,6 +7,8 @@ import 'package:Eutychia/ui/screens/tests/display_factory.dart';
 import 'package:Eutychia/ui/screens/tests/generic_questionnaire/generic_questionnaire_widget.dart';
 import 'package:Eutychia/ui/screens/tests/stroop_test_color/stroop_test_color_widget.dart';
 import 'package:Eutychia/ui/screens/tests/stroop_test_directions/stroop_test_directions_widget.dart';
+import 'package:Eutychia/viewmodels/login_screen_viewmodel.dart';
+import 'package:Eutychia/viewmodels/project_overview_viewmodel.dart';
 import 'package:Eutychia/viewmodels/tests/generic_questionnaire_viewmodel.dart';
 import 'package:Eutychia/viewmodels/tests/stroop_test_color_viewmodel.dart';
 import 'package:Eutychia/viewmodels/tests/stroop_test_direction_viewmodel.dart';
@@ -17,6 +19,8 @@ import 'package:openapi/api.dart';
 import 'ui/screens/login_screen.dart';
 
 void main() async {
+  var _appAccount = createAccount();
+
   final DisplayFactory _displayFactory = DisplayFactory();
   final GenericQuestionnaireViewModel _genericQuestionnaireViewModel =
       GenericQuestionnaireViewModel();
@@ -25,15 +29,18 @@ void main() async {
   final StroopTestColorViewModel _stroopTestColorViewModel =
       StroopTestColorViewModel();
 
-  var _appAccount = createAccount();
+  final LoginScreenViewModel _loginScreenViewModel =
+      LoginScreenViewModel(_appAccount);
+  final ProjectOverviewViewmodel _projectOverviewViewmodel =
+      ProjectOverviewViewmodel(_appAccount);
 
   runApp(new MaterialApp(
       title: "Eutychia",
-      home: LoginScreen(_appAccount),
+      home: LoginScreen(_loginScreenViewModel),
       routes: <String, WidgetBuilder>{
-        '/login': (BuildContext context) => LoginScreen(_appAccount),
+        '/login': (BuildContext context) => LoginScreen(_loginScreenViewModel),
         '/projectoverview': (BuildContext context) =>
-            ProjectOverview(_appAccount),
+            ProjectOverview(_projectOverviewViewmodel),
         '/testoverview': (BuildContext context) => TestOverview(),
         '/genericquestionnaire': (BuildContext context) =>
             GenericQuestionnaireWidget(

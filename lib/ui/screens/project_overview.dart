@@ -1,13 +1,13 @@
-import 'package:Eutychia/models/new/app_account.dart';
 import 'package:Eutychia/models/new/project.dart';
 import 'package:Eutychia/ui/screens/progress_bar_indicator.dart';
+import 'package:Eutychia/viewmodels/project_overview_viewmodel.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 
 class ProjectOverview extends StatelessWidget {
-  final AppAccount _appAccount;
+  final ProjectOverviewViewmodel _projectOverviewViewmodel;
 
-  ProjectOverview(this._appAccount);
+  ProjectOverview(this._projectOverviewViewmodel);
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +15,10 @@ class ProjectOverview extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Choose the project'),
         ),
-        body: FutureBuilder<Either<Exception, List<Project>>>(
-            future: _appAccount.projectService
-                .getTestsOfProject(_appAccount.loginData.accountId),
+        body: FutureBuilder<Either<dynamic, List<Project>>>(
+            future: _projectOverviewViewmodel.getTestsOfProject(),
             builder: (context,
-                AsyncSnapshot<Either<Exception, List<Project>>> snapshot) {
+                AsyncSnapshot<Either<dynamic, List<Project>>> snapshot) {
               if (snapshot.hasData) {
                 return snapshot.data.fold(
                     (l) => Text("Couldn't collect the data"),

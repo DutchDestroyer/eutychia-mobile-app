@@ -1,7 +1,7 @@
 import 'package:Eutychia/models/new/account_login_data.dart';
-import 'package:Eutychia/models/new/app_account.dart';
 import 'package:Eutychia/ui/screens/progress_bar_indicator.dart';
 import 'package:Eutychia/utils/email_address_validator.dart';
+import 'package:Eutychia/viewmodels/login_screen_viewmodel.dart';
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter/material.dart';
 
@@ -10,21 +10,22 @@ typedef _PostCredentialsFunc = void Function(String, String);
 typedef _UpdateLoginStatus = void Function(_LoginStatus, {bool passwordFailed});
 
 class LoginScreen extends StatefulWidget {
-  final AppAccount _appAccount;
-  LoginScreen(this._appAccount);
+  final LoginScreenViewModel _loginScreenViewModel;
+  LoginScreen(this._loginScreenViewModel);
 
   @override
-  State<StatefulWidget> createState() => _LoginScreenState(_appAccount);
+  State<StatefulWidget> createState() =>
+      _LoginScreenState(_loginScreenViewModel);
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final AppAccount _appAccount;
+  final LoginScreenViewModel _loginScreenViewModel;
   bool _passwordVisible = false;
   final _formKey = GlobalKey<FormState>();
   String _emailAddress;
   String _password;
   bool _passwordFailed = false;
-  _LoginScreenState(this._appAccount);
+  _LoginScreenState(this._loginScreenViewModel);
 
   _LoginStatus _loginStatus = _LoginStatus.loginWithPassword;
 
@@ -32,13 +33,14 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     switch (_loginStatus) {
       case _LoginStatus.loggingIn:
-        return _loggingInWithPasswordWidget(
-            _appAccount, _updateLoginStatus, _emailAddress, _password);
+        return _loggingInWithPasswordWidget(_loginScreenViewModel,
+            _updateLoginStatus, _emailAddress, _password);
       case _LoginStatus.loginWithPassword:
         return _loginForm(context, _passwordVisible, _passwordFailed,
             _updatePasswordVisibility, _postCredentials, _formKey);
       case _LoginStatus.loginWithToken:
-        return _loggingInWithTokenWidget(_appAccount, _updateLoginStatus);
+        return _loggingInWithTokenWidget(
+            _loginScreenViewModel, _updateLoginStatus);
       default:
         throw Error();
     }
@@ -66,31 +68,31 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 Widget _loggingInWithPasswordWidget(
-    AppAccount _appAccount,
+    LoginScreenViewModel _loginScreenViewModel,
     _UpdateLoginStatus updateLoginStatus,
     String emailAddress,
     String password) {
   return Scaffold(
       appBar: AppBar(title: Text("Automatically logging in")),
-      body: FutureBuilder<dartz.Either<Exception, AccountLoginData>>(
-          future: _appAccount.loginService
-              .loginWithPassword(emailAddress, password),
+      body: FutureBuilder<dartz.Either<dynamic, AccountLoginData>>(
+          future: _loginScreenViewModel.performLoginWithPassword(
+              emailAddress, password),
           builder: (context,
-              AsyncSnapshot<dartz.Either<Exception, AccountLoginData>>
-                  snapshot) {
+              AsyncSnapshot<dartz.Either<dynamic, AccountLoginData>> snapshot) {
             if (snapshot.hasData) {
               snapshot.data.fold(
                 (l) => loginFailed(true, updateLoginStatus),
-                (r) => finalizeLogIn(_appAccount, r, context),
+                (r) => finalizeLogIn(
+                    _loginScreenViewModel, r, context, emailAddress),
               );
             }
             return progressBarIndicator();
           }));
 }
 
-Widget _loggingInWithTokenWidget(
-    AppAccount _appAccount, _UpdateLoginStatus updateLoginStatus) {
-  if (!_appAccount.loginService.canLoginWithToken()) {
+Widget _loggingInWithTokenWidget(LoginScreenViewModel _loginScreenViewModel,
+    _UpdateLoginStatus updateLoginStatus) {
+  if (!_loginScreenViewModel.canLoginWithToken()) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       updateLoginStatus(_LoginStatus.loginWithPassword);
     });
@@ -99,16 +101,14 @@ Widget _loggingInWithTokenWidget(
 
   return Scaffold(
       appBar: AppBar(title: Text("Automatically logging in")),
-      body: FutureBuilder<dartz.Either<Exception, AccountLoginData>>(
-          future: _appAccount.loginService.loginWithToken(
-              _appAccount.emailAddress, _appAccount.loginData.refreshToken),
+      body: FutureBuilder<dartz.Either<dynamic, AccountLoginData>>(
+          future: _loginScreenViewModel.performLoginWithToken(),
           builder: (context,
-              AsyncSnapshot<dartz.Either<Exception, AccountLoginData>>
-                  snapshot) {
+              AsyncSnapshot<dartz.Either<dynamic, AccountLoginData>> snapshot) {
             if (snapshot.hasData) {
               snapshot.data.fold(
                 (l) => loginFailed(false, updateLoginStatus),
-                (r) => finalizeLogIn(_appAccount, r, context),
+                (r) => finalizeLogIn(_loginScreenViewModel, r, context, ""),
               );
             }
             return progressBarIndicator();
@@ -190,10 +190,10 @@ void loginFailed(bool passwordFailed, _UpdateLoginStatus updateLoginStatus) {
   });
 }
 
-void finalizeLogIn(
-    AppAccount _appAccount, AccountLoginData loginData, BuildContext context) {
+void finalizeLogIn(LoginScreenViewModel _loginScreenViewModel,
+    AccountLoginData loginData, BuildContext context, String emailAddress) {
   WidgetsBinding.instance.addPostFrameCallback((_) {
-    _appAccount.updateLoginData(loginData);
+    _loginScreenViewModel.loginSucceeded(loginData, emailAddress);
     Navigator.pushNamedAndRemoveUntil(
         context, '/projectoverview', ModalRoute.withName('/login'));
   });

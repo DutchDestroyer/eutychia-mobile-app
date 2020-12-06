@@ -1,4 +1,3 @@
-import 'package:Eutychia/models/new/account_login_data.dart';
 import 'package:dartz/dartz.dart';
 import 'package:openapi/api.dart';
 
@@ -13,33 +12,27 @@ class LoginService {
     return true;
   }
 
-  Future<Either<Exception, AccountLoginData>> loginWithToken(
+  Future<Either<Exception, LoginTokens>> loginWithToken(
       String emailAddress, String token) async {
     var loginBody = LoginBody(
         grantType: LoginBodyGrantTypeEnum.autenthicationtoken_,
         emailAddress: emailAddress,
         refreshToken: token);
 
-    var result = await Task(() => _apiClient.logInWithAccount(loginBody))
+    return await Task(() => _apiClient.logInWithAccount(loginBody))
         .attempt()
         .run();
-
-    return result.map((data) =>
-        AccountLoginData(data.accountID, data.accessToken, data.refreshToken));
   }
 
-  Future<Either<Exception, AccountLoginData>> loginWithPassword(
+  Future<Either<dynamic, LoginTokens>> loginWithPassword(
       String emailAddress, String password) async {
     var loginBody = LoginBody(
         grantType: LoginBodyGrantTypeEnum.password_,
         emailAddress: emailAddress,
         password: password);
 
-    var result = await Task(() => _apiClient.logInWithAccount(loginBody))
+    return await Task(() => _apiClient.logInWithAccount(loginBody))
         .attempt()
         .run();
-
-    return result.map((data) =>
-        AccountLoginData(data.accountID, data.accessToken, data.refreshToken));
   }
 }
