@@ -1,6 +1,7 @@
 import 'package:Eutychia/models/new/project.dart';
 import 'package:Eutychia/models/new/test.dart';
 import 'package:Eutychia/models/questionnaires/equestionnaire_type.dart';
+import 'package:Eutychia/models/new/test_project_ID.dart';
 import 'package:Eutychia/ui/screens/progress_bar_indicator.dart';
 import 'package:Eutychia/viewmodels/test_overview_viewmodel.dart';
 import 'package:dartz/dartz.dart';
@@ -54,7 +55,9 @@ class TestOverviewWidget extends StatelessWidget {
           return ElevatedButton(
             onPressed: () {
               Navigator.pushNamed(
-                  context, testFactory(tests[index].questionnaireType));
+                  context, testFactory(tests[index].questionnaireType),
+                  arguments:
+                      TestProjectID(tests[index].testID, project.projectID));
             },
             child: Text(tests[index].testName),
           );

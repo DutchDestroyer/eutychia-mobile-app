@@ -1,4 +1,3 @@
-import 'package:Eutychia/models/questionnaires/equestionnaire_type.dart';
 import 'package:Eutychia/models/questionnaires/stroop_test_color_task.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -15,10 +14,9 @@ class StroopTestColor extends BaseQuestionnaire {
       String title,
       String description,
       bool displayAnswers,
-      String finalRemark,
-      QuestionnaireType questionnaireType)
+      String finalRemark)
       : super(
-            title, description, displayAnswers, finalRemark, questionnaireType);
+            title, description, displayAnswers, finalRemark);
 
   factory StroopTestColor.fromJson(Map<String, dynamic> json) =>
       _$StroopTestColorFromJson(json);

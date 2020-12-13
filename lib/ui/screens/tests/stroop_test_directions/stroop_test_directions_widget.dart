@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:Eutychia/models/new/test_project_ID.dart';
 import 'package:Eutychia/models/questionnaires/stroop_test_direction.dart';
 import 'package:Eutychia/ui/screens/tests/display_factory.dart';
 import 'package:Eutychia/viewmodels/tests/stroop_test_direction_viewmodel.dart';
@@ -33,6 +34,9 @@ class StroopTestDirectionWidgetState extends BaseQuestionnaireWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TestProjectID testProjectID =
+        ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
         appBar: AppBar(title: Text(appBarTitle)),
         body: FutureBuilder<StroopTestDirection>(

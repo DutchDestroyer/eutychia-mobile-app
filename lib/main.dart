@@ -2,6 +2,7 @@ import 'package:Eutychia/models/new/app_account.dart';
 import 'package:Eutychia/services/fetch_test_service.dart';
 import 'package:Eutychia/services/login_service.dart';
 import 'package:Eutychia/services/projects_service.dart';
+import 'package:Eutychia/services/generic_test_service.dart';
 import 'package:Eutychia/ui/screens/project_overview.dart';
 import 'package:Eutychia/ui/screens/test_overview.dart';
 import 'package:Eutychia/ui/screens/tests/display_factory.dart';
@@ -26,7 +27,7 @@ void main() async {
 
   final DisplayFactory _displayFactory = DisplayFactory();
   final GenericQuestionnaireViewModel _genericQuestionnaireViewModel =
-      GenericQuestionnaireViewModel();
+      GenericQuestionnaireViewModel(_appAccount);
   final StroopTestDirectionViewModel _stroopTestDirectionViewModel =
       StroopTestDirectionViewModel();
   final StroopTestColorViewModel _stroopTestColorViewModel =
@@ -78,8 +79,10 @@ AppAccount createAccount() {
   final LoginService _loginService = LoginService(_defaultApi);
   final ProjectsService _projectsService = ProjectsService(_defaultApi);
   final FetchTestService _fetchTestService = FetchTestService(_defaultApi);
-  final AppAccount _appAccount =
-      AppAccount(_loginService, _projectsService, _fetchTestService);
+  final GenericTestService _genericTestService =
+      GenericTestService(_defaultApi);
+  final AppAccount _appAccount = AppAccount(
+      _loginService, _projectsService, _fetchTestService, _genericTestService);
   return _appAccount;
 }
 

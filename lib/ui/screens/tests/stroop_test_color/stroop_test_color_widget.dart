@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:Eutychia/models/new/test_project_ID.dart';
 import 'package:Eutychia/models/questionnaires/stroop_test_color.dart';
 import 'package:Eutychia/ui/screens/tests/base_questionnaire_widget.dart';
 import 'package:Eutychia/ui/screens/tests/display_factory.dart';
@@ -29,6 +30,9 @@ class StroopTestColorWidgetState extends BaseQuestionnaireWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TestProjectID testProjectID =
+        ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
         appBar: AppBar(title: Text(appBarTitle)),
         body: FutureBuilder<StroopTestColor>(
