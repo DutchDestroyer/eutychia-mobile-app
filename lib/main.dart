@@ -1,4 +1,5 @@
 import 'package:Eutychia/models/new/app_account.dart';
+import 'package:Eutychia/services/fetch_test_service.dart';
 import 'package:Eutychia/services/login_service.dart';
 import 'package:Eutychia/services/projects_service.dart';
 import 'package:Eutychia/ui/screens/project_overview.dart';
@@ -9,6 +10,7 @@ import 'package:Eutychia/ui/screens/tests/stroop_test_color/stroop_test_color_wi
 import 'package:Eutychia/ui/screens/tests/stroop_test_directions/stroop_test_directions_widget.dart';
 import 'package:Eutychia/viewmodels/login_screen_viewmodel.dart';
 import 'package:Eutychia/viewmodels/project_overview_viewmodel.dart';
+import 'package:Eutychia/viewmodels/test_overview_viewmodel.dart';
 import 'package:Eutychia/viewmodels/tests/generic_questionnaire_viewmodel.dart';
 import 'package:Eutychia/viewmodels/tests/stroop_test_color_viewmodel.dart';
 import 'package:Eutychia/viewmodels/tests/stroop_test_direction_viewmodel.dart';
@@ -34,6 +36,8 @@ void main() async {
       LoginScreenViewModel(_appAccount);
   final ProjectOverviewViewmodel _projectOverviewViewmodel =
       ProjectOverviewViewmodel(_appAccount);
+  final TestOverviewViewmodel _testOverviewViewmodel =
+      TestOverviewViewmodel(_appAccount);
 
   runApp(new MaterialApp(
       title: "Eutychia",
@@ -44,7 +48,7 @@ void main() async {
         ProjectOverviewWidget.routeName: (BuildContext context) =>
             ProjectOverviewWidget(_projectOverviewViewmodel),
         TestOverviewWidget.routeName: (BuildContext context) =>
-            TestOverviewWidget(),
+            TestOverviewWidget(_testOverviewViewmodel),
         GenericQuestionnaireWidget.routeName: (BuildContext context) =>
             GenericQuestionnaireWidget(
                 _displayFactory, _genericQuestionnaireViewModel),
@@ -73,7 +77,9 @@ AppAccount createAccount() {
 
   final LoginService _loginService = LoginService(_defaultApi);
   final ProjectsService _projectsService = ProjectsService(_defaultApi);
-  final AppAccount _appAccount = AppAccount(_loginService, _projectsService);
+  final FetchTestService _fetchTestService = FetchTestService(_defaultApi);
+  final AppAccount _appAccount =
+      AppAccount(_loginService, _projectsService, _fetchTestService);
   return _appAccount;
 }
 

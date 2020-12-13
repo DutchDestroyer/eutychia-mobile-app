@@ -1,7 +1,7 @@
 class AccountLoginData {
-  final String accountId;
+  final String accountID;
   final String accessToken;
   final String refreshToken;
 
-  AccountLoginData(this.accountId, this.accessToken, this.refreshToken);
+  AccountLoginData(this.accountID, this.accessToken, this.refreshToken);
 }

@@ -1,5 +1,10 @@
 import 'package:Eutychia/models/new/project.dart';
+import 'package:Eutychia/models/new/test.dart';
 import 'package:Eutychia/models/questionnaires/equestionnaire_type.dart';
+import 'package:Eutychia/ui/screens/progress_bar_indicator.dart';
+import 'package:Eutychia/viewmodels/test_overview_viewmodel.dart';
+import 'package:dartz/dartz.dart';
+
 import 'package:flutter/material.dart';
 
 import 'tests/generic_questionnaire/generic_questionnaire_widget.dart';
@@ -8,6 +13,9 @@ import 'tests/stroop_test_directions/stroop_test_directions_widget.dart';
 
 class TestOverviewWidget extends StatelessWidget {
   static const routeName = '/testoverview';
+  final TestOverviewViewmodel _testOverviewViewmodel;
+
+  TestOverviewWidget(this._testOverviewViewmodel);
 
   @override
   Widget build(BuildContext context) {
@@ -17,29 +25,45 @@ class TestOverviewWidget extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Choose test to perform'),
         ),
-        body: GridView.count(
-            scrollDirection: Axis.vertical,
-            padding: const EdgeInsets.all(20),
-            childAspectRatio: 6,
-            mainAxisSpacing: 10,
-            crossAxisCount: 1,
-            children: List.generate(QuestionnaireType.values.length, (index) {
-              return ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(
-                      context, testFactory(QuestionnaireType.values[index]));
-                },
-                child: Text(QuestionnaireType.values[index]
-                    .toString()
-                    .split('.')
-                    .elementAt(1)),
-              );
-            })));
+        body: FutureBuilder<Either<dynamic, List<Test>>>(
+            future: _testOverviewViewmodel
+                .getTestsOfProjectForAccount(project.projectID),
+            builder:
+                (context, AsyncSnapshot<Either<dynamic, List<Test>>> snapshot) {
+              if (snapshot.hasData) {
+                return snapshot.data.fold(
+                    (l) => Text("couldn't collect the data"),
+                    (tests) => displayTestWidget(context, tests, project));
+              } else {
+                return progressBarIndicator();
+              }
+            }));
   }
 
-  String testFactory(QuestionnaireType questionnaireTitle) {
-    switch (questionnaireTitle) {
-      case QuestionnaireType.phq9:
+  Widget displayTestWidget(
+      BuildContext context, List<Test> tests, Project project) {
+    _testOverviewViewmodel.updateTestsOfProject(tests, project.projectID);
+
+    return GridView.count(
+        scrollDirection: Axis.vertical,
+        padding: const EdgeInsets.all(20),
+        childAspectRatio: 6,
+        mainAxisSpacing: 10,
+        crossAxisCount: 1,
+        children: List.generate(tests.length, (index) {
+          return ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(
+                  context, testFactory(tests[index].questionnaireType));
+            },
+            child: Text(tests[index].testName),
+          );
+        }));
+  }
+
+  String testFactory(QuestionnaireType questionnaireType) {
+    switch (questionnaireType) {
+      case QuestionnaireType.generic:
         return GenericQuestionnaireWidget.routeName;
       case QuestionnaireType.stroopTestColor:
         return StroopTestColorWidget.routename;

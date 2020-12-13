@@ -7,9 +7,9 @@ class ProjectOverviewViewmodel {
 
   ProjectOverviewViewmodel(this._appAccount);
 
-  Future<Either<dynamic, List<Project>>> getTestsOfProject() async {
+  Future<Either<dynamic, List<Project>>> getProjectsOfAccount() async {
     var result = await _appAccount.projectService
-        .getTestsOfProject(_appAccount.loginData.accountId);
+        .getProjectsOfAccount(_appAccount.loginData.accountID);
 
     return result.map((r) =>
         r.projects.map((e) => Project(e.projectID, e.projectName)).toList());

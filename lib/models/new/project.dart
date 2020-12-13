@@ -1,6 +1,14 @@
+import 'package:Eutychia/models/new/test.dart';
+
 class Project {
-  final String projectId;
+  final String projectID;
   final String projectName;
 
-  Project(this.projectId, this.projectName);
+  List<Test> _tests;
+  List<Test> get tests => _tests;
+  Project(this.projectID, this.projectName);
+
+  void updateTests(List<Test> tests) {
+    _tests = tests;
+  }
 }

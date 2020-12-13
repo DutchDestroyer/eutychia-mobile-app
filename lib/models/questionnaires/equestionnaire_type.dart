@@ -1,1 +1,1 @@
-enum QuestionnaireType { phq9, stroopTestColor, stroopTestDirection }
+enum QuestionnaireType { generic, stroopTestColor, stroopTestDirection }

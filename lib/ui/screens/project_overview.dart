@@ -20,20 +20,20 @@ class ProjectOverviewWidget extends StatelessWidget {
           title: const Text('Choose the project'),
         ),
         body: FutureBuilder<Either<dynamic, List<Project>>>(
-            future: _projectOverviewViewmodel.getTestsOfProject(),
+            future: _projectOverviewViewmodel.getProjectsOfAccount(),
             builder: (context,
                 AsyncSnapshot<Either<dynamic, List<Project>>> snapshot) {
               if (snapshot.hasData) {
                 return snapshot.data.fold(
                     (l) => Text("Couldn't collect the data"),
-                    (r) => displayProjects(r, context));
+                    (projects) => _displayProjects(projects, context));
               } else {
                 return progressBarIndicator();
               }
             }));
   }
 
-  GridView displayProjects(List<Project> projects, BuildContext context) {
+  GridView _displayProjects(List<Project> projects, BuildContext context) {
     _projectOverviewViewmodel.updateProjects(projects);
 
     return GridView.count(
