@@ -1,3 +1,4 @@
+import 'package:Eutychia/models/new/project.dart';
 import 'package:Eutychia/models/questionnaires/equestionnaire_type.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class TestOverviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String accountId = ModalRoute.of(context).settings.arguments;
+    final Project project = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
         appBar: AppBar(

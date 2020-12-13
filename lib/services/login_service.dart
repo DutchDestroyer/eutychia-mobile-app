@@ -12,10 +12,10 @@ class LoginService {
     return true;
   }
 
-  Future<Either<Exception, LoginTokens>> loginWithToken(
+  Future<Either<Exception, AccountDetails>> loginWithToken(
       String emailAddress, String token) async {
-    var loginBody = LoginBody(
-        grantType: LoginBodyGrantTypeEnum.autenthicationtoken_,
+    var loginBody = LoginAccount(
+        grantType: LoginAccountGrantTypeEnum.autenthicationtoken_,
         emailAddress: emailAddress,
         refreshToken: token);
 
@@ -24,10 +24,10 @@ class LoginService {
         .run();
   }
 
-  Future<Either<dynamic, LoginTokens>> loginWithPassword(
+  Future<Either<dynamic, AccountDetails>> loginWithPassword(
       String emailAddress, String password) async {
-    var loginBody = LoginBody(
-        grantType: LoginBodyGrantTypeEnum.password_,
+    var loginBody = LoginAccount(
+        grantType: LoginAccountGrantTypeEnum.password_,
         emailAddress: emailAddress,
         password: password);
 

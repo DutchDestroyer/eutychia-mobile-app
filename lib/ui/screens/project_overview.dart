@@ -26,24 +26,30 @@ class ProjectOverviewWidget extends StatelessWidget {
               if (snapshot.hasData) {
                 return snapshot.data.fold(
                     (l) => Text("Couldn't collect the data"),
-                    (r) => GridView.count(
-                        scrollDirection: Axis.vertical,
-                        padding: const EdgeInsets.all(20),
-                        childAspectRatio: 6,
-                        mainAxisSpacing: 10,
-                        crossAxisCount: 1,
-                        children: List.generate(r.length, (index) {
-                          return ElevatedButton(
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context, TestOverviewWidget.routeName);
-                            },
-                            child: Text(r[index].projectName),
-                          );
-                        })));
+                    (r) => displayProjects(r, context));
               } else {
                 return progressBarIndicator();
               }
             }));
+  }
+
+  GridView displayProjects(List<Project> projects, BuildContext context) {
+    _projectOverviewViewmodel.updateProjects(projects);
+
+    return GridView.count(
+        scrollDirection: Axis.vertical,
+        padding: const EdgeInsets.all(20),
+        childAspectRatio: 6,
+        mainAxisSpacing: 10,
+        crossAxisCount: 1,
+        children: List.generate(projects.length, (index) {
+          return ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, TestOverviewWidget.routeName,
+                  arguments: projects[index]);
+            },
+            child: Text(projects[index].projectName),
+          );
+        }));
   }
 }
