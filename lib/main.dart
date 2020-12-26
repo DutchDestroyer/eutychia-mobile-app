@@ -3,6 +3,7 @@ import 'package:Eutychia/services/fetch_test_service.dart';
 import 'package:Eutychia/services/login_service.dart';
 import 'package:Eutychia/services/projects_service.dart';
 import 'package:Eutychia/services/generic_test_service.dart';
+import 'package:Eutychia/services/submit_answers_service.dart';
 import 'package:Eutychia/ui/screens/project_overview.dart';
 import 'package:Eutychia/ui/screens/test_overview.dart';
 import 'package:Eutychia/ui/screens/tests/display_factory.dart';
@@ -15,6 +16,7 @@ import 'package:Eutychia/viewmodels/test_overview_viewmodel.dart';
 import 'package:Eutychia/viewmodels/tests/generic_questionnaire_viewmodel.dart';
 import 'package:Eutychia/viewmodels/tests/stroop_test_color_viewmodel.dart';
 import 'package:Eutychia/viewmodels/tests/stroop_test_direction_viewmodel.dart';
+import 'package:Eutychia/viewmodels/end_of_questionnaire_viewmodel.dart';
 import 'package:flutter/material.dart';
 
 import 'package:openapi/api.dart';
@@ -39,6 +41,8 @@ void main() async {
       ProjectOverviewViewmodel(_appAccount);
   final TestOverviewViewmodel _testOverviewViewmodel =
       TestOverviewViewmodel(_appAccount);
+  final EndOfQuestionnaireViewModel _endOfQuestionnaireViewModel =
+      EndOfQuestionnaireViewModel(_appAccount);
 
   runApp(new MaterialApp(
       title: "Eutychia",
@@ -51,13 +55,14 @@ void main() async {
         TestOverviewWidget.routeName: (BuildContext context) =>
             TestOverviewWidget(_testOverviewViewmodel),
         GenericQuestionnaireWidget.routeName: (BuildContext context) =>
-            GenericQuestionnaireWidget(
-                _displayFactory, _genericQuestionnaireViewModel),
+            GenericQuestionnaireWidget(_displayFactory,
+                _genericQuestionnaireViewModel, _endOfQuestionnaireViewModel),
         StroopTestColorWidget.routename: (BuildContext context) =>
-            StroopTestColorWidget(_displayFactory, _stroopTestColorViewModel),
+            StroopTestColorWidget(_displayFactory, _stroopTestColorViewModel,
+                _endOfQuestionnaireViewModel),
         StroopTestDirectionWidget.routename: (BuildContext context) =>
-            StroopTestDirectionWidget(
-                _displayFactory, _stroopTestDirectionViewModel)
+            StroopTestDirectionWidget(_displayFactory,
+                _stroopTestDirectionViewModel, _endOfQuestionnaireViewModel)
       },
       theme: ThemeData(
         primaryColor: Colors.red,
@@ -81,8 +86,10 @@ AppAccount createAccount() {
   final FetchTestService _fetchTestService = FetchTestService(_defaultApi);
   final GenericTestService _genericTestService =
       GenericTestService(_defaultApi);
-  final AppAccount _appAccount = AppAccount(
-      _loginService, _projectsService, _fetchTestService, _genericTestService);
+  final SubmitAnswersService _submitAnswersService =
+      SubmitAnswersService(_defaultApi);
+  final AppAccount _appAccount = AppAccount(_loginService, _projectsService,
+      _fetchTestService, _genericTestService, _submitAnswersService);
   return _appAccount;
 }
 

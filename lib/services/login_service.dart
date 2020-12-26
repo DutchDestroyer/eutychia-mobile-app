@@ -12,7 +12,7 @@ class LoginService {
     return true;
   }
 
-  Future<Either<Exception, AccountDetails>> loginWithToken(
+  Future<Either<dynamic, AccountDetails>> loginWithToken(
       String emailAddress, String token) async {
     var loginBody = LoginAccount(
         grantType: LoginAccountGrantTypeEnum.autenthicationtoken_,

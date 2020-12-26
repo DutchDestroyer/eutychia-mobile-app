@@ -7,7 +7,7 @@ class LoginScreenViewModel {
 
   LoginScreenViewModel(this._appAccount);
 
-  Future<Either<Exception, AccountLoginData>> performLoginWithToken() async {
+  Future<Either<dynamic, AccountLoginData>> performLoginWithToken() async {
     var result = await _appAccount.loginService.loginWithToken(
         _appAccount.emailAddress, _appAccount.loginData.refreshToken);
 

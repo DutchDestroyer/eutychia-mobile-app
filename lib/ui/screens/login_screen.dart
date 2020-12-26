@@ -51,10 +51,12 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
 
   void _updateLoginStatus(_LoginStatus loginStatus,
       {bool passwordFailed = false}) {
-    setState(() {
-      _loginStatus = loginStatus;
-      _passwordFailed = passwordFailed;
-    });
+    if (loginStatus != _loginStatus || _passwordFailed != passwordFailed) {
+      setState(() {
+        _loginStatus = loginStatus;
+        _passwordFailed = passwordFailed;
+      });
+    }
   }
 
   void _updatePasswordVisibility() {

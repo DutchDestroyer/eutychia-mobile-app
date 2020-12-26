@@ -7,8 +7,10 @@ abstract class BaseQuestionnaireWidget extends State<StatefulWidget> {
   String appBarTitle = 'Waiting';
 
   void updateBarTitle(String title) {
-    setState(() {
-      appBarTitle = title;
-    });
+    if (title != appBarTitle) {
+      setState(() {
+        appBarTitle = title;
+      });
+    }
   }
 }

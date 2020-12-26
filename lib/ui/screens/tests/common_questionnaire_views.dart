@@ -6,10 +6,12 @@ import 'package:Eutychia/ui/screens/tests/stroop_test_color/stroop_test_color_en
 import 'package:Eutychia/ui/screens/tests/stroop_test_directions/stroop_test_direction_end_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:Eutychia/ui/screens/progress_bar_indicator.dart';
 
 import '../test_overview.dart';
 import 'generic_questionnaire/generic_questionnaire_end_view.dart';
+import 'package:Eutychia/viewmodels/end_of_questionnaire_viewmodel.dart';
+import 'package:dartz/dartz.dart';
 
 class QuestionDescription extends StatelessWidget {
   final Function _callback;
@@ -29,32 +31,51 @@ class EndOfQuestionnaireWidget extends StatelessWidget {
   final String _finalRemark;
   final bool _displayAnswers;
   final BaseQuestionnaireAnswers _answers;
+  final EndOfQuestionnaireViewModel _endOfQuestionnaireViewModel;
+  final String _projectID;
+  final String _testID;
+
   EndOfQuestionnaireWidget(
-      this._finalRemark, this._displayAnswers, this._answers);
+      this._finalRemark,
+      this._displayAnswers,
+      this._answers,
+      this._endOfQuestionnaireViewModel,
+      this._projectID,
+      this._testID);
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<BaseQuestionnaireAnswers>(
-      builder: (context, answers, child) {
-        return Column(children: [
-          Text(_finalRemark),
-          EndOfQuestionnaireDisplayAnswers(_displayAnswers, _answers),
-          ElevatedButton(
-              onPressed: () => {
-                    Navigator.popUntil(context,
-                        ModalRoute.withName(TestOverviewWidget.routeName))
-                  },
-              child: Text('Finish'))
-        ]);
-      },
-    );
+    return FutureBuilder<Either<dynamic, dynamic>>(
+        future: _endOfQuestionnaireViewModel.submitTestAnswers(
+            _projectID, _testID, _answers),
+        builder: (context, AsyncSnapshot<Either<dynamic, dynamic>> snapshot) {
+          if (snapshot.hasData) {
+            return snapshot.data.fold(
+                (l) => Text("oh oh, something went wrong"),
+                (r) => Column(children: [
+                      Text(_finalRemark),
+                      _EndOfQuestionnaireDisplayAnswers(
+                          _displayAnswers, _answers),
+                      ElevatedButton(
+                          onPressed: () => {
+                                Navigator.popUntil(
+                                    context,
+                                    ModalRoute.withName(
+                                        TestOverviewWidget.routeName))
+                              },
+                          child: Text('Finish'))
+                    ]));
+          } else {
+            return progressBarIndicator();
+          }
+        });
   }
 }
 
-class EndOfQuestionnaireDisplayAnswers extends StatelessWidget {
+class _EndOfQuestionnaireDisplayAnswers extends StatelessWidget {
   final bool _displayAnswers;
   final BaseQuestionnaireAnswers _answers;
-  EndOfQuestionnaireDisplayAnswers(this._displayAnswers, this._answers);
+  _EndOfQuestionnaireDisplayAnswers(this._displayAnswers, this._answers);
 
   @override
   Widget build(BuildContext context) {

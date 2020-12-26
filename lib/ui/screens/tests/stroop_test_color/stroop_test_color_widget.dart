@@ -5,6 +5,7 @@ import 'package:Eutychia/models/questionnaires/stroop_test_color.dart';
 import 'package:Eutychia/ui/screens/tests/base_questionnaire_widget.dart';
 import 'package:Eutychia/ui/screens/tests/display_factory.dart';
 import 'package:Eutychia/viewmodels/tests/stroop_test_color_viewmodel.dart';
+import 'package:Eutychia/viewmodels/end_of_questionnaire_viewmodel.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,19 +15,23 @@ class StroopTestColorWidget extends StatefulWidget {
   static const routename = '/strooptestcolor';
   final DisplayFactory _displayFactory;
   final StroopTestColorViewModel _stroopTestColorViewModel;
+  final EndOfQuestionnaireViewModel _endOfQuestionnaireViewModel;
 
-  StroopTestColorWidget(this._displayFactory, this._stroopTestColorViewModel);
+  StroopTestColorWidget(this._displayFactory, this._stroopTestColorViewModel,
+      this._endOfQuestionnaireViewModel);
 
   @override
-  StroopTestColorWidgetState createState() =>
-      StroopTestColorWidgetState(_displayFactory, _stroopTestColorViewModel);
+  StroopTestColorWidgetState createState() => StroopTestColorWidgetState(
+      _displayFactory, _stroopTestColorViewModel, _endOfQuestionnaireViewModel);
 }
 
 class StroopTestColorWidgetState extends BaseQuestionnaireWidget {
   final DisplayFactory _displayFactory;
   final StroopTestColorViewModel _stroopTestColorViewModel;
-  StroopTestColorWidgetState(
-      this._displayFactory, this._stroopTestColorViewModel);
+  final EndOfQuestionnaireViewModel _endOfQuestionnaireViewModel;
+
+  StroopTestColorWidgetState(this._displayFactory,
+      this._stroopTestColorViewModel, this._endOfQuestionnaireViewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +57,10 @@ class StroopTestColorWidgetState extends BaseQuestionnaireWidget {
                                 snapshot.data.description,
                                 snapshot.data.finalRemark,
                                 snapshot.data.displayAnswers,
-                                _stroopTestColorViewModel.answers)),
+                                _stroopTestColorViewModel.answers,
+                                _endOfQuestionnaireViewModel,
+                                testProjectID.projectID,
+                                testProjectID.testID)),
                     carouselController: buttonCarouselController,
                     options: CarouselOptions(
                         initialPage: 0,
