@@ -14,16 +14,16 @@ class StroopTestColorTaskWidget extends StatefulWidget {
   StroopTestColorTaskWidget(this._nextQuestionClicked, this._task);
 
   @override
-  StroopTestColorTaskWidgetState createState() =>
-      StroopTestColorTaskWidgetState(_nextQuestionClicked, _task);
+  _StroopTestColorTaskWidgetState createState() =>
+      _StroopTestColorTaskWidgetState(_nextQuestionClicked, _task);
 }
 
-class StroopTestColorTaskWidgetState extends State<StroopTestColorTaskWidget> {
+class _StroopTestColorTaskWidgetState extends State<StroopTestColorTaskWidget> {
   final Function _nextQuestionClicked;
   final StroopTestColorTask _task;
   List<int> _buttonsClicked = List<int>();
 
-  StroopTestColorTaskWidgetState(this._nextQuestionClicked, this._task);
+  _StroopTestColorTaskWidgetState(this._nextQuestionClicked, this._task);
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class StroopTestColorTaskWidgetState extends State<StroopTestColorTaskWidget> {
                       })),
                       onPressed: _buttonsClicked.contains(index)
                           ? null
-                          : () => onButtonClick(index),
+                          : () => _onButtonClick(index),
                       child: Text(
                         _task.objects[index].text
                             .toString()
@@ -58,26 +58,26 @@ class StroopTestColorTaskWidgetState extends State<StroopTestColorTaskWidget> {
                             .elementAt(1),
                         style: TextStyle(
                             color:
-                                createRandomColor(_task.objects[index].color),
+                                _createRandomColor(_task.objects[index].color),
                             fontSize: 24),
                       ));
                 }))),
         Text(_task.colorOfWord.toString().split('.')[1].toUpperCase()),
         ElevatedButton(
-          onPressed: () => {_nextQuestionClicked(checkAnswers())},
+          onPressed: () => {_nextQuestionClicked(_checkAnswers())},
           child: Text('Finish'),
         )
       ],
     );
   }
 
-  void onButtonClick(int index) {
+  void _onButtonClick(int index) {
     setState(() {
       _buttonsClicked.add(index);
     });
   }
 
-  StroopTestColorAnswer checkAnswers() {
+  StroopTestColorAnswer _checkAnswers() {
     int _clickedCorrectly = 0;
     int _clickedIncorrectly = 0;
     int _notclickedCorrectly = 0;
@@ -101,7 +101,7 @@ class StroopTestColorTaskWidgetState extends State<StroopTestColorTaskWidget> {
         _notclickedCorrectly, _notClickedIncorrectly);
   }
 
-  Color createRandomColor(StroopColorType colorType) {
+  Color _createRandomColor(StroopColorType colorType) {
     switch (colorType) {
       case StroopColorType.Blue:
         return HexColor("0000FF");

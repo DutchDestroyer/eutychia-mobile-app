@@ -21,16 +21,16 @@ class StroopTestColorWidget extends StatefulWidget {
       this._endOfQuestionnaireViewModel);
 
   @override
-  StroopTestColorWidgetState createState() => StroopTestColorWidgetState(
+  _StroopTestColorWidgetState createState() => _StroopTestColorWidgetState(
       _displayFactory, _stroopTestColorViewModel, _endOfQuestionnaireViewModel);
 }
 
-class StroopTestColorWidgetState extends BaseQuestionnaireWidget {
+class _StroopTestColorWidgetState extends BaseQuestionnaireWidget {
   final DisplayFactory _displayFactory;
   final StroopTestColorViewModel _stroopTestColorViewModel;
   final EndOfQuestionnaireViewModel _endOfQuestionnaireViewModel;
 
-  StroopTestColorWidgetState(this._displayFactory,
+  _StroopTestColorWidgetState(this._displayFactory,
       this._stroopTestColorViewModel, this._endOfQuestionnaireViewModel);
 
   @override
@@ -41,7 +41,7 @@ class StroopTestColorWidgetState extends BaseQuestionnaireWidget {
     return Scaffold(
         appBar: AppBar(title: Text(appBarTitle)),
         body: FutureBuilder<StroopTestColor>(
-            future: parseJson(),
+            future: _parseJson(),
             builder: (context, AsyncSnapshot<StroopTestColor> snapshot) {
               if (snapshot.hasData) {
                 WidgetsBinding.instance.addPostFrameCallback(
@@ -53,7 +53,7 @@ class StroopTestColorWidgetState extends BaseQuestionnaireWidget {
                             _displayFactory.partOfQuestionnaireToDisplayFactory(
                                 index,
                                 snapshot.data.tasks,
-                                nextQuestionClicked,
+                                _nextQuestionClicked,
                                 snapshot.data.description,
                                 snapshot.data.finalRemark,
                                 snapshot.data.displayAnswers,
@@ -74,14 +74,14 @@ class StroopTestColorWidgetState extends BaseQuestionnaireWidget {
             }));
   }
 
-  Future<StroopTestColor> parseJson() async {
+  Future<StroopTestColor> _parseJson() async {
     String jsonString = await rootBundle
         .loadString('assets/resources/stroop-test-color-data.json');
     final jsonResponse = jsonDecode(jsonString);
     return StroopTestColor.fromJson(jsonResponse);
   }
 
-  void nextQuestionClicked([Object answer]) {
+  void _nextQuestionClicked([Object answer]) {
     _stroopTestColorViewModel.updateAnswers(answer);
     buttonCarouselController.nextPage(
         duration: Duration(milliseconds: 300), curve: Curves.linear);

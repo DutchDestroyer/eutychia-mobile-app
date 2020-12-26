@@ -7,18 +7,18 @@ class OpenQuestionWidget extends StatefulWidget {
   final Function _nextQuestionClicked;
   OpenQuestionWidget(this._question, this._nextQuestionClicked);
   @override
-  OpenQuestionWidgetState createState() =>
-      OpenQuestionWidgetState(_question, _nextQuestionClicked);
+  _OpenQuestionWidgetState createState() =>
+      _OpenQuestionWidgetState(_question, _nextQuestionClicked);
 }
 
-class OpenQuestionWidgetState extends State<OpenQuestionWidget> {
-  final textController = TextEditingController();
+class _OpenQuestionWidgetState extends State<OpenQuestionWidget> {
+  final _textController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
   final GenericQuestion _question;
   final Function _nextQuestionClicked;
 
-  OpenQuestionWidgetState(this._question, this._nextQuestionClicked);
+  _OpenQuestionWidgetState(this._question, this._nextQuestionClicked);
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -26,7 +26,7 @@ class OpenQuestionWidgetState extends State<OpenQuestionWidget> {
         child: Column(children: [
           Text(_question.question),
           TextFormField(
-            controller: textController,
+            controller: _textController,
             decoration: InputDecoration(labelText: 'Answer:'),
             validator: (value) {
               if (value.trim().isEmpty) {
@@ -39,7 +39,7 @@ class OpenQuestionWidgetState extends State<OpenQuestionWidget> {
             onPressed: () {
               if (_formKey.currentState.validate()) {
                 _nextQuestionClicked(
-                    GenericQuestionnaireAnswer(textController.text));
+                    GenericQuestionnaireAnswer(_textController.text));
               }
             },
             child: Text('Next'),
@@ -50,7 +50,7 @@ class OpenQuestionWidgetState extends State<OpenQuestionWidget> {
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    textController.dispose();
+    _textController.dispose();
     super.dispose();
   }
 }

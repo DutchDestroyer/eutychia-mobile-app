@@ -19,7 +19,7 @@ class ArrowButton extends StatelessWidget {
         child: Ink(
             decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
             child: Transform.rotate(
-                angle: setAngle(),
+                angle: _setAngle(),
                 child: IconButton(
                   icon: Icon(Icons.arrow_upward),
                   onPressed: () => _nextQuestionClicked(
@@ -28,7 +28,7 @@ class ArrowButton extends StatelessWidget {
                 ))));
   }
 
-  double setAngle() {
+  double _setAngle() {
     switch (_directionOfArrow) {
       case (StroopDirectionType.top):
         return 0 * math.pi / 180;

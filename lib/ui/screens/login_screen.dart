@@ -86,8 +86,8 @@ Widget _loggingInWithPasswordWidget(
               AsyncSnapshot<dartz.Either<dynamic, AccountLoginData>> snapshot) {
             if (snapshot.hasData) {
               snapshot.data.fold(
-                (l) => loginFailed(true, updateLoginStatus),
-                (r) => finalizeLogIn(
+                (l) => _loginFailed(true, updateLoginStatus),
+                (r) => _finalizeLogIn(
                     _loginScreenViewModel, r, context, emailAddress),
               );
             }
@@ -112,8 +112,8 @@ Widget _loggingInWithTokenWidget(LoginScreenViewModel _loginScreenViewModel,
               AsyncSnapshot<dartz.Either<dynamic, AccountLoginData>> snapshot) {
             if (snapshot.hasData) {
               snapshot.data.fold(
-                (l) => loginFailed(false, updateLoginStatus),
-                (r) => finalizeLogIn(_loginScreenViewModel, r, context, ""),
+                (l) => _loginFailed(false, updateLoginStatus),
+                (r) => _finalizeLogIn(_loginScreenViewModel, r, context, ""),
               );
             }
             return progressBarIndicator();
@@ -188,14 +188,14 @@ StatefulWidget _loginForm(
       ));
 }
 
-void loginFailed(bool passwordFailed, _UpdateLoginStatus updateLoginStatus) {
+void _loginFailed(bool passwordFailed, _UpdateLoginStatus updateLoginStatus) {
   WidgetsBinding.instance.addPostFrameCallback((_) {
     updateLoginStatus(_LoginStatus.loginWithPassword,
         passwordFailed: passwordFailed);
   });
 }
 
-void finalizeLogIn(LoginScreenViewModel _loginScreenViewModel,
+void _finalizeLogIn(LoginScreenViewModel _loginScreenViewModel,
     AccountLoginData loginData, BuildContext context, String emailAddress) {
   WidgetsBinding.instance.addPostFrameCallback((_) {
     _loginScreenViewModel.loginSucceeded(loginData, emailAddress);

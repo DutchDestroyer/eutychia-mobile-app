@@ -34,14 +34,14 @@ class TestOverviewWidget extends StatelessWidget {
               if (snapshot.hasData) {
                 return snapshot.data.fold(
                     (l) => Text("couldn't collect the data"),
-                    (tests) => displayTestWidget(context, tests, project));
+                    (tests) => _displayTestWidget(context, tests, project));
               } else {
                 return progressBarIndicator();
               }
             }));
   }
 
-  Widget displayTestWidget(
+  Widget _displayTestWidget(
       BuildContext context, List<Test> tests, Project project) {
     _testOverviewViewmodel.updateTestsOfProject(tests, project.projectID);
 
@@ -55,7 +55,7 @@ class TestOverviewWidget extends StatelessWidget {
           return ElevatedButton(
             onPressed: () {
               Navigator.pushNamed(
-                  context, testFactory(tests[index].questionnaireType),
+                  context, _testFactory(tests[index].questionnaireType),
                   arguments:
                       TestProjectID(tests[index].testID, project.projectID));
             },
@@ -64,7 +64,7 @@ class TestOverviewWidget extends StatelessWidget {
         }));
   }
 
-  String testFactory(QuestionnaireType questionnaireType) {
+  String _testFactory(QuestionnaireType questionnaireType) {
     switch (questionnaireType) {
       case QuestionnaireType.generic:
         return GenericQuestionnaireWidget.routeName;

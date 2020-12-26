@@ -9,16 +9,16 @@ class SliderQuestionWidget extends StatefulWidget {
 
   SliderQuestionWidget(this._question, this._nextQuestionClicked);
   @override
-  SliderQuestionWidgetState createState() =>
-      SliderQuestionWidgetState(_question, _nextQuestionClicked);
+  _SliderQuestionWidgetState createState() =>
+      _SliderQuestionWidgetState(_question, _nextQuestionClicked);
 }
 
-class SliderQuestionWidgetState extends State<SliderQuestionWidget> {
+class _SliderQuestionWidgetState extends State<SliderQuestionWidget> {
   int _currentSliderValue = 0;
   final GenericQuestion _question;
   final Function _nextQuestionClicked;
 
-  SliderQuestionWidgetState(this._question, this._nextQuestionClicked);
+  _SliderQuestionWidgetState(this._question, this._nextQuestionClicked);
 
   @override
   Widget build(BuildContext context) {

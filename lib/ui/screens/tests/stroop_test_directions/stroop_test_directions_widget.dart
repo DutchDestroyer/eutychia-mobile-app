@@ -22,17 +22,17 @@ class StroopTestDirectionWidget extends StatefulWidget {
       this._stroopTestDirectionViewModel, this._endOfQuestionnaireViewModel);
 
   @override
-  StroopTestDirectionWidgetState createState() =>
-      StroopTestDirectionWidgetState(_displayFactory,
+  _StroopTestDirectionWidgetState createState() =>
+      _StroopTestDirectionWidgetState(_displayFactory,
           _stroopTestDirectionViewModel, _endOfQuestionnaireViewModel);
 }
 
-class StroopTestDirectionWidgetState extends BaseQuestionnaireWidget {
+class _StroopTestDirectionWidgetState extends BaseQuestionnaireWidget {
   final DisplayFactory _displayFactory;
   final StroopTestDirectionViewModel _stroopTestDirectionViewModel;
   final EndOfQuestionnaireViewModel _endOfQuestionnaireViewModel;
 
-  StroopTestDirectionWidgetState(this._displayFactory,
+  _StroopTestDirectionWidgetState(this._displayFactory,
       this._stroopTestDirectionViewModel, this._endOfQuestionnaireViewModel);
 
   @override
@@ -43,7 +43,7 @@ class StroopTestDirectionWidgetState extends BaseQuestionnaireWidget {
     return Scaffold(
         appBar: AppBar(title: Text(appBarTitle)),
         body: FutureBuilder<StroopTestDirection>(
-            future: parseJson(),
+            future: _parseJson(),
             builder: (context, AsyncSnapshot<StroopTestDirection> snapshot) {
               if (snapshot.hasData) {
                 WidgetsBinding.instance.addPostFrameCallback(
@@ -55,7 +55,7 @@ class StroopTestDirectionWidgetState extends BaseQuestionnaireWidget {
                             _displayFactory.partOfQuestionnaireToDisplayFactory(
                                 index,
                                 snapshot.data.tasks,
-                                nextQuestionClicked,
+                                _nextQuestionClicked,
                                 snapshot.data.description,
                                 snapshot.data.finalRemark,
                                 snapshot.data.displayAnswers,
@@ -76,14 +76,14 @@ class StroopTestDirectionWidgetState extends BaseQuestionnaireWidget {
             }));
   }
 
-  Future<StroopTestDirection> parseJson() async {
+  Future<StroopTestDirection> _parseJson() async {
     String jsonString = await rootBundle
         .loadString('assets/resources/stroop-test-direction-data.json');
     final jsonResponse = jsonDecode(jsonString);
     return StroopTestDirection.fromJson(jsonResponse);
   }
 
-  void nextQuestionClicked([Object answer]) {
+  void _nextQuestionClicked([Object answer]) {
     _stroopTestDirectionViewModel.updateAnswers(answer);
     buttonCarouselController.nextPage(
         duration: Duration(milliseconds: 300), curve: Curves.linear);
