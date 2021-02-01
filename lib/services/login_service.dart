@@ -1,5 +1,5 @@
+import 'package:Eutychia/api/lib/api.dart';
 import 'package:dartz/dartz.dart';
-import 'package:openapi/api.dart';
 
 class LoginService {
   final DefaultApi _apiClient;
@@ -17,7 +17,7 @@ class LoginService {
     var loginBody = LoginAccount(
         grantType: LoginAccountGrantTypeEnum.autenthicationtoken_,
         emailAddress: emailAddress,
-        refreshToken: token);
+        accessToken: token);
 
     return await Task(() => _apiClient.logInWithAccount(loginBody))
         .attempt()

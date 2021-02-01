@@ -32,10 +32,9 @@ dependencies:
   carousel_slider: ^2.3.1
   provider: ^3.0.0
   dartz: ^0.9.2
+  dependencies:
+  http: ^0.12.2
   
-  openapi:
-    path: C:\users\markw\Documents\testDart
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

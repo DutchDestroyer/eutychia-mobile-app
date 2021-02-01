@@ -1,8 +1,8 @@
+import 'package:Eutychia/api/lib/api.dart';
 import 'package:Eutychia/models/new/app_account.dart';
 import 'package:Eutychia/models/new/test.dart' as apptest;
 import 'package:Eutychia/models/questionnaires/equestionnaire_type.dart';
 import 'package:dartz/dartz.dart';
-import 'package:openapi/api.dart';
 
 class TestOverviewViewmodel {
   final AppAccount _appAccount;
@@ -34,7 +34,9 @@ class TestOverviewViewmodel {
 
   void updateTestsOfProject(List<apptest.Test> tests, String projectID) {
     _appAccount.projects
-        .firstWhere((p) => p.projectID == projectID, )
+        .firstWhere(
+          (p) => p.projectID == projectID,
+        )
         .updateTests(tests);
   }
 }

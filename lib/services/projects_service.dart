@@ -1,5 +1,5 @@
+import 'package:Eutychia/api/lib/api.dart';
 import 'package:dartz/dartz.dart';
-import 'package:openapi/api.dart';
 
 class ProjectsService {
   final DefaultApi _clientApi;

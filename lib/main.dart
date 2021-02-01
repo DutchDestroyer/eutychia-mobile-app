@@ -1,3 +1,4 @@
+import 'package:Eutychia/api/lib/api.dart';
 import 'package:Eutychia/models/new/app_account.dart';
 import 'package:Eutychia/services/fetch_test_service.dart';
 import 'package:Eutychia/services/login_service.dart';
@@ -18,8 +19,6 @@ import 'package:Eutychia/viewmodels/tests/stroop_test_color_viewmodel.dart';
 import 'package:Eutychia/viewmodels/tests/stroop_test_direction_viewmodel.dart';
 import 'package:Eutychia/viewmodels/end_of_questionnaire_viewmodel.dart';
 import 'package:flutter/material.dart';
-
-import 'package:openapi/api.dart';
 
 import 'ui/screens/login_screen.dart';
 import 'ui/screens/test_overview.dart';

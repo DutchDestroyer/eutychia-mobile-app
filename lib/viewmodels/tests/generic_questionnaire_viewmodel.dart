@@ -1,10 +1,10 @@
+import 'package:Eutychia/api/lib/api.dart';
 import 'package:Eutychia/models/new/app_account.dart';
 import 'package:Eutychia/models/questionnaires/equestion_type.dart';
 import 'package:Eutychia/models/questionnaires/generic_question.dart';
 import 'package:Eutychia/models/questionnaires/generic_questionnaire.dart';
 import 'package:Eutychia/viewmodels/tests/base_viewmodel_tests.dart';
 import 'package:dartz/dartz.dart';
-import 'package:openapi/api.dart';
 
 class GenericQuestionnaireViewModel extends BaseViewModelTests {
   final AppAccount _appAccount;
